@@ -4,7 +4,6 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { makeUser } from "./resolvers";
 const express = require("express");
 const passport = require("passport");
-
 const prisma = new PrismaClient();
 
 passport.use(
@@ -25,7 +24,7 @@ interface Serialized {
   id: number;
 }
 
-passport.serializeUser((user: Express.User, cb: any) => {
+passport.serializeUser((user: any, cb: any) => {
   const retval = { id: user.id } satisfies Serialized;
   cb(null, retval);
 });

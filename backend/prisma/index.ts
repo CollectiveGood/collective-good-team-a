@@ -11,7 +11,10 @@ router.get("/home", ensureLoggedIn, <RequestHandler>function (req, res, next) {
 
 router.get("/details", ensureLoggedIn, <RequestHandler>(
   function (req, res, next) {
-    req.user!.id;
+    console.log("test");
+    console.log(req);
+    console.log(req.user!);
+    res.send(JSON.stringify(req.user));
   }
 ));
 

@@ -39,7 +39,6 @@ const PORT = process.env.PORT || 3000;
 
 // Entry point for application
 app.get("/", (req, res) => {
-  console.log(req.body);
   res.send("Hello!");
 });
 
@@ -52,7 +51,6 @@ app.listen(PORT, () => {
 });
 
 app.post("/create", async (req, res) => {
-  console.log(req.body);
   const user = await prisma.user.create({
     data: {
       email: req.body.email,
@@ -60,5 +58,5 @@ app.post("/create", async (req, res) => {
       password: req.body.password,
     },
   });
-  console.log(user);
+  res.send(JSON.stringify(user));
 });
