@@ -14,7 +14,7 @@ router.get("/details", localAuthStrategy, <RequestHandler>(
 router.get("/adminDetails", adminAuthStrategy, <RequestHandler>(
   function (req, res, next) {
     const user = req.user! as User;
-    res.send("hello admin!");
+    res.send(JSON.stringify(req.user));
   }
 ));
 
