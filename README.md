@@ -2,7 +2,7 @@
 
 Home repository for CollectiveGood web app, which seeks to use collective intelligence of medical professionals to provide training and second opinions for creating diagnoses.
 
-## Team Members:
+## Team Members
 
 - Adam Doyle
 - Trey Burgess
@@ -20,12 +20,16 @@ clone https://github.com/adamdoyle630/collective-good-team-a.git`
 
 ### Backend Setup
 
-Open a terminal in the `backend` directory and
-run `npm install` to install necessary dependencies
-create a file called `.env` and insert `DATABASE_URL="{database_url}"`, to a postgres database
-run `npx prisma migrate dev --name init` to generate the prismaClient
-run `npm start`. This will load the backend server and the terminal should say something like "Server is running on port 3000". Navigate to `http://localhost:[PORT]` with the specified port number.
+1. Open a terminal in the `backend` directory
+2. Run `npm install` to install necessary dependencies
+3. Create a file called `.env` and insert `DATABASE_URL="{database_url}"` where database_url links to a Postgres database
+4. Run `npx prisma migrate dev --name init` to generate the prisma client
+5. Run `npm start`. This will load the backend server and the terminal should say something like "Server is running on port 3000"
+6. Navigate to `http://localhost:[PORT]` with the specified port number.
 
 ### Frontend Setup
 
-In a separate terminal in the `frontend` directory, run `npm install` to install necessary dependencies, followed by `ng serve` to serve the Angular application. Navigate to `http://localhost:4200` to interact with the frontend. More information can be found [here](/frontend/README.md).
+1. Open a new terminal in the `frontend` directory
+2. Run `npm install` to install necessary dependencies
+3. Run `ng serve` to load the Angular application in a dev server
+4. Navigate to `http://localhost:4200` to interact with the frontend. More information can be found [here](/frontend/README.md).
