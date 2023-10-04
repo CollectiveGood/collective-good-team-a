@@ -17,7 +17,6 @@ export class AuthService {
       .set('username', username)
       .set('password', password);
 
-    console.log(body.toString());
     return this.http.post(`${environment.apiUrl}/login`, body.toString(), { headers });
   }
 }
