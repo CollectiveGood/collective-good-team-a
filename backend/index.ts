@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
 import { env } from "process";
 const express = require("express");
+const cors = require("cors");
 
 const prisma = new PrismaClient();
 const passport = require("passport");
@@ -14,6 +15,7 @@ const cookieParser = require("cookie-parser");
 const app: Express = express();
 app.set("view engine", "ejs");
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
@@ -39,7 +41,11 @@ const PORT = process.env.PORT || 3000;
 
 // Entry point for application
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.send({response: "Please log in"});
+});
+
+app.get("/home", (req, res) => {
+  res.send({response: "Hello!"});
 });
 
 app.use("/", authRouter);
