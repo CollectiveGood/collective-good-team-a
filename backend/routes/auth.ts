@@ -52,7 +52,11 @@ router.post("/logout", <RequestHandler>function (req, res, next) {
 });
 
 router.post("/signup", <RequestHandler>async function (req, res, next) {
-  return await makeUser(req.body.name, req.body.password, req.body.email);
+  return res.send(
+    JSON.stringify(
+      await makeUser(req.body.name, req.body.password, req.body.email)
+    )
+  );
 });
 
 module.exports = router;

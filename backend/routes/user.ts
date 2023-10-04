@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { adminAuthStrategy, localAuthStrategy } from "./authStrategy";
 
@@ -13,7 +12,6 @@ router.get("/details", localAuthStrategy, <RequestHandler>(
 
 router.get("/adminDetails", adminAuthStrategy, <RequestHandler>(
   function (req, res, next) {
-    const user = req.user! as User;
     res.send(JSON.stringify(req.user));
   }
 ));
