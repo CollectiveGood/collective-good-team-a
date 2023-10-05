@@ -1,24 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { RequestHandler } from "express";
-import { Strategy as LocalStrategy } from "passport-local";
-import { makeUser } from "./resolvers";
+import { makeUser } from "../prisma/resolvers";
 const express = require("express");
 const passport = require("passport");
 const prisma = new PrismaClient();
-
-passport.use(
-  "local",
-  new LocalStrategy(async function verify(email, password, done) {
-    const user = await prisma.user.findFirst({ where: { email: email } });
-    if (user === null) {
-      return done(null);
-    }
-    if (user.password !== password) {
-      return done(null, false);
-    }
-    return done(null, user);
-  })
-);
 
 interface Serialized {
   id: number;
@@ -47,7 +32,10 @@ router.post(
     successReturnToOrRedirect: "/home",
     failureRedirect: "/",
     failureMessage: true,
-  })
+  }),
+  <RequestHandler>function (req, res, next) {
+    res.send("login successful");
+  }
 );
 
 /* POST /logout
@@ -63,16 +51,12 @@ router.post("/logout", <RequestHandler>function (req, res, next) {
   });
 });
 
-/* GET /signup
- *
- * This route prompts the user to sign up.
- *
- * The 'signup' view renders an HTML form, into which the user enters their
- * desired username and password.  When the user submits the form, a request
- * will be sent to the `POST /signup` route.
- */
 router.post("/signup", <RequestHandler>async function (req, res, next) {
-  makeUser(req.body.name, req.body.password, req.body.email);
+  return res.send(
+    JSON.stringify(
+      await makeUser(req.body.name, req.body.password, req.body.email)
+    )
+  );
 });
 
 module.exports = router;

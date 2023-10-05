@@ -10,7 +10,6 @@ export async function makeUser(name: string, password: string, email: string) {
       email: email,
     },
   });
-  console.log(user);
   return user;
 }
 
@@ -27,6 +26,5 @@ export async function makeAdminUser(
       role: "ADMIN",
     },
   });
-  console.log(user);
   return user;
 }
