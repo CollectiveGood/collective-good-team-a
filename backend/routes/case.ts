@@ -1,16 +1,16 @@
 import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
 import { localFileStorage } from "../fileHandler/localFileStorage";
-import { adminAuthStrategy, localAuthStrategy } from "./authStrategy";
+import { localAuthStrategy } from "./authStrategy";
 const multer = require("multer");
 const upload = multer(memoryStorage());
 
 var express = require("express");
 
 var router = express.Router();
-router.get("/addCase", adminAuthStrategy, <RequestHandler>(
+router.get("/getCase", localAuthStrategy, <RequestHandler>(
   function (req, res, next) {
-    res.send("hello admin!");
+    // TODO
   }
 ));
 
