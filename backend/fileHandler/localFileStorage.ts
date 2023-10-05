@@ -12,6 +12,6 @@ export class localFileStorage implements fileStorage {
       mkdirSync("./files");
     }
     writeFileSync(path, buffer);
-    return true;
+    return path;
   };
 }
