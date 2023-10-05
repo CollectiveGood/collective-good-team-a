@@ -6,6 +6,7 @@ const cors = require("cors");
 const passport = require("passport");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
+const caseRouter = require("./routes/case");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const cookieParser = require("cookie-parser");
@@ -37,16 +38,24 @@ app.use(passport.authenticate("session"));
 
 // Entry point for application
 app.get("/", (req, res) => {
-  res.send({response: "Please log in"});
+  res.send({ response: "homePage" });
+});
+
+app.get("/unAuthorized", (req, res) => {
+  res.status(401).send({ response: "Please log in" });
+});
+app.get("/Forbidden", (req, res) => {
+  res.status(403).send();
 });
 
 app.get("/home", (req, res) => {
-  res.send({response: "Hello!"});
+  res.send({ response: "Hello!" });
 });
 
 app.use("/", authRouter);
 app.use("/", userRouter);
-
+app.use("/", caseRouter);
+app;
 const PORT = process.env.PORT || 3000;
 
 // Start the server

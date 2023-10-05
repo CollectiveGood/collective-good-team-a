@@ -30,7 +30,7 @@ router.post(
   "/login",
   passport.authenticate("local", {
     successReturnToOrRedirect: "/home",
-    failureRedirect: "/",
+    failureRedirect: "/unAuthorized",
     failureMessage: true,
   }),
   <RequestHandler>function (req, res, next) {
