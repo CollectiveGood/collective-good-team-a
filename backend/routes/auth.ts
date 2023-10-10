@@ -29,7 +29,6 @@ var router = express.Router();
 router.post(
   "/login",
   passport.authenticate("local", {
-    successReturnToOrRedirect: "/home",
     failureRedirect: "/unAuthorized",
     failureMessage: true,
   }),

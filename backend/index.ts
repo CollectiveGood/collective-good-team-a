@@ -1,5 +1,4 @@
 import { Express } from "express";
-import { env } from "process";
 
 const express = require("express");
 const cors = require("cors");
@@ -21,11 +20,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 60 * 60 * 24 },
-    store: new pgSession({
-      createTableIfMissing: true,
-      conString: env.DATABASE_URL,
-      tableName: "user_sessions",
-    }),
+    // store: new pgSession({
+    //   createTableIfMissing: true,
+    //   conString: env.DATABASE_URL,
+    //   tableName: "user_sessions",
+    // }),
   })
 );
 
