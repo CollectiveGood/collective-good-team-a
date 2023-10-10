@@ -1,18 +1,2 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>CollectiveGood</span>
-    <span class="spacer"></span>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>Account Settings</button>
-      <button mat-menu-item routerLink="/login">Log Out</button>
-    </mat-menu>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<!-- <div>
-    <h2>Home</h2>
-    <p>Fetched Data: {{ data | json }}</p>
-  </div> -->
+<app-toolbar></app-toolbar>
+<p>{{ data | json }}</p>
