@@ -1,13 +1,12 @@
-import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
 import { env } from "process";
 const express = require("express");
 const cors = require("cors");
 
-const prisma = new PrismaClient();
 const passport = require("passport");
-const authRouter = require("./prisma/auth");
-const indexRouter = require("./prisma/index");
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user");
+const caseRouter = require("./routes/case");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const cookieParser = require("cookie-parser");
@@ -37,32 +36,29 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.authenticate("session"));
 
-const PORT = process.env.PORT || 3000;
-
 // Entry point for application
 app.get("/", (req, res) => {
-  res.send({response: "Please log in"});
+  res.send({ response: "homePage" });
+});
+
+app.get("/unAuthorized", (req, res) => {
+  res.status(401).send({ response: "Please log in" });
+});
+app.get("/Forbidden", (req, res) => {
+  res.status(403).send();
 });
 
 app.get("/home", (req, res) => {
-  res.send({response: "Hello!"});
+  res.send({ response: "Hello!" });
 });
 
 app.use("/", authRouter);
-app.use("/", indexRouter);
+app.use("/", userRouter);
+app.use("/", caseRouter);
+app;
+const PORT = process.env.PORT || 3000;
 
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-app.post("/create", async (req, res) => {
-  const user = await prisma.user.create({
-    data: {
-      email: req.body.email,
-      name: req.body.name,
-      password: req.body.password,
-    },
-  });
-  res.send(JSON.stringify(user));
 });
