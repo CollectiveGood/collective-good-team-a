@@ -5,17 +5,31 @@ const express = require("express");
 const passport = require("passport");
 const prisma = new PrismaClient();
 
+interface Serialized {
+  id: number;
+}
+
+passport.serializeUser((user: any, cb: any) => {
+  const retval = { id: user.id } satisfies Serialized;
+  cb(null, retval);
+});
+
+passport.deserializeUser(async (id: Serialized, cb: any) => {
+  const user = await prisma.user.findFirst({ where: { id: id.id } });
+  cb(null, user);
+});
+
 var router = express.Router();
 
-/* POST /login
+/*
  * Expects a post request with the fields
- * This route logs the user in
  * @param {String} username
  * @param {String} password
  */
 router.post(
   "/login",
   passport.authenticate("local", {
+    successReturnToOrRedirect: "/home",
     failureRedirect: "/unAuthorized",
     failureMessage: true,
   }),
@@ -37,10 +51,6 @@ router.post("/logout", <RequestHandler>function (req, res, next) {
   });
 });
 
-/* POST /signup
- *
- * This route signs up a user but DOES NOT log in the user (yet)
- */
 router.post("/signup", <RequestHandler>async function (req, res, next) {
   return res.send(
     JSON.stringify(
