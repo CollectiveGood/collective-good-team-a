@@ -20,6 +20,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 60 * 60 * 24 },
+    // store: new (require("connect-pg-simple")(session))(),
     // store: new pgSession({
     //   createTableIfMissing: true,
     //   conString: env.DATABASE_URL,

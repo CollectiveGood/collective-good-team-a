@@ -1,16 +1,22 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export async function makeUser(name: string, password: string, email: string) {
-  const user = await prisma.user.create({
-    data: {
-      name: name,
-      password: password,
-      email: email,
-    },
-  });
-  return user;
+  try {
+    const user = await prisma.user.create({
+      data: {
+        name: name,
+        password: password,
+        email: email,
+      },
+    });
+    return user;
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      return { response: "uniqueness constraint violated" };
+    }
+  }
 }
 
 export async function makeAdminUser(
