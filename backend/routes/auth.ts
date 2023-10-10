@@ -33,7 +33,7 @@ router.post(
     failureMessage: true,
   }),
   <RequestHandler>function (req, res, next) {
-    res.send("login successful");
+    res.send({ response: "login successful" });
   }
 );
 
