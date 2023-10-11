@@ -2,7 +2,7 @@ export interface fileStorage {
   /*
     Returns the buffer of the file from the database ID
   */
-  getFileID: (id: number) => Promise<Buffer | undefined>;
+  getFileID: (hash: string) => Promise<Buffer | undefined>;
   /*
     Returns the buffer of the file from the path
   */

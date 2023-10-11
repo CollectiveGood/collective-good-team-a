@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { RequestHandler } from "express";
-import { makeUser } from "../prisma/resolvers";
+import { catchErrors, makeUser } from "../helper/resolvers";
 const express = require("express");
 const passport = require("passport");
 const prisma = new PrismaClient();
@@ -53,7 +53,11 @@ router.post("/logout", <RequestHandler>function (req, res, next) {
 router.post("/signup", <RequestHandler>async function (req, res, next) {
   return res.send(
     JSON.stringify(
-      await makeUser(req.body.name, req.body.password, req.body.email)
+      await catchErrors(makeUser)(
+        req.body.name,
+        req.body.password,
+        req.body.email
+      )
     )
   );
 });

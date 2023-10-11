@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { adminAuthStrategy, localAuthStrategy } from "./authStrategy";
+import { adminAuthStrategy, localAuthStrategy } from "../helper/authStrategy";
 
 var express = require("express");
 var router = express.Router();

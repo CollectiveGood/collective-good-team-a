@@ -1,9 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { getCase } from "../prisma/resolvers";
+import { getCase } from "../resolvers";
 import { fileStorage } from "./fileStorage";
 export class localFileStorage implements fileStorage {
-  getFileID = async (id: number) => {
-    const c = await getCase(id);
+  getFileID = async (hash: string) => {
+    const c = await getCase(hash);
     if (c === null) {
       return undefined;
     }

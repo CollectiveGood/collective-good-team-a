@@ -1,9 +1,9 @@
-import { User } from "@prisma/client";
+import { Case, User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
-import { localFileStorage } from "../fileHandler/localFileStorage";
-import { addCase, getCases } from "../prisma/resolvers";
-import { localAuthStrategy } from "./authStrategy";
+import { localAuthStrategy } from "../helper/authStrategy";
+import { localFileStorage } from "../helper/fileHandler/localFileStorage";
+import { addCase, catchErrors, getCases } from "../helper/resolvers";
 const multer = require("multer");
 const upload = multer(memoryStorage());
 
@@ -11,10 +11,10 @@ var express = require("express");
 const fileStorage = new localFileStorage();
 
 var router = express.Router();
-router.get("/getCase/:id", localAuthStrategy, <RequestHandler>(
+router.get("/getCase/:hash", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
-    const id = parseInt(req.params.id);
-    const file = await fileStorage.getFileID(id);
+    const hash: string = req.params.hash;
+    const file = await fileStorage.getFileID(hash);
     if (file === undefined) {
       return res.redirect("/Error");
     }
@@ -38,11 +38,25 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
     return res.redirect("/Error");
   }
   const path = fileStorage.uploadFile(file.buffer, file.originalname);
-  const newCase = await addCase((req.user as User).id, path);
-  res.send({
-    response:
-      "uploaded " + file!.originalname + " successful! with ID " + newCase.id,
-  });
+
+  const response = await catchErrors(addCase)(
+    (req.user as User).id,
+    path,
+    "this is a pdf"
+  );
+
+  if (response.hasOwnProperty("response")) {
+    res.send(response);
+  } else {
+    const value = response as Case;
+    res.send({
+      response:
+        "uploaded " +
+        file!.originalname +
+        " successful! with ID " +
+        value.URLhash,
+    });
+  }
 });
 
 module.exports = router;
