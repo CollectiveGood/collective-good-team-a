@@ -6,6 +6,8 @@ const passport = require("passport");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const cookieParser = require("cookie-parser");
+// Loads values from .env
+require("dotenv").config();
 
 const app: Express = express();
 
@@ -19,13 +21,12 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 24 },
-    // store: new (require("connect-pg-simple")(session))(),
-    // store: new pgSession({
-    //   createTableIfMissing: true,
-    //   conString: env.DATABASE_URL,
-    //   tableName: "user_sessions",
-    // }),
+    cookie: { maxAge: 60 * 60 * 24 * 1000 },
+    store: new pgSession({
+      createTableIfMissing: true,
+      conString: process.env.DATABASE_URL,
+      tableName: "user_sessions",
+    }),
   })
 );
 
