@@ -23,8 +23,8 @@ clone https://github.com/adamdoyle630/collective-good-team-a.git`
 Open a terminal in the `backend` directory and
 run `npm install` to install necessary dependencies
 create a file called `.env` and insert `DATABASE_URL="{database_url}"`, to a postgres database
-run `npx prisma migrate dev --name init` to generate the prismaClient
-run `npm start`. This will load the backend server and the terminal should say something like "Server is running on port 3000". Navigate to `http://localhost:[PORT]` with the specified port number.
+run `npm run onboard` to generate the prismaClient and seed the database with some basic data
+run `npm start`. This will load the backend server and the terminal should say something like "Server is running on port 3000". Navigate to Postman to view the endpoints.
 
 ### Frontend Setup
 
