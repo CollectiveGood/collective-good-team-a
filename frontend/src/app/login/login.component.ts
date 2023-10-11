@@ -10,13 +10,13 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login(this.email, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
         if (response.status === 200) {
           console.log('Login successful: ', response);

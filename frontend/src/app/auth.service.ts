@@ -14,4 +14,9 @@ export class AuthService {
     const body = { username, password };
     return this.http.post(`${environment.apiUrl}/login`, body, { observe: 'response' });
   }
+
+  signUp(email: string, name: string, password: string) {
+    const body = { email, name, password };
+    return this.http.post(`${environment.apiUrl}/signup`, body, { observe: 'response' });
+  }
 }
