@@ -1,4 +1,4 @@
-import { Information, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { localAuthStrategy } from "../helper/authStrategy";
 import { localFileStorage } from "../helper/fileHandler/localFileStorage";
@@ -37,10 +37,9 @@ router.post("/addInfo", localAuthStrategy, <RequestHandler>(
       hash
     );
 
-    if (information.hasOwnProperty("response")) {
-      res.send(information);
+    if (information instanceof Error) {
+      res.send(JSON.stringify(information.message));
     } else {
-      const value = information as Information;
       res.send(JSON.stringify(information));
     }
   }

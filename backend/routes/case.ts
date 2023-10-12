@@ -1,4 +1,4 @@
-import { Case, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
 import { localAuthStrategy } from "../helper/authStrategy";
@@ -45,17 +45,10 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
     "this is a pdf"
   );
 
-  if (response.hasOwnProperty("response")) {
-    res.send(response);
+  if (response instanceof Error) {
+    res.send(JSON.stringify(response.message));
   } else {
-    const value = response as Case;
-    res.send({
-      response:
-        "uploaded " +
-        file!.originalname +
-        " successful! with ID " +
-        value.URLhash,
-    });
+    res.send(JSON.stringify(response));
   }
 });
 

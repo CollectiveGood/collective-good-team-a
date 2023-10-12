@@ -4,17 +4,17 @@ const prisma = new PrismaClient();
 var sha1 = require("sha1");
 
 export const catchErrors = <T extends Array<any>, U>(
-  fn: (...args: T) => Promise<U> | { response: string }
+  fn: (...args: T) => Promise<U | Error>
 ) => {
-  return async (...args: T): Promise<U | { response: string }> => {
+  return async (...args: T): Promise<U | Error> => {
     try {
       return await fn(...args);
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        return { response: "uniqueness constraint violated" };
+        return new Error("uniqueness constraint violated");
       }
     }
-    return { response: "unknown error" };
+    return new Error("unknown error");
   };
 };
 

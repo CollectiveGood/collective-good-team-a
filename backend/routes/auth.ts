@@ -56,8 +56,8 @@ router.post("/signup", <RequestHandler>async function (req, res, next) {
     req.body.password,
     req.body.email
   );
-  if (user.hasOwnProperty("response")) {
-    return res.send(JSON.stringify(user));
+  if (user instanceof Error) {
+    return res.send(JSON.stringify(user.message));
   } else {
     req.login(user, function (err) {
       if (err) return next(err);
