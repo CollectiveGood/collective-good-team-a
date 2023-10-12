@@ -1,19 +1,18 @@
-import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
-import { env } from "process";
-const express = require("express");
 
-const prisma = new PrismaClient();
+const express = require("express");
+const cors = require("cors");
 const passport = require("passport");
-const authRouter = require("./prisma/auth");
-const indexRouter = require("./prisma/index");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const cookieParser = require("cookie-parser");
+// Loads values from .env
+require("dotenv").config();
 
 const app: Express = express();
-app.set("view engine", "ejs");
 
+// Middleware initialization
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
@@ -22,41 +21,26 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 24 },
+    cookie: { maxAge: 60 * 60 * 24 * 1000 },
     store: new pgSession({
       createTableIfMissing: true,
-      conString: env.DATABASE_URL,
-      tableName: "user_sessions", // Use another table-name than the default "session" one
-      // Insert connect-pg-simple options here
+      conString: process.env.DATABASE_URL,
+      tableName: "user_sessions",
     }),
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.authenticate("session"));
+// Middleware initialization done
+
+app.use("/", require("./routes/auth"));
+app.use("/", require("./routes/user"));
+app.use("/", require("./routes/case"));
+app.use("/", require("./routes/errors"));
 
 const PORT = process.env.PORT || 3000;
-
-// Entry point for application
-app.get("/", (req, res) => {
-  res.send("Hello!");
-});
-
-app.use("/", authRouter);
-app.use("/", indexRouter);
-
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-app.post("/create", async (req, res) => {
-  const user = await prisma.user.create({
-    data: {
-      email: req.body.email,
-      name: req.body.name,
-      password: req.body.password,
-    },
-  });
-  res.send(JSON.stringify(user));
 });

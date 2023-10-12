@@ -1,0 +1,42 @@
+body, div, p {
+    margin: 0;
+    padding: 10px;
+}
+
+.header-container {
+    padding: 10px;
+}
+
+/* Create three equal-width columns using CSS Grid */
+.card-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+    gap: 15px; /* Optional gap between columns */
+    justify-content: start; /* Align columns to the top */
+}
+
+mat-card {
+    width: 100%; /* Adjust card width as needed */
+    text-align: center;
+    background-color: whitesmoke;
+}
+
+mat-card-content {
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    width: 100%; /* Set the width to 100% to fill the mat-card width */
+    display: flex; /* Use flex display for centering content */
+    justify-content: center; /* Center content horizontally */
+}
+
+/* Style the line break (hr) as needed */
+.line-break {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 0 auto 10px;
+    width: 80%;
+}
+
+.button {
+    width: 100%;
+}
