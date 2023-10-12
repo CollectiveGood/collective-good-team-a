@@ -1,0 +1,49 @@
+import { Information, User } from "@prisma/client";
+import { RequestHandler } from "express";
+import { localAuthStrategy } from "../helper/authStrategy";
+import { localFileStorage } from "../helper/fileHandler/localFileStorage";
+import { addInfo, catchErrors, getCases } from "../helper/resolvers";
+
+var express = require("express");
+const fileStorage = new localFileStorage();
+
+var router = express.Router();
+router.get("/getCase/:hash", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    const hash: string = req.params.hash;
+    const file = await fileStorage.getFileID(hash);
+    if (file === undefined) {
+      return res.redirect("/Error");
+    }
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(file);
+  }
+));
+
+router.get("/cases", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    const cases = await getCases();
+    res.send({ response: JSON.stringify(cases) });
+  }
+));
+
+router.post("/addInfo", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    const info = req.body.info;
+    const hash = req.body.hash;
+    const information = await catchErrors(addInfo)(
+      info,
+      (req.user as User).id,
+      hash
+    );
+
+    if (information.hasOwnProperty("response")) {
+      res.send(information);
+    } else {
+      const value = information as Information;
+      res.send(JSON.stringify(information));
+    }
+  }
+));
+
+module.exports = router;

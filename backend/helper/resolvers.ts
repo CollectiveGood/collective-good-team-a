@@ -66,3 +66,22 @@ export async function getCases() {
   const cs = await prisma.case.findMany({ take: 15 });
   return cs;
 }
+
+export async function addInfo(info: any, userId: number, hash: string) {
+  // Can be replaced to upsert to allow for updates
+  const information = await prisma.information.create({
+    data: {
+      info: info,
+      userId: userId,
+      hash: hash,
+    },
+  });
+  return information;
+}
+
+export async function allInfo() {
+  const infos = await prisma.information.findMany({
+    take: 15,
+  });
+  return infos;
+}

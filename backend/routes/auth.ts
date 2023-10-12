@@ -51,15 +51,19 @@ router.post("/logout", <RequestHandler>function (req, res, next) {
 });
 
 router.post("/signup", <RequestHandler>async function (req, res, next) {
-  return res.send(
-    JSON.stringify(
-      await catchErrors(makeUser)(
-        req.body.name,
-        req.body.password,
-        req.body.email
-      )
-    )
+  const user = await catchErrors(makeUser)(
+    req.body.name,
+    req.body.password,
+    req.body.email
   );
+  if (user.hasOwnProperty("response")) {
+    return res.send(JSON.stringify(user));
+  } else {
+    req.login(user, function (err) {
+      if (err) return next(err);
+      res.send(JSON.stringify(user));
+    });
+  }
 });
 
 module.exports = router;
