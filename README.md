@@ -16,7 +16,7 @@ Home repository for CollectiveGood web app, which seeks to use collective intell
 To set up this project, first make sure you have [Node.js v18.18.0](https://nodejs.org/en/download) installed.
 
 Clone this repository to a local directory using `git
-clone https://github.com/adamdoyle630/collective-good-team-a.git`
+clone https://github.com/CollectiveGood/collective-good-team-a`
 
 ### Backend Setup
 
