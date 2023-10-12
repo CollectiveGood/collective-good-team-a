@@ -1,14 +1,38 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>CollectiveGood</span>
-    <span class="spacer"></span>
-    <button mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<!-- <div>
-    <h2>Home</h2>
-    <p>Fetched Data: {{ data | json }}</p>
-  </div> -->
+<app-toolbar></app-toolbar>
+<p>{{ data | json }}</p>
+<!-- Sojin -->
+<div class="page">
+    <div class="column">
+        <mat-card>
+            <mat-card-content>
+                <span>Assigned Cases</span>
+            </mat-card-content>
+            <hr class="line-break">
+            <mat-card-content>
+                <button class="custom-button">Click Me</button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="column">
+        <mat-card>
+            <mat-card-content>
+                <span>Pending Review</span>
+            </mat-card-content>
+            <hr class="line-break">
+            <mat-card-content>
+                <button class="custom-button">Click Meeeeee eeeeee eee</button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="column">
+        <mat-card>
+            <mat-card-content>
+                <span>Completed Cases</span>
+            </mat-card-content>
+            <hr class="line-break">
+            <mat-card-content>
+                <button class="custom-button">Click Me</button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
