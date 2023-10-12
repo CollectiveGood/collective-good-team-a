@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -9,18 +10,26 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        console.log("Login successful", response);
-        this.router.navigate(['/home']);
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response: HttpResponse<any>) => {
+        if (response.status === 200) {
+          console.log('Login successful: ', response);
+          this.router.navigate(['/home']);
+        }
+        else {
+          window.alert("Login unsuccessful. Please check your credentials.")
+        }
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        window.alert("An error occurred when logging in.");
+      }
     })
   }
 }

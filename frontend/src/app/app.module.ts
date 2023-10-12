@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
+import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -25,7 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    SignupComponent
+    SignupComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatButtonModule,
     MatCardModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
