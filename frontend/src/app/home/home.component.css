@@ -1,31 +1,24 @@
-/* Apply a CSS reset to remove default margin and padding */
 body, div, p {
     margin: 0;
-    padding: 0;
+    padding: 10px;
 }
 
-/* Ensure the page takes up the entire viewport height */
-html, body, .page {
-    height: 100%;
+.header-container {
+    padding: 10px;
 }
 
 /* Create three equal-width columns using CSS Grid */
-.page {
+.card-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
-    gap: 10px; /* Optional gap between columns */
+    gap: 15px; /* Optional gap between columns */
     justify-content: start; /* Align columns to the top */
-}
-
-/* Center text content horizontally in each column */
-.column {
-    text-align: center;
-    background-color: #f0f0f0; /* Background color for columns */
-    border: 1px solid #ccc; /* Border for columns */
 }
 
 mat-card {
     width: 100%; /* Adjust card width as needed */
+    text-align: center;
+    background-color: whitesmoke;
 }
 
 mat-card-content {
@@ -39,24 +32,11 @@ mat-card-content {
 /* Style the line break (hr) as needed */
 .line-break {
     border: none;
-    border-top: 1px solid #ccc; /* Style and color the line break as desired */
-    margin: 0 auto 10px; /* Center the line break horizontally and add margin at the bottom */
-    width: 80%; /* Set the width to 90% */
+    border-top: 1px solid #ccc;
+    margin: 0 auto 10px;
+    width: 80%;
 }
 
-/* Style the custom button as needed */
-.custom-button {
-    background-color: #007bff; /* Button background color */
-    color: #fff; /* Button text color */
-    padding: 10px 20px; /* Button padding (adjust as needed) */
-    border: none; /* Remove button border */
-    border-radius: 5px; /* Button border radius */
-    cursor: pointer; /* Change cursor to a pointer on hover */
-    width: 88%; /* Set the width to 100% to fill the mat-card width */
-    margin: 0; /* Remove any margin */
-    box-sizing: border-box; /* Ensure padding doesn't add to button width */
-}
-
-.custom-button:hover {
-    background-color: #0056b3; /* Button background color on hover */
+.button {
+    width: 100%;
 }
