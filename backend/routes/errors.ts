@@ -3,7 +3,6 @@ import { RequestHandler } from "express";
 
 var router = express.Router();
 
-// Entry point for application
 router.get("/", <RequestHandler>function (req, res) {
   res.send({ response: "homePage" });
 });

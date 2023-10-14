@@ -37,7 +37,7 @@ async function main() {
       },
     },
   });
-  const submission = await prisma.information.upsert({
+  const submission = await prisma.assignments.upsert({
     where: {
       userId_hash: {
         hash: sha1("./files/STAT303-1_Fall2023_Syllabus.pdf"),
@@ -51,7 +51,25 @@ async function main() {
       hash: sha1("./files/STAT303-1_Fall2023_Syllabus.pdf"),
     },
   });
-  console.log({ adam, tyler, submission });
+
+  const assignment = await prisma.assignments.upsert({
+    where: {
+      userId_hash: {
+        hash: sha1("./files/BudFraWat2_fin-1.pdf"),
+        userId: 1,
+      },
+    },
+    update: {
+      info: undefined,
+    },
+    create: {
+      userId: 1,
+      hash: sha1("./files/BudFraWat2_fin-1.pdf"),
+      info: undefined,
+    },
+  });
+
+  console.log({ adam, tyler, submission, assignment });
 }
 
 main()

@@ -16,9 +16,9 @@ model User {
   password String
   name     String
 
-  role        Role          @default(USER)
-  cases       Case[]
-  Information Information[]
+  role       Role          @default(USER)
+  cases      Case[]
+  Assigments Assignments[]
 }
 
 enum Role {
@@ -32,16 +32,18 @@ model Case {
   url         String
   uploader    User          @relation(fields: [authorId], references: [id])
   authorId    Int
-  Information Information[]
+  Assignments Assignments[]
 }
 
-model Information {
-  user User @relation(fields: [userId], references: [id])
-  case Case @relation(fields: [hash], references: [URLhash])
-  info Json
+model Assignments {
+  user User  @relation(fields: [userId], references: [id])
+  case Case  @relation(fields: [hash], references: [URLhash])
+  info Json?
 
   userId Int
   hash   String
 
   @@id([userId, hash])
+  @@index(userId)
+  @@index(hash)
 }

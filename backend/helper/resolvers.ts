@@ -67,10 +67,16 @@ export async function getCases() {
   return cs;
 }
 
-export async function addInfo(info: any, userId: number, hash: string) {
+export async function upsertInfo(info: any, userId: number, hash: string) {
   // Can be replaced to upsert to allow for updates
-  const information = await prisma.information.create({
-    data: {
+  const information = await prisma.assignments.upsert({
+    where: {
+      userId_hash: { userId: userId, hash: hash },
+    },
+    update: {
+      info: info,
+    },
+    create: {
       info: info,
       userId: userId,
       hash: hash,
@@ -79,8 +85,28 @@ export async function addInfo(info: any, userId: number, hash: string) {
   return information;
 }
 
+export async function assignCase(user: number, hash: string) {
+  const c = await prisma.assignments.create({
+    data: {
+      userId: user,
+      hash: hash,
+      info: undefined,
+    },
+  });
+  return c;
+}
+
+export async function getAssignedCases(user: number) {
+  const cs = await prisma.assignments.findMany({
+    where: {
+      userId: user,
+    },
+  });
+  return cs;
+}
+
 export async function allInfo() {
-  const infos = await prisma.information.findMany({
+  const infos = await prisma.assignments.findMany({
     take: 15,
   });
   return infos;
