@@ -5,20 +5,6 @@ const express = require("express");
 const passport = require("passport");
 const prisma = new PrismaClient();
 
-interface Serialized {
-  id: number;
-}
-
-passport.serializeUser((user: any, cb: any) => {
-  const retval = { id: user.id } satisfies Serialized;
-  cb(null, retval);
-});
-
-passport.deserializeUser(async (id: Serialized, cb: any) => {
-  const user = await prisma.user.findFirst({ where: { id: id.id } });
-  cb(null, user);
-});
-
 var router = express.Router();
 
 /*
@@ -50,16 +36,24 @@ router.post("/logout", <RequestHandler>function (req, res, next) {
   });
 });
 
+/*
+Adds a user (if unique) and signs them in
+ */
+
 router.post("/signup", <RequestHandler>async function (req, res, next) {
-  return res.send(
-    JSON.stringify(
-      await catchErrors(makeUser)(
-        req.body.name,
-        req.body.password,
-        req.body.email
-      )
-    )
+  const user = await catchErrors(makeUser)(
+    req.body.name,
+    req.body.password,
+    req.body.email
   );
+  if (user instanceof Error) {
+    return res.send(JSON.stringify(user.message));
+  } else {
+    req.login(user, function (err) {
+      if (err) return next(err);
+      res.send(JSON.stringify(user));
+    });
+  }
 });
 
 module.exports = router;

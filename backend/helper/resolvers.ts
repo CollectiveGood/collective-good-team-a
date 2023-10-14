@@ -4,17 +4,17 @@ const prisma = new PrismaClient();
 var sha1 = require("sha1");
 
 export const catchErrors = <T extends Array<any>, U>(
-  fn: (...args: T) => Promise<U> | { response: string }
+  fn: (...args: T) => Promise<U | Error>
 ) => {
-  return async (...args: T): Promise<U | { response: string }> => {
+  return async (...args: T): Promise<U | Error> => {
     try {
       return await fn(...args);
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        return { response: "uniqueness constraint violated" };
+        return new Error("uniqueness constraint violated");
       }
     }
-    return { response: "unknown error" };
+    return new Error("unknown error");
   };
 };
 
@@ -65,4 +65,49 @@ export async function getCase(hash: string) {
 export async function getCases() {
   const cs = await prisma.case.findMany({ take: 15 });
   return cs;
+}
+
+export async function upsertInfo(info: any, userId: number, hash: string) {
+  // Can be replaced to upsert to allow for updates
+  const information = await prisma.assignments.upsert({
+    where: {
+      userId_hash: { userId: userId, hash: hash },
+    },
+    update: {
+      info: info,
+    },
+    create: {
+      info: info,
+      userId: userId,
+      hash: hash,
+    },
+  });
+  return information;
+}
+
+export async function assignCase(user: number, hash: string) {
+  const c = await prisma.assignments.create({
+    data: {
+      userId: user,
+      hash: hash,
+      info: undefined,
+    },
+  });
+  return c;
+}
+
+export async function getAssignedCases(user: number) {
+  const cs = await prisma.assignments.findMany({
+    where: {
+      userId: user,
+    },
+  });
+  return cs;
+}
+
+export async function allInfo() {
+  const infos = await prisma.assignments.findMany({
+    take: 15,
+  });
+  return infos;
 }
