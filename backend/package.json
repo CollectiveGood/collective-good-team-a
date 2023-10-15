@@ -7,7 +7,8 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "onboard": "npx prisma generate dev  && npx prisma db seed",
+    "generate-types": "openapi-typescript openapi/spec.yml --output types/api.ts",
+    "onboard": "npx prisma generate dev  && npx prisma db seed && npx run generate-types",
     "start": "npx ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,7 +17,6 @@
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
     "@prisma/client": "^5.3.1",
-    "@types/express": "^4.17.18",
     "@types/multer": "^1.4.8",
     "@types/passport-http-bearer": "^1.0.38",
     "@types/passport-local": "^1.0.36",
@@ -42,7 +42,9 @@
     "type-graphql": "^1.1.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.19",
     "@types/node": "^20.7.0",
+    "openapi-typescript": "^6.7.0",
     "prisma": "^5.3.1",
     "supabase": "^1.100.1",
     "ts-node": "^10.9.1",
