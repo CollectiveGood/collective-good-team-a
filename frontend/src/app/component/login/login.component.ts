@@ -17,9 +17,9 @@ export class LoginComponent {
 
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
-      next: (response: HttpResponse<any>) => {
-        if (response.status === 200) {
-          console.log('Login successful: ', response);
+      next: (user) => {
+        if (user) {
+          console.log('Login successful: ', user);
           this.router.navigate(['/home']);
         }
         else {
