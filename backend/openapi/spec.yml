@@ -13,17 +13,31 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  $ref: "#/components/schema/User"
+                $ref: "#/components/schemas/User"
         "401":
           description: failed to login
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  response: string
+                $ref: "#/components/schemas/Response"
+
+  /logout:
+    post:
+      summary: logs a user out
+      responses:
+        "200":
+          description: logs a user out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /signup:
     post:
       summary: Logins a user in
@@ -31,28 +45,33 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/SignUpInput"
+            $ref: "#/components/schemas/SignUpInput"
       responses:
         "200":
           description: signs a user up and returns the cookie
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  $ref: "#/components/schema/User"
+                $ref: "#/components/schemas/User"
         "500":
           description: Server failed to finish the function
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  response: string
+                $ref: "#/components/schemas/Response"
+  /getCase/:hash:
+    get:
+      summary: gets a case from the url hash
 
 components:
   schemas:
+    Response:
+      type: object
+      properties:
+        response:
+          type: string
+      required:
+        - response
     User:
       type: object
       properties:
