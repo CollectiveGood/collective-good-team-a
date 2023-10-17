@@ -1,0 +1,87 @@
+# see https://medium.com/@AlexanderObregon/building-type-safe-apis-with-typescript-and-openapi-1f78b4b94ee4
+openapi: 3.0.0
+info:
+  title: CollectiveGood Backend API
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      summary: Logins a user in
+      responses:
+        "200":
+          description: returns a login cookie
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schema/User"
+        "401":
+          description: failed to login
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  response: string
+  /signup:
+    post:
+      summary: Logins a user in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpInput"
+      responses:
+        "200":
+          description: signs a user up and returns the cookie
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schema/User"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  response: string
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+      required:
+        - id
+        - email
+        - password
+        - name
+        - role
+    SignUpInput:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+      required:
+        - email
+        - password
+        - name

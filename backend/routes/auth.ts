@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { catchErrors, makeUser } from "../helper/resolvers";
+import { components } from "../types/api";
 const express = require("express");
 const passport = require("passport");
 const prisma = new PrismaClient();
@@ -19,7 +20,7 @@ router.post(
     failureMessage: true,
   }),
   <RequestHandler>function (req, res, next) {
-    res.send({ response: "login successful" });
+    res.send(JSON.stringify(req.user as User));
   }
 );
 
@@ -41,13 +42,14 @@ Adds a user (if unique) and signs them in
  */
 
 router.post("/signup", <RequestHandler>async function (req, res, next) {
+  const input: components["schemas"]["SignUpInput"] = req.body;
   const user = await catchErrors(makeUser)(
-    req.body.name,
-    req.body.password,
-    req.body.email
+    input.name,
+    input.password,
+    input.email
   );
   if (user instanceof Error) {
-    return res.send(JSON.stringify(user.message));
+    return res.redirect("/Error");
   } else {
     req.login(user, function (err) {
       if (err) return next(err);
