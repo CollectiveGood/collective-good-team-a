@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
@@ -17,9 +17,9 @@ export class LoginComponent {
 
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
-      next: (response: HttpResponse<any>) => {
-        if (response.status === 200) {
-          console.log('Login successful: ', response);
+      next: (user) => {
+        if (user) {
+          console.log('Login successful: ', user);
           this.router.navigate(['/home']);
         }
         else {

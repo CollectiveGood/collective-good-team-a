@@ -31,7 +31,7 @@ router.get("/cases", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.post("/addInfo", localAuthStrategy, <RequestHandler>(
+router.post("/addAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     const info = req.body.info;
     const hash = req.body.hash;

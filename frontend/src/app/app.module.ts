@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 // Components
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './component/login/login.component';
+import { SignupComponent } from './component/signup/signup.component';
+import { HomeComponent } from './component/home/home.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { PdfViewerComponent } from './shared/pdf-viewer/pdf-viewer.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -24,16 +26,18 @@ import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HomeComponent,
+    LoginComponent,
     SignupComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    PdfViewerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    PdfViewerModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,

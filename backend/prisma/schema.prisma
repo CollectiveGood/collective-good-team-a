@@ -27,9 +27,10 @@ enum Role {
 }
 
 model Case {
-  URLhash     String        @id
-  altText     String
-  url         String
+  URLhash  String @id
+  url      String
+  caseName String
+
   uploader    User          @relation(fields: [authorId], references: [id])
   authorId    Int
   Assignments Assignments[]
