@@ -2,49 +2,56 @@ import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { localAuthStrategy } from "../helper/authStrategy";
 import { localFileStorage } from "../helper/fileHandler/localFileStorage";
-import { catchErrors, getCases, upsertInfo } from "../helper/resolvers";
-
+import { assignCase, catchErrors, getAssignedCases } from "../helper/resolvers";
+import { paths } from "../types/api";
 var express = require("express");
 const fileStorage = new localFileStorage();
 
 var router = express.Router();
 
-/* 
-
-*/
-router.get("/getCase/:hash", localAuthStrategy, <RequestHandler>(
+/*
+Assigns a case to a user, 
+Expects xxx-url-encoded of `user` and `case`
+ */
+router.post("/assignCase", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
-    const hash: string = req.params.hash;
-    const file = await fileStorage.getFileID(hash);
-    if (file === undefined) {
-      return res.redirect("/Error");
-    }
-    res.setHeader("Content-Type", "application/pdf");
-    res.send(file);
-  }
-));
+    type InputType =
+      paths["/assignCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+    type SuccessType =
+      paths["/assignCase"]["post"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/assignCase"]["post"]["responses"]["500"]["content"]["application/json"];
 
-router.get("/cases", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    const cases = await getCases();
-    res.send({ response: JSON.stringify(cases) });
-  }
-));
+    const input: InputType = req.body;
+    const assignee = parseInt(input.user);
+    const hash = input.case;
 
-router.post("/addAssignment", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    const info = req.body.info;
-    const hash = req.body.hash;
-    const information = await catchErrors(upsertInfo)(
-      info,
-      (req.user as User).id,
-      hash
-    );
-    if (information instanceof Error) {
-      res.send(JSON.stringify(information.message));
+    const resp = await catchErrors(assignCase)(assignee, hash);
+    if (resp instanceof Error) {
+      const errorResponse = { response: resp.message };
+      return res.status(500).json(errorResponse satisfies FailureType);
     } else {
-      res.send(JSON.stringify(information));
+      return res.status(200).json(resp satisfies SuccessType);
     }
+  }
+));
+
+/*
+Gets cases assigned to a user
+info == undefined means case is UNCOMPLETE
+info == somejson means case is COMPLETE
+*/
+router.get("/assignedCases", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type SuccessType =
+      paths["/assignedCases"]["get"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/assignedCases"]["get"]["responses"]["500"]["content"]["application/json"];
+
+    const userId = (req.user! as User).id;
+
+    const cases = await getAssignedCases(userId);
+    return res.status(200).json(cases satisfies SuccessType);
   }
 ));
 

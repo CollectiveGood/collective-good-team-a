@@ -4,6 +4,39 @@ info:
   title: CollectiveGood Backend API
   version: 1.0.0
 paths:
+  /details:
+    get:
+      summary: gets a users info/checks if a user is logged in
+      responses:
+        "200":
+          description: returns the user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /adminDetails:
+    get:
+      summary: checks if an admin user is logged in
+      responses:
+        "200":
+          description: returns the (admin) user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: not an admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
   /login:
     post:
       summary: Logins a user in
@@ -59,12 +92,120 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
-  /getCase/:hash:
+  /getCase/{hash}:
     get:
       summary: gets a case from the url hash
+      parameters:
+        - in: hash of the url
+          name: hash
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the pdf of the hash
+          content:
+            application/pdf:
+              schema:
+                type: file
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /cases:
+    get:
+      summary: gets all the cases
+      responses:
+        "200":
+          description: up to 15 cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Case"
+  /addCase:
+    get:
+      summary: adds a case to the database and returns the inserted value
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: successfully added a case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Case"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /assignCase:
+    post:
+      summary: assigns the case (hash) to the user (user)
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                case:
+                  type: string
+              required:
+                - user
+                - case
+      responses:
+        "200":
+          description: successfully assigned a case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /assignedCases:
+    get:
+      summary: gets all the assigned cases to the logged in user
+      responses:
+        "200":
+          description: all the assigned cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
 
 components:
   schemas:
+    AnyValue: {}
     Response:
       type: object
       properties:
@@ -91,6 +232,43 @@ components:
         - password
         - name
         - role
+    Case:
+      type: object
+      properties:
+        URLhash:
+          type: string
+        url:
+          type: string
+        caseName:
+          type: string
+        authorId:
+          type: number
+      required:
+        - URLhash
+        - url
+        - caseName
+        - authorId
+    Assignment:
+      type: object
+      properties:
+        info:
+          $ref: "#/components/schemas/AnyValue"
+        userId:
+          type: number
+        hash:
+          type: string
+        case:
+          type: object
+          properties:
+            caseName:
+              type: string
+          required:
+            - caseName
+      required:
+        - info
+        - userId
+        - hash
+
     SignUpInput:
       type: object
       properties:
