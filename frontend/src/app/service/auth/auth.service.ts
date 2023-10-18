@@ -27,7 +27,8 @@ export class AuthService {
   }
   
   logout() {
-    // TODO
+    this.user = null;
+    return this.http.post(`${environment.apiUrl}/logout`, {});
   }
 
   signUp(email: string, name: string, password: string) {
