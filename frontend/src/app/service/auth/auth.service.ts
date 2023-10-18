@@ -1,33 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, tap } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { User } from '../../model/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private user: User | null = null;
 
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<HttpResponse<any>> {
     const body = { username, password };
-    return this.http.post(`${environment.apiUrl}/login`, body, { observe: 'response' })
-      .pipe(
-        tap((response: HttpResponse<any>) => {
-          this.user = response.body as User;
-        })
-      );
+    return this.http.post(`${environment.apiUrl}/login`, body, { observe: 'response' }).pipe(
+      tap((response: HttpResponse<any>) => {
+        if (response.status == 401) {
+          window.alert('Login unsuccessful. Please check your credentials.');
+        }
+      })
+    );
   }
 
-  getUser(): User | null {
-    return this.user;
+  getUser(): Observable<User> | null {
+    return this.http.get<User>(`${environment.apiUrl}/details`) as Observable<User>;
   }
   
   logout() {
-    this.user = null;
     return this.http.post(`${environment.apiUrl}/logout`, {});
   }
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user.model';
 import { AuthService } from 'src/app/service/auth/auth.service';
 
@@ -9,10 +10,12 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 })
 export class ToolbarComponent {
   activeUser: User | null = null;
-  
+
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.activeUser = this.authService.getUser();
+    this.authService.getUser()?.subscribe((user) => {
+      this.activeUser = user;
+    });
   }
 }
