@@ -18,10 +18,21 @@ export class SignupComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
+    // Validate input
+    if (this.name == '' || this.email == '' || this.password == '' || this.passwordConfirm == '') {
+      window.alert("Please fill out all fields.");
+      return;
+    }
+    if (this.password != this.passwordConfirm) {
+      window.alert("Passwords do not match.");
+      return;
+    }
+    // Create account
     this.authService.signUp(this.email, this.name, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
         if (response.status === 200) {
           console.log('Account creation successful: ', response);
+          window.alert('Account successfully created!');
           this.router.navigate(['/login']);
         }
         else {

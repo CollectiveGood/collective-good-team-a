@@ -10,14 +10,19 @@ import { CaseService } from 'src/app/service/case/case.service';
 })
 export class HomeComponent {
 
-  cases: Case[] = [];
+  cases: Case[] | null = null;
   
   constructor(private caseService: CaseService) {}
 
   ngOnInit(): void {
-    this.caseService.getAllCases().subscribe((response) => {
-      console.log(response);
-      this.cases = response;
+    this.caseService.getAllCases()?.subscribe({
+      next: (response) => {
+        console.log(response);
+        this.cases = response;
+      },
+      error: (e) => {
+        console.log(e);
+      }
     });
   }
 }

@@ -12,10 +12,17 @@ import { HttpResponse } from '@angular/common/http';
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  loading: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
+    if (this.email == '' || this.password == '') {
+      window.alert("Please enter your email and password.");
+      return;
+    }
+    this.loading = true;
+
     this.authService.login(this.email, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
         if (response.status == 200) {
@@ -27,8 +34,12 @@ export class LoginComponent {
         }
       },
       error: (e) => {
+        this.loading = false;
         console.log(e);
         window.alert("An error occurred when logging in.");
+      },
+      complete: () => {
+        this.loading = false;
       }
     })
   }

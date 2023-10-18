@@ -29,7 +29,7 @@ export class AuthService {
   getUser(): Observable<User> | null {
     return this.http.get<User>(`${environment.apiUrl}/details`, {
       withCredentials: true,
-    }) as Observable<User>;
+    });
   }
 
   logout() {
