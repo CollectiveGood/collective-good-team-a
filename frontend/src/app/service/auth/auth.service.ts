@@ -46,9 +46,10 @@ export class AuthService {
     return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/logout`, {});
   }
 
-  signUp(email: string, name: string, password: string): Observable<HttpResponse<any>> {
+  signUp(email: string, name: string, password: string) {
     const body = { email, name, password };
-    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/signup`, body, {
+    return this.http.post(`${environment.apiUrl}/signup`, body, {
+      observe: 'response',
       withCredentials: true,
     });
   }
