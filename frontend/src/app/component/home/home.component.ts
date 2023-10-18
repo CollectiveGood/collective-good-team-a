@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Case } from 'src/app/model/case.model';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CaseService } from 'src/app/service/case/case.service';
@@ -12,9 +13,19 @@ export class HomeComponent {
 
   cases: Case[] | null = null;
   
-  constructor(private caseService: CaseService) {}
+  constructor(private caseService: CaseService, 
+              private authService: AuthService,
+              private router: Router) {}
 
   ngOnInit(): void {
+    // Check authentication
+    if (!this.authService.getIsAuthenticated()) {
+      window.alert("You must be logged in to view this page.");
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Retrieve list of cases
     this.caseService.getAllCases()?.subscribe({
       next: (response) => {
         console.log(response);

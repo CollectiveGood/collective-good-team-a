@@ -8,6 +8,9 @@ import { User } from '../../model/user.model';
   providedIn: 'root',
 })
 export class AuthService {
+
+  private isAuthenticated: boolean = false;
+
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<HttpResponse<any>> {
@@ -21,9 +24,15 @@ export class AuthService {
         tap((response: HttpResponse<any>) => {
           if (response.status == 401) {
             window.alert('Login unsuccessful. Please check your credentials.');
+          } else if (response.status == 200) {
+            this.isAuthenticated = true;
           }
         })
       );
+  }
+
+  getIsAuthenticated(): boolean {
+    return this.isAuthenticated;
   }
 
   getUser(): Observable<User> | null {
@@ -32,14 +41,14 @@ export class AuthService {
     });
   }
 
-  logout() {
-    return this.http.post(`${environment.apiUrl}/logout`, {});
+  logout(): Observable<HttpResponse<any>> {
+    this.isAuthenticated = false;
+    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/logout`, {});
   }
 
-  signUp(email: string, name: string, password: string) {
+  signUp(email: string, name: string, password: string): Observable<HttpResponse<any>> {
     const body = { email, name, password };
-    return this.http.post(`${environment.apiUrl}/signup`, body, {
-      observe: 'response',
+    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/signup`, body, {
       withCredentials: true,
     });
   }
