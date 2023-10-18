@@ -3,14 +3,11 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { environment } from 'src/environments/environment';
 import { Observable, tap } from 'rxjs';
 import { User } from '../../model/user.model';
-import { Observable, tap } from 'rxjs';
-import { User } from '../../model/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private user: User | null = null;
   private user: User | null = null;
 
   constructor(private http: HttpClient) { }
