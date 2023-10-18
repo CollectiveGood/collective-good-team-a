@@ -5,13 +5,14 @@ import { Case } from 'src/app/model/case.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CaseService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllCases(): Observable<Case[]> {
-    return this.http.get<Case[]>(`${environment.apiUrl}/cases`) as Observable<Case[]>;
+    return this.http.get<Case[]>(`${environment.apiUrl}/cases`, {
+      withCredentials: true,
+    }) as Observable<Case[]>;
   }
 }
