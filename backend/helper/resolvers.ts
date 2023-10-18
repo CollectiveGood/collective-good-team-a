@@ -45,12 +45,12 @@ export async function makeAdminUser(
   return user;
 }
 
-export async function addCase(id: number, path: string, altText: string) {
+export async function addCase(id: number, path: string, caseName: string) {
   const c = await prisma.case.create({
     data: {
       URLhash: sha1(path),
       url: path,
-      altText: altText,
+      caseName: caseName,
       authorId: id,
     },
   });
@@ -98,6 +98,7 @@ export async function assignCase(user: number, hash: string) {
 
 export async function getAssignedCases(user: number) {
   const cs = await prisma.assignments.findMany({
+    include: { case: { select: { caseName: true } } },
     where: {
       userId: user,
     },

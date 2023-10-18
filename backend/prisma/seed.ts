@@ -14,7 +14,7 @@ async function main() {
         create: {
           URLhash: sha1("./files/BudFraWat2_fin-1.pdf"),
           url: "./files/BudFraWat2_fin-1.pdf",
-          altText: "this is a research paper pdf",
+          caseName: "Research Paper #1",
         },
       },
     },
@@ -31,7 +31,7 @@ async function main() {
           {
             URLhash: sha1("./files/STAT303-1_Fall2023_Syllabus.pdf"),
             url: "./files/STAT303-1_Fall2023_Syllabus.pdf",
-            altText: "this is a course syllabus",
+            caseName: "Syllabus #1",
           },
         ],
       },
