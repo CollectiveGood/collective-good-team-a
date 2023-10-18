@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { User } from 'src/app/model/user.model';
+import { Case } from 'src/app/model/case.model';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CaseService } from 'src/app/service/case/case.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -12,16 +10,14 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent {
 
-  // data: any;
+  cases: Case[] = [];
   
   constructor(private caseService: CaseService) {}
 
   ngOnInit(): void {
-    // this.http.get(`${environment.apiUrl}`).subscribe((response) => {
-    //   this.data = response;
-    // });
     this.caseService.getAllCases().subscribe((response) => {
       console.log(response);
+      this.cases = response;
     });
   }
 }
