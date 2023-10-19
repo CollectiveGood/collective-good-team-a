@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -14,35 +15,53 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
   passwordConfirm: string = '';
+  loading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, 
+              private router: Router,
+              private snackBar: MatSnackBar) {}
 
-  onSubmit() {
+  onSubmit(): void {
     // Validate input
     if (this.name == '' || this.email == '' || this.password == '' || this.passwordConfirm == '') {
-      window.alert("Please fill out all fields.");
+      this.snackBar.open("Please fill out all fields.", "Close", { duration: 5000 });
+      return;
+    }
+    if (!this.isEmailValid(this.email)) {
+      this.snackBar.open("Please enter a valid email address.", "Close", { duration: 5000 });
       return;
     }
     if (this.password != this.passwordConfirm) {
-      window.alert("Passwords do not match.");
+      this.snackBar.open("Passwords do not match.", "Close", { duration: 5000 });
       return;
     }
+    if (this.password.length < 8) {
+      this.snackBar.open("Password must be at least 8 characters long.", "Close", { duration: 5000 });
+      return;
+    }
+
+    this.loading = true;
     // Create account
     this.authService.signUp(this.email, this.name, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
-        if (response.status === 200) {
-          console.log('Account creation successful: ', response);
-          window.alert('Account successfully created!');
-          this.router.navigate(['/login']);
-        }
-        else {
-          window.alert("Account creation unsuccessful. Please check your credentials.")
-        }
+        console.log('Account creation successful: ', response);
+        this.snackBar.open("Account successfully created!", "Close", { duration: 5000 });
+        this.router.navigate(['/login']);
       },
       error: (e) => {
+        this.loading = false;
         console.log(e);
-        window.alert("An error occurred when creating your account.");
+        this.snackBar.open("An error occurred while creating your account.", "Close", { duration: 5000 });
+      },
+      complete: () => {
+        this.loading = false;
       }
     })
+  }
+
+  private isEmailValid(email: string): boolean {
+    // Regular expression for a basic email validation
+    const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
   }
 }

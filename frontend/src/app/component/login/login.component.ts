@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -14,32 +15,43 @@ export class LoginComponent {
   password: string = '';
   loading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, 
+              private router: Router,
+              private snackBar: MatSnackBar) {}
 
-  onSubmit() {
+  ngOnInit(): void {
+    // Navigate to home if already logged in
+    if (this.authService.getIsAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+  onSubmit(): void {
     if (this.email == '' || this.password == '') {
-      window.alert("Please enter your email and password.");
+      this.snackBar.open("Please enter your email and password.", "Close")
       return;
     }
     this.loading = true;
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
-        if (response.status == 200) {
-          console.log('Login successful: ', response);
-          this.router.navigate(['/home']);
-        }
-        else {
-          window.alert("Login unsuccessful. Please check your credentials.")
-        }
+        console.log('Login successful: ', response);
+        this.router.navigate(['/home']);
       },
       error: (e) => {
         this.loading = false;
-        console.log(e);
-        window.alert("An error occurred when logging in.");
+        if (e.status === 401) {
+          this.snackBar.open("The username or password is incorrect.", "Close", { duration: 5000 });
+          return;
+        } 
+        else {
+          console.log(e);
+          this.snackBar.open("An error occurred while logging in.", "Close", { duration: 5000 });
+        }
       },
       complete: () => {
         this.loading = false;
+        this.snackBar.dismiss();
       }
     })
   }

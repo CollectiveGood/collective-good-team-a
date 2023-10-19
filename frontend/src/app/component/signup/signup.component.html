@@ -36,6 +36,9 @@
         <p>
           <button mat-raised-button routerLink="/login">Sign In</button>
         </p>
+      <div *ngIf="loading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
     </mat-card-content>
   </mat-card>
   </div>

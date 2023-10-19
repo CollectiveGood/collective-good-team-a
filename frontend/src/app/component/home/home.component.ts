@@ -20,7 +20,6 @@ export class HomeComponent {
   ngOnInit(): void {
     // Check authentication
     if (!this.authService.getIsAuthenticated()) {
-      window.alert("You must be logged in to view this page.");
       this.router.navigate(['/login']);
       return;
     }
