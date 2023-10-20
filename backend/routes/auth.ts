@@ -59,10 +59,24 @@ router.post("/signup", <RequestHandler>async function (req, res, next) {
     paths["/signup"]["post"]["requestBody"]["content"]["application/json"];
   type SuccessType =
     paths["/signup"]["post"]["responses"][200]["content"]["application/json"];
+  type ConflictType =
+    paths["/signup"]["post"]["responses"][409]["content"]["application/json"];
   type FailureType =
     paths["/signup"]["post"]["responses"][500]["content"]["application/json"];
 
   const input: InputType = req.body;
+
+  // Check if user already exists
+  const existingUser = await prisma.user.findFirst({
+    where: { email: input.email },
+  });
+
+  if (existingUser) {
+    const errorResponse = { response: "User with this email already exists." };
+    return res.status(409).json(errorResponse satisfies ConflictType);
+  }
+
+  // If no existing user, create one
   const user = await catchErrors(makeUser)(
     input.name,
     input.password,

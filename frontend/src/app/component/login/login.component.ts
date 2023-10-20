@@ -28,7 +28,7 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.email == '' || this.password == '') {
-      this.snackBar.open("Please enter your email and password.", "Close")
+      this.snackBar.open("Please enter your email and password.", "Close", { duration: 5000 });
       return;
     }
     this.loading = true;
@@ -43,11 +43,9 @@ export class LoginComponent {
         if (e.status === 401) {
           this.snackBar.open("The username or password is incorrect.", "Close", { duration: 5000 });
           return;
-        } 
-        else {
-          console.log(e);
-          this.snackBar.open("An error occurred while logging in.", "Close", { duration: 5000 });
         }
+        console.log(e);
+        this.snackBar.open("An error occurred while logging in.", "Close", { duration: 5000 });
       },
       complete: () => {
         this.loading = false;

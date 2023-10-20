@@ -50,6 +50,10 @@ export class SignupComponent {
       },
       error: (e) => {
         this.loading = false;
+        if (e.status === 409) {
+          this.snackBar.open("An account with this email already exists. Please log in.", "Close", { duration: 5000 });
+          return;
+        }
         console.log(e);
         this.snackBar.open("An error occurred while creating your account.", "Close", { duration: 5000 });
       },
