@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 var sha1 = require("sha1");
@@ -10,11 +10,8 @@ export const catchErrors = <T extends Array<any>, U>(
     try {
       return await fn(...args);
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        return new Error("uniqueness constraint violated");
-      }
+      return e as Error;
     }
-    return new Error("unknown error");
   };
 };
 

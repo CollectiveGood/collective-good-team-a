@@ -5,6 +5,7 @@ import { paths } from "../types/api";
 const express = require("express");
 const passport = require("passport");
 const prisma = new PrismaClient();
+const sha1 = require("sha1");
 
 var router = express.Router();
 
@@ -79,7 +80,7 @@ router.post("/signup", <RequestHandler>async function (req, res, next) {
   // If no existing user, create one
   const user = await catchErrors(makeUser)(
     input.name,
-    input.password,
+    sha1(input.password + input.email),
     input.email
   );
   if (user instanceof Error) {

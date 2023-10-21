@@ -9,7 +9,7 @@ async function main() {
     create: {
       email: "adam@gmail.com",
       name: "adam",
-      password: "test",
+      password: sha1("test" + "adam@gmail.com"),
       cases: {
         create: {
           URLhash: sha1("./files/BudFraWat2_fin-1.pdf"),
@@ -25,7 +25,7 @@ async function main() {
     create: {
       email: "tyler@gmail.com",
       name: "tyler",
-      password: "test2",
+      password: sha1("test2" + "tyler@gmail.com"),
       cases: {
         create: [
           {

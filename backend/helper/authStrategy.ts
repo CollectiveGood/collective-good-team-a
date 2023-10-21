@@ -2,6 +2,7 @@ import { PrismaClient, User } from "@prisma/client";
 import { Strategy as LocalStrategy } from "passport-local";
 const passport = require("passport");
 const prisma = new PrismaClient();
+var sha1 = require("sha1");
 
 /*
  * Defines a strategy to log the user in, used by passport.authenticate('local', ...)
@@ -10,7 +11,10 @@ passport.use(
   "local",
   new LocalStrategy(async function verify(email, password, done) {
     const user = await prisma.user.findFirst({ where: { email: email } });
-    if (user?.password === password) {
+    if (user === null) {
+      return done(null, undefined);
+    }
+    if (user.password === sha1(password + email)) {
       return done(null, user);
     }
     return done(null, false);
