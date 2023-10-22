@@ -1,6 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
-import { catchErrors, makeUser } from "../helper/resolvers";
+import { makeUser } from "../helper/resolvers";
 import { paths } from "../types/api";
 const express = require("express");
 const passport = require("passport");
@@ -26,7 +26,7 @@ router.post(
     type FailureType =
       paths["/login"]["post"]["responses"][401]["content"]["application/json"];
 
-    res.send(req.user as User satisfies SuccessType);
+    res.status(200).json(req.user as User satisfies SuccessType);
   }
 );
 
@@ -78,20 +78,15 @@ router.post("/signup", <RequestHandler>async function (req, res, next) {
   }
 
   // If no existing user, create one
-  const user = await catchErrors(makeUser)(
+  const user = await makeUser(
     input.name,
     sha1(input.password + input.email),
     input.email
   );
-  if (user instanceof Error) {
-    const errorResponse = { response: user.message };
-    return res.status(500).json(errorResponse satisfies FailureType);
-  } else {
-    req.login(user, function (err) {
-      if (err) return next(err);
-      res.status(200).json(user satisfies SuccessType);
-    });
-  }
+  req.login(user, function (err) {
+    if (err) return next(err);
+    res.status(200).json(user satisfies SuccessType);
+  });
 });
 
 module.exports = router;

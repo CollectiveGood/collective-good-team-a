@@ -3,7 +3,7 @@ import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
 import { localAuthStrategy } from "../helper/authStrategy";
 import { localFileStorage } from "../helper/fileHandler/localFileStorage";
-import { addCase, catchErrors, getCases } from "../helper/resolvers";
+import { addCase, getCase, getCases, getHash } from "../helper/resolvers";
 import { paths } from "../types/api";
 const multer = require("multer");
 const upload = multer(memoryStorage());
@@ -57,25 +57,25 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
     paths["/addCase"]["get"]["responses"]["200"]["content"]["application/json"];
   type FailureType =
     paths["/addCase"]["get"]["responses"]["500"]["content"]["application/json"];
-
   const file = req.file;
   if (file === undefined) {
-    const errorResponse = { response: "file was not found!" };
-    return res.status(500).json(errorResponse satisfies FailureType);
+    return next(new Error("No File Found!"));
   }
   const path = fileStorage.uploadFile(file.buffer, file.originalname);
 
-  const response = await catchErrors(addCase)(
+  const existingCase = await getCase(getHash(path));
+  if (existingCase) {
+    const errorResponse = { response: "This file already exists!" };
+    return res.status(500).json(errorResponse satisfies FailureType);
+  }
+
+  const response = await addCase(
     (req.user as User).id,
     path,
     file.originalname
   );
 
-  if (response instanceof Error) {
-    res.status(500).json({ response: response.message } satisfies FailureType);
-  } else {
-    res.status(200).json(response satisfies SuccessType);
-  }
+  res.status(200).json(response satisfies SuccessType);
 });
 
 module.exports = router;

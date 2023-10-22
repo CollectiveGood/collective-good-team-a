@@ -3,18 +3,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 var sha1 = require("sha1");
 
-export const catchErrors = <T extends Array<any>, U>(
-  fn: (...args: T) => Promise<U | Error>
-) => {
-  return async (...args: T): Promise<U | Error> => {
-    try {
-      return await fn(...args);
-    } catch (e) {
-      return e as Error;
-    }
-  };
-};
-
 export async function makeUser(name: string, password: string, email: string) {
   const user = await prisma.user.create({
     data: {
@@ -52,6 +40,10 @@ export async function addCase(id: number, path: string, caseName: string) {
     },
   });
   return c;
+}
+
+export function getHash(path: string) {
+  return sha1(path);
 }
 
 export async function getCase(hash: string) {
