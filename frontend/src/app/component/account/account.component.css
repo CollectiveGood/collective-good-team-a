@@ -1,17 +1,18 @@
 .container {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     width: 70%;
     margin: 0 auto;
 }
 
-.header {
-    text-align: left;
-    font-weight: bold;
-    font-size: 24px;
-}
-
 .content {
     padding-top: 10px;
+}
+
+h2 {
+    text-align: left;
+    font-size: 15px;
 }
 
 mat-card-header {
@@ -19,10 +20,44 @@ mat-card-header {
 }
 
 mat-card {
+    display: flex;
     text-align: center;
-    width: 40%;
 }
 
 mat-form-field {
+    width: 100%;
+}
+
+.account-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.two-columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+  
+.column {
+    padding: 1rem;
+}
+
+.column1 {
+    flex: 2;
+}
+
+.column2 {
+    flex: 1;
+}
+
+.other-actions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.action-button {
+    margin-bottom: 1rem;
     width: 100%;
 }
