@@ -13,27 +13,9 @@ export class HomeComponent {
 
   cases: Case[] | null = null;
   
-  constructor(private caseService: CaseService, 
-              private authService: AuthService,
-              private router: Router) {}
+  constructor(private caseService: CaseService) {}
 
   ngOnInit(): void {
-    // Check authentication
-    this.authService.checkAuthentication().subscribe({
-      next: (isAuthenticated: boolean) => {
-        console.log("Authenticated: ", isAuthenticated);
-        if (!isAuthenticated) {
-          this.router.navigate(['/login']);
-        }
-      },
-      error: (e) => {
-        if (e.status === 401) {
-          this.router.navigate(['/login']); // redirect to login if not authenticated
-        }
-        console.log(e);
-      }
-    });
-
     // Retrieve list of cases
     this.caseService.getAllCases()?.subscribe({
       next: (response) => {
