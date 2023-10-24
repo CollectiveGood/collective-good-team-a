@@ -19,20 +19,30 @@ export class HomeComponent {
 
   ngOnInit(): void {
     // Check authentication
-    if (!this.authService.getIsAuthenticated()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    // Retrieve list of cases
-    this.caseService.getAllCases()?.subscribe({
-      next: (response) => {
-        console.log(response);
-        this.cases = response;
+    this.authService.checkAuthentication().subscribe({
+      next: (isAuthenticated: boolean) => {
+        console.log("Authenticated: ", isAuthenticated);
+        if (!isAuthenticated) {
+          this.router.navigate(['/login']);
+        }
       },
       error: (e) => {
+        if (e.status === 401) {
+          this.router.navigate(['/login']);
+        }
         console.log(e);
       }
     });
+
+    // Retrieve list of cases
+    // this.caseService.getAllCases()?.subscribe({
+    //   next: (response) => {
+    //     // console.log(response);
+    //     this.cases = response;
+    //   },
+    //   error: (e) => {
+    //     console.log(e);
+    //   }
+    // });
   }
 }

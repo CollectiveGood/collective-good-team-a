@@ -1,0 +1,28 @@
+.container {
+    padding: 20px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: left;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.content {
+    padding-top: 10px;
+}
+
+mat-card-header {
+    padding-bottom: 10px;
+}
+
+mat-card {
+    text-align: center;
+    width: 40%;
+}
+
+mat-form-field {
+    width: 100%;
+}

@@ -10,8 +10,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
 import { SignupComponent } from './component/signup/signup.component';
 import { HomeComponent } from './component/home/home.component';
+import { AccountComponent } from './component/account/account.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { PdfViewerComponent } from './shared/pdf-viewer/pdf-viewer.component';
+
 // UI
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +32,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HomeComponent,
     LoginComponent,
     SignupComponent,
+    AccountComponent,
     ToolbarComponent,
     PdfViewerComponent
   ],

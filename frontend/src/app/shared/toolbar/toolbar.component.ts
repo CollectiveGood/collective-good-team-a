@@ -22,8 +22,7 @@ export class ToolbarComponent {
   clickLogout() {
     this.authService.logout().subscribe({
       next: (response) => {
-        console.log(response);
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
       },
       error: (e) => {
         console.log(e);
