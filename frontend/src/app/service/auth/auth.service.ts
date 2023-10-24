@@ -38,15 +38,13 @@ export class AuthService {
   }
 
   logout(): Observable<HttpResponse<any>> {
-    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/logout`, {}).pipe(
-      tap(response => {
-        console.log(response);
-        window.sessionStorage.clear();
-      })
-    )
+    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/logout`, {}, { 
+      observe: 'response', // This is necessary to get the response headers, which contain the 'Set-Cookie' header that clears the session cookie
+      withCredentials: true, 
+    });
   }
 
-  signUp(email: string, name: string, password: string) {
+  signUp(email: string, name: string, password: string): Observable<HttpResponse<any>> {
     const body = { email, name, password };
     return this.http.post(`${environment.apiUrl}/signup`, body, {
       observe: 'response',

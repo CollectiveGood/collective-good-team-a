@@ -28,7 +28,7 @@ export class HomeComponent {
       },
       error: (e) => {
         if (e.status === 401) {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login']); // redirect to login if not authenticated
         }
         console.log(e);
       }
