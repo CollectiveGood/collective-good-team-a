@@ -1,5 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import { Strategy as LocalStrategy } from "passport-local";
+import { getHash } from "./resolvers";
 const passport = require("passport");
 const prisma = new PrismaClient();
 
@@ -10,7 +11,10 @@ passport.use(
   "local",
   new LocalStrategy(async function verify(email, password, done) {
     const user = await prisma.user.findFirst({ where: { email: email } });
-    if (user?.password === password) {
+    if (user === null) {
+      return done(null, undefined);
+    }
+    if (user.password === getHash(password + email)) {
       return done(null, user);
     }
     return done(null, false);

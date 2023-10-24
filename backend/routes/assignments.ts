@@ -1,11 +1,12 @@
-import { User } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { localAuthStrategy } from "../helper/authStrategy";
 import { localFileStorage } from "../helper/fileHandler/localFileStorage";
-import { assignCase, catchErrors, getAssignedCases } from "../helper/resolvers";
+import { assignCase, getAssignedCases } from "../helper/resolvers";
 import { paths } from "../types/api";
 var express = require("express");
 const fileStorage = new localFileStorage();
+const prisma = new PrismaClient();
 
 var router = express.Router();
 
@@ -26,13 +27,19 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
     const assignee = parseInt(input.user);
     const hash = input.case;
 
-    const resp = await catchErrors(assignCase)(assignee, hash);
-    if (resp instanceof Error) {
-      const errorResponse = { response: resp.message };
+    const existingAssignment = await prisma.assignments.findFirst({
+      where: { hash: hash, userId: assignee },
+    });
+
+    if (existingAssignment) {
+      const errorResponse = {
+        response: "This case has already been assigned to this user!",
+      };
       return res.status(500).json(errorResponse satisfies FailureType);
-    } else {
-      return res.status(200).json(resp satisfies SuccessType);
     }
+
+    const resp = await assignCase(assignee, hash);
+    return res.status(200).json(resp satisfies SuccessType);
   }
 ));
 

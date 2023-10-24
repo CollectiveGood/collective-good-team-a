@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-var sha1 = require("sha1");
+import { getHash } from "../helper/resolvers";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -9,10 +9,10 @@ async function main() {
     create: {
       email: "adam@gmail.com",
       name: "adam",
-      password: "test",
+      password: getHash("test" + "adam@gmail.com"),
       cases: {
         create: {
-          URLhash: sha1("./files/BudFraWat2_fin-1.pdf"),
+          URLhash: getHash("./files/BudFraWat2_fin-1.pdf"),
           url: "./files/BudFraWat2_fin-1.pdf",
           caseName: "Research Paper #1",
         },
@@ -25,11 +25,11 @@ async function main() {
     create: {
       email: "tyler@gmail.com",
       name: "tyler",
-      password: "test2",
+      password: getHash("test2" + "tyler@gmail.com"),
       cases: {
         create: [
           {
-            URLhash: sha1("./files/STAT303-1_Fall2023_Syllabus.pdf"),
+            URLhash: getHash("./files/STAT303-1_Fall2023_Syllabus.pdf"),
             url: "./files/STAT303-1_Fall2023_Syllabus.pdf",
             caseName: "Syllabus #1",
           },
@@ -40,7 +40,7 @@ async function main() {
   const submission = await prisma.assignments.upsert({
     where: {
       userId_hash: {
-        hash: sha1("./files/STAT303-1_Fall2023_Syllabus.pdf"),
+        hash: getHash("./files/STAT303-1_Fall2023_Syllabus.pdf"),
         userId: 1,
       },
     },
@@ -48,14 +48,14 @@ async function main() {
     create: {
       info: { field1: "this is field1", field2: "this is field2" },
       userId: 1,
-      hash: sha1("./files/STAT303-1_Fall2023_Syllabus.pdf"),
+      hash: getHash("./files/STAT303-1_Fall2023_Syllabus.pdf"),
     },
   });
 
   const assignment = await prisma.assignments.upsert({
     where: {
       userId_hash: {
-        hash: sha1("./files/BudFraWat2_fin-1.pdf"),
+        hash: getHash("./files/BudFraWat2_fin-1.pdf"),
         userId: 1,
       },
     },
@@ -64,7 +64,7 @@ async function main() {
     },
     create: {
       userId: 1,
-      hash: sha1("./files/BudFraWat2_fin-1.pdf"),
+      hash: getHash("./files/BudFraWat2_fin-1.pdf"),
       info: undefined,
     },
   });

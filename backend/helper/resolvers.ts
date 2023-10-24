@@ -1,28 +1,13 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-var sha1 = require("sha1");
-
-export const catchErrors = <T extends Array<any>, U>(
-  fn: (...args: T) => Promise<U | Error>
-) => {
-  return async (...args: T): Promise<U | Error> => {
-    try {
-      return await fn(...args);
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        return new Error("uniqueness constraint violated");
-      }
-    }
-    return new Error("unknown error");
-  };
-};
+var sha256 = require("sha256");
 
 export async function makeUser(name: string, password: string, email: string) {
   const user = await prisma.user.create({
     data: {
       name: name,
-      password: password,
+      password: sha256(password + email),
       email: email,
     },
   });
@@ -45,10 +30,14 @@ export async function makeAdminUser(
   return user;
 }
 
+export function getHash(path: string) {
+  return sha256(path);
+}
+
 export async function addCase(id: number, path: string, caseName: string) {
   const c = await prisma.case.create({
     data: {
-      URLhash: sha1(path),
+      URLhash: getHash(path),
       url: path,
       caseName: caseName,
       authorId: id,
