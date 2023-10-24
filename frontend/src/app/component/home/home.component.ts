@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { Case } from 'src/app/model/case.model';
-import { AuthService } from 'src/app/service/auth/auth.service';
 import { CaseService } from 'src/app/service/case/case.service';
 
 @Component({
@@ -12,11 +10,13 @@ import { CaseService } from 'src/app/service/case/case.service';
 export class HomeComponent {
 
   cases: Case[] | null = null;
+  loading: boolean = false;
   
   constructor(private caseService: CaseService) {}
 
   ngOnInit(): void {
     // Retrieve list of cases
+    this.loading = true;
     this.caseService.getAllCases()?.subscribe({
       next: (response) => {
         console.log("attempting to get cases");
@@ -30,6 +30,9 @@ export class HomeComponent {
       },
       error: (e) => {
         console.log(e);
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
   }
