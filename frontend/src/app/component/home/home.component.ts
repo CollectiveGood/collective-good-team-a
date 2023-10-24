@@ -35,14 +35,20 @@ export class HomeComponent {
     });
 
     // Retrieve list of cases
-    // this.caseService.getAllCases()?.subscribe({
-    //   next: (response) => {
-    //     // console.log(response);
-    //     this.cases = response;
-    //   },
-    //   error: (e) => {
-    //     console.log(e);
-    //   }
-    // });
+    this.caseService.getAllCases()?.subscribe({
+      next: (response) => {
+        console.log("attempting to get cases");
+        // console.log(response);
+        this.cases = response;
+        if (this.cases.length == 0) {
+          this.cases = null;
+        } else {
+          console.log(this.cases.length);
+        }
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    });
   }
 }

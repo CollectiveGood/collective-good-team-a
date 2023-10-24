@@ -1,3 +1,4 @@
+/* Sojin */
 body, div, p {
     margin: 0;
     padding: 10px;
@@ -39,4 +40,16 @@ mat-card-content {
 
 .button {
     width: 100%;
+}
+
+.button-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
+
+.custom-button {
+    width: 100%;
+    margin-bottom: 10px; /* Add margin at the bottom of each button */
 }
