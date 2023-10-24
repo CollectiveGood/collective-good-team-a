@@ -13,36 +13,24 @@ export class HomeComponent {
 
   cases: Case[] | null = null;
   
-  constructor(private caseService: CaseService, 
-              private authService: AuthService,
-              private router: Router) {}
+  constructor(private caseService: CaseService) {}
 
   ngOnInit(): void {
-    // Check authentication
-    this.authService.checkAuthentication().subscribe({
-      next: (isAuthenticated: boolean) => {
-        console.log("Authenticated: ", isAuthenticated);
-        if (!isAuthenticated) {
-          this.router.navigate(['/login']);
+    // Retrieve list of cases
+    this.caseService.getAllCases()?.subscribe({
+      next: (response) => {
+        console.log("attempting to get cases");
+        // console.log(response);
+        this.cases = response;
+        if (this.cases.length == 0) {
+          this.cases = null;
+        } else {
+          console.log(this.cases.length);
         }
       },
       error: (e) => {
-        if (e.status === 401) {
-          this.router.navigate(['/login']);
-        }
         console.log(e);
       }
     });
-
-    // Retrieve list of cases
-    // this.caseService.getAllCases()?.subscribe({
-    //   next: (response) => {
-    //     // console.log(response);
-    //     this.cases = response;
-    //   },
-    //   error: (e) => {
-    //     console.log(e);
-    //   }
-    // });
   }
 }

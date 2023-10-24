@@ -21,9 +21,9 @@ export class LoginComponent {
 
   ngOnInit(): void {
     // Navigate to home if already logged in
-    // if (this.authService.checkAuthentication()) {
-    //   this.router.navigate(['/home']);
-    // }
+    if (this.authService.checkAuthentication()) {
+      this.router.navigate(['/home']);
+    }
   }
 
   onSubmit(): void {
