@@ -13,6 +13,12 @@ export class CaseService {
   getAllCases(): Observable<Case[]> {
     return this.http.get<Case[]>(`${environment.apiUrl}/cases`, {
       withCredentials: true,
-    }) as Observable<Case[]>;
+    });
+  }
+  // Sojin
+  getAssignedCases(): Observable<Case[]> {
+    return this.http.get<Case[]>(`${environment.apiUrl}/assignedCases`, {
+      withCredentials: true,
+    });
   }
 }
