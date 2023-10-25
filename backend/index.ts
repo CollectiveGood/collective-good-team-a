@@ -38,6 +38,7 @@ app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/user"));
 app.use("/", require("./routes/case"));
 app.use("/", require("./routes/errors"));
+app.use("/", require("./routes/assignments"));
 
 const PORT = process.env.PORT || 3000;
 // Start the server
