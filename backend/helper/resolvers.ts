@@ -54,8 +54,7 @@ export function getHash(path: string) {
 export async function addCase(id: number, path: string, caseName: string) {
   const c = await prisma.case.create({
     data: {
-      URLhash: getHash(path),
-      url: path,
+      fileName: path,
       caseName: caseName,
       authorId: id,
     },
@@ -64,7 +63,7 @@ export async function addCase(id: number, path: string, caseName: string) {
 }
 
 export async function getCase(hash: string) {
-  const c = await prisma.case.findFirst({ where: { URLhash: hash } });
+  const c = await prisma.case.findFirst({ where: { fileName: hash } });
   return c;
 }
 

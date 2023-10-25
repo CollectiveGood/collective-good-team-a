@@ -9,7 +9,7 @@ export class localFileStorage implements fileStorage {
     if (c === null) {
       return undefined;
     }
-    const buffer = await this.getFile(c.url);
+    const buffer = await this.getFile(c.fileName);
     return buffer;
   };
 

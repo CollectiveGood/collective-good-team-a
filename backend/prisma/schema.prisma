@@ -27,8 +27,7 @@ enum Role {
 }
 
 model Case {
-  URLhash  String @id
-  url      String
+  fileName String @id
   caseName String
 
   uploader    User          @relation(fields: [authorId], references: [id])
@@ -38,7 +37,7 @@ model Case {
 
 model Assignments {
   user User  @relation(fields: [userId], references: [id])
-  case Case  @relation(fields: [hash], references: [URLhash])
+  case Case  @relation(fields: [hash], references: [fileName])
   info Json?
 
   userId Int

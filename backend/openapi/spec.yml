@@ -290,17 +290,14 @@ components:
     Case:
       type: object
       properties:
-        URLhash:
-          type: string
-        url:
+        fileName:
           type: string
         caseName:
           type: string
         authorId:
           type: number
       required:
-        - URLhash
-        - url
+        - fileName
         - caseName
         - authorId
     Assignment:

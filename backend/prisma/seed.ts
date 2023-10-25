@@ -21,8 +21,7 @@ async function main() {
       password: getHash("test" + "adam@gmail.com"),
       cases: {
         create: {
-          URLhash: getHash(hash1),
-          url: hash1,
+          fileName: hash1,
           caseName: "Research Paper #1",
         },
       },
@@ -38,8 +37,7 @@ async function main() {
       cases: {
         create: [
           {
-            URLhash: getHash(hash2),
-            url: hash2,
+            fileName: hash2,
             caseName: "Syllabus #1",
           },
         ],
@@ -49,7 +47,7 @@ async function main() {
   const submission = await prisma.assignments.upsert({
     where: {
       userId_hash: {
-        hash: getHash(hash2),
+        hash: hash2,
         userId: 1,
       },
     },
@@ -57,14 +55,14 @@ async function main() {
     create: {
       info: { field1: "this is field1", field2: "this is field2" },
       userId: 1,
-      hash: getHash(hash2),
+      hash: hash2,
     },
   });
 
   const assignment = await prisma.assignments.upsert({
     where: {
       userId_hash: {
-        hash: getHash(hash1),
+        hash: hash1,
         userId: 1,
       },
     },
@@ -73,7 +71,7 @@ async function main() {
     },
     create: {
       userId: 1,
-      hash: getHash(hash1),
+      hash: hash1,
       info: undefined,
     },
   });
