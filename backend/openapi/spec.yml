@@ -98,6 +98,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /updateAccount:
+    post:
+      summary: Updates account information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/SignUpInput"
+                - type: object
+                  required:
+                    - oldPassword
+                  properties:
+                    oldPassword:
+                      type: string
+      responses:
+        "200":
+          description: account successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "409":
+          description: email already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /getCase/{hash}:
     get:
       summary: gets a case from the url hash

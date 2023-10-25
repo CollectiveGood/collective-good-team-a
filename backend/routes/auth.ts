@@ -1,6 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
-import { makeUser } from "../helper/resolvers";
+import { getHash, makeUser, updateUser } from "../helper/resolvers";
 import { paths } from "../types/api";
 const express = require("express");
 const passport = require("passport");
@@ -82,6 +82,54 @@ router.post("/signup", <RequestHandler>async function (req, res, next) {
     if (err) return next(err);
     res.status(200).json(user satisfies SuccessType);
   });
+});
+
+/*
+Updates a user and ensures the new information is valid
+*/
+router.post("/updateAccount", <RequestHandler>async function (req, res, next) {
+  type InputType =
+    paths["/updateAccount"]["post"]["requestBody"]["content"]["application/json"];
+  type SuccessType =
+    paths["/signup"]["post"]["responses"][200]["content"]["application/json"];
+  type ConflictType =
+    paths["/signup"]["post"]["responses"][409]["content"]["application/json"];
+  type FailureType =
+    paths["/signup"]["post"]["responses"][500]["content"]["application/json"];
+
+  const input: InputType = req.body;
+  const currUser = req.user as User;
+
+  // checks if the old password is correct
+  if (getHash(input.oldPassword + input.email) !== currUser.password) {
+    const errorResponse = {
+      response: "incorrect existing password!",
+    };
+    return res.status(409).json(errorResponse satisfies ConflictType);
+  }
+
+  // Check if user already exists and is not the current user
+  if (currUser.email !== input.email) {
+    const existingUser = await prisma.user.findFirst({
+      where: { email: input.email },
+    });
+
+    if (existingUser) {
+      const errorResponse = {
+        response: "User with this email already exists.",
+      };
+      return res.status(409).json(errorResponse satisfies ConflictType);
+    }
+  }
+
+  // Update user information
+  const user = await updateUser(
+    currUser.id,
+    input.name,
+    input.password,
+    input.email
+  );
+  return res.status(200).json(user satisfies SuccessType);
 });
 
 module.exports = router;

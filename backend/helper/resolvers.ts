@@ -14,6 +14,23 @@ export async function makeUser(name: string, password: string, email: string) {
   return user;
 }
 
+export async function updateUser(
+  id: number,
+  name: string,
+  password: string,
+  email: string
+) {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: {
+      name: name,
+      password: sha256(password + email),
+      email: email,
+    },
+  });
+  return user;
+}
+
 export async function makeAdminUser(
   name: string,
   password: string,

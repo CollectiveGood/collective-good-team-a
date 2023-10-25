@@ -21,7 +21,7 @@ export class LoginComponent {
 
   ngOnInit(): void {
     // Navigate to home if already logged in
-    if (this.authService.getIsAuthenticated()) {
+    if (this.authService.checkAuthentication()) {
       this.router.navigate(['/home']);
     }
   }
