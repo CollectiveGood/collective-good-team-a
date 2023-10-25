@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Case } from 'src/app/model/case.model';
+import { Router } from '@angular/router';
 import { CaseService } from 'src/app/service/case/case.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class HomeComponent implements OnInit{
   clickedCaseURL: string | null = null;
   loading: boolean = false;
   
-  constructor(private caseService: CaseService) {}
+  constructor( private router: Router, private caseService: CaseService) {}
 
   ngOnInit(): void {
     // Retrieve list of cases
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit{
           this.cases = null;
         } else {
           console.log(this.cases.length);
+          console.log(this.cases[0]);
         }
       },
       error: (e) => {
@@ -44,5 +46,6 @@ export class HomeComponent implements OnInit{
   caseClick(clickedCase: Case) {
     // You can access the case information here and perform any necessary actions
     console.log('Button clicked for case:', clickedCase);
+    this.router.navigate([`/case/${clickedCase.URLhash}`])
   }
 }
