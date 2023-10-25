@@ -12,11 +12,17 @@
         <mat-card-content>
             <ng-container *ngIf="cases != null; else noCases">
                 <div class="button-list">
-                    <button mat-raised-button color="primary" class="custom-button" *ngFor="let case of cases">
-                        {{ case.caseName }}
-                    </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    class="custom-button"
+                    *ngFor="let case of cases"
+                    (click)="caseClick(case)"
+                  >
+                    {{ case.caseName }}
+                  </button>
                 </div>
-            </ng-container>
+              </ng-container>
             <ng-template #noCases>
                 <p>None to display</p>
             </ng-template>
