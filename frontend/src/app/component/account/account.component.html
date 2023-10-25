@@ -12,7 +12,7 @@
           <!-- Column 1: Basic Information -->
           <div class="column">
             <h2>Personal Information</h2>
-            <form>
+            <form (ngSubmit)="openPasswordConfirmationDialog()">
               <mat-form-field>
                 <mat-label>Name</mat-label>
                 <input matInput type="text" id="name" name="name" [(ngModel)]="userDetails.name" required>
@@ -21,8 +21,8 @@
                 <mat-label>Email</mat-label>
                 <input matInput type="text" id="email" name="email" [(ngModel)]="userDetails.email" required>
               </mat-form-field>
+              <button mat-raised-button type="submit" color="primary">Save</button>
             </form>
-            <button mat-raised-button type="submit" color="primary">Save</button>
           </div>
 
           <!-- Column 2: Other Actions -->
@@ -30,7 +30,7 @@
             <h2>Other Actions</h2>
             <div class="other-actions-container">
                 <button mat-raised-button color="link" class="action-button">Change Password</button>
-                <button mat-raised-button color="link" class="action-button">Request Admin Access</button>
+                <!-- <button mat-raised-button color="link" class="action-button">Request Admin Access</button> -->
                 <button mat-raised-button color="warn" class="action-button">Delete Account</button>
             </div>
           </div>

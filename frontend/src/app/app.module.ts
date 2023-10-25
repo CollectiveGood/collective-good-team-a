@@ -13,6 +13,7 @@ import { HomeComponent } from './component/home/home.component';
 import { AccountComponent } from './component/account/account.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { PdfViewerComponent } from './shared/pdf-viewer/pdf-viewer.component';
+import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SignupComponent,
     AccountComponent,
     ToolbarComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
+    PasswordConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatMenuModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
