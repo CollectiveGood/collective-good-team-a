@@ -20,6 +20,10 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     this.caseService.getAssignedCases().subscribe({
       next: (response) => {
+        if (response.length === 0) { // if none assigned, set to null
+          this.assignedCases = null;
+          return;
+        }
         this.assignedCases = response;
         console.log(this.assignedCases);
       },
