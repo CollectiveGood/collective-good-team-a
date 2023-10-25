@@ -2,14 +2,14 @@ import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
 import { localAuthStrategy } from "../helper/authStrategy";
-import { localFileStorage } from "../helper/fileHandler/localFileStorage";
+import { googleFileStorage } from "../helper/fileHandler/googleFileStorage";
 import { addCase, getCase, getCases, getHash } from "../helper/resolvers";
-import { paths } from "../types/api";
+import { paths } from "../openapi/api";
 const multer = require("multer");
 const upload = multer(memoryStorage());
 
 var express = require("express");
-const fileStorage = new localFileStorage();
+const fileStorage = new googleFileStorage();
 
 var router = express.Router();
 
@@ -61,7 +61,7 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
   if (file === undefined) {
     return next(new Error("No File Found!"));
   }
-  const path = fileStorage.uploadFile(file.buffer, file.originalname);
+  const path = await fileStorage.uploadFile(file.buffer);
 
   const existingCase = await getCase(getHash(path));
   if (existingCase) {

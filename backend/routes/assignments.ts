@@ -1,11 +1,9 @@
 import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { localAuthStrategy } from "../helper/authStrategy";
-import { localFileStorage } from "../helper/fileHandler/localFileStorage";
 import { assignCase, getAssignedCases } from "../helper/resolvers";
-import { paths } from "../types/api";
+import { paths } from "../openapi/api";
 var express = require("express");
-const fileStorage = new localFileStorage();
 const prisma = new PrismaClient();
 
 var router = express.Router();

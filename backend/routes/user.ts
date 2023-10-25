@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { adminAuthStrategy, localAuthStrategy } from "../helper/authStrategy";
-import { paths } from "../types/api";
+import { paths } from "../openapi/api";
 
 var express = require("express");
 var router = express.Router();

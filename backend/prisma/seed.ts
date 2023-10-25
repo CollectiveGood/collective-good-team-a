@@ -1,8 +1,17 @@
 import { PrismaClient } from "@prisma/client";
+import { readFileSync } from "fs";
+import { googleFileStorage } from "../helper/fileHandler/googleFileStorage";
 import { getHash } from "../helper/resolvers";
 
+const fileHandler = new googleFileStorage();
 const prisma = new PrismaClient();
+
 async function main() {
+  const file1 = "./files/BudFraWat2_fin-1.pdf";
+  const hash1 = await fileHandler.uploadFile(readFileSync(file1));
+  const file2 = "./files/STAT303-1_Fall2023_Syllabus.pdf";
+  const hash2 = await fileHandler.uploadFile(readFileSync(file2));
+
   const adam = await prisma.user.upsert({
     where: { email: "adam@gmail.com" },
     update: {},
@@ -12,8 +21,8 @@ async function main() {
       password: getHash("test" + "adam@gmail.com"),
       cases: {
         create: {
-          URLhash: getHash("./files/BudFraWat2_fin-1.pdf"),
-          url: "./files/BudFraWat2_fin-1.pdf",
+          URLhash: getHash(hash1),
+          url: hash1,
           caseName: "Research Paper #1",
         },
       },
@@ -29,8 +38,8 @@ async function main() {
       cases: {
         create: [
           {
-            URLhash: getHash("./files/STAT303-1_Fall2023_Syllabus.pdf"),
-            url: "./files/STAT303-1_Fall2023_Syllabus.pdf",
+            URLhash: getHash(hash2),
+            url: hash2,
             caseName: "Syllabus #1",
           },
         ],
@@ -40,7 +49,7 @@ async function main() {
   const submission = await prisma.assignments.upsert({
     where: {
       userId_hash: {
-        hash: getHash("./files/STAT303-1_Fall2023_Syllabus.pdf"),
+        hash: getHash(hash2),
         userId: 1,
       },
     },
@@ -48,14 +57,14 @@ async function main() {
     create: {
       info: { field1: "this is field1", field2: "this is field2" },
       userId: 1,
-      hash: getHash("./files/STAT303-1_Fall2023_Syllabus.pdf"),
+      hash: getHash(hash2),
     },
   });
 
   const assignment = await prisma.assignments.upsert({
     where: {
       userId_hash: {
-        hash: getHash("./files/BudFraWat2_fin-1.pdf"),
+        hash: getHash(hash1),
         userId: 1,
       },
     },
@@ -64,7 +73,7 @@ async function main() {
     },
     create: {
       userId: 1,
-      hash: getHash("./files/BudFraWat2_fin-1.pdf"),
+      hash: getHash(hash1),
       info: undefined,
     },
   });
