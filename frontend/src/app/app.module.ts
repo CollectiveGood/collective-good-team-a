@@ -30,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CaseFormComponent } from './component/case-form/case-form.component';
 import { CaseViewComponent } from './component/case-form/case-view/case-view.component';
 import { FormViewComponent } from './component/case-form/form-view/form-view.component';
+import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { FormViewComponent } from './component/case-form/form-view/form-view.com
     PasswordConfirmationDialogComponent,
     CaseFormComponent,
     CaseViewComponent,
-    FormViewComponent
+    FormViewComponent,
+    PasswordChangeDialogComponent
   ],
   imports: [
     BrowserModule,

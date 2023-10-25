@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user.model';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,10 +12,14 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 export class ToolbarComponent {
   activeUser: User | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService, 
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.authService.getUser()?.subscribe((user) => {
+    this.userService.getUser()?.subscribe((user) => {
       this.activeUser = user;
     });
   }
