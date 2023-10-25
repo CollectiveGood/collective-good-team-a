@@ -1,0 +1,11 @@
+/* Sojin */
+.parent-container {
+    display: flex;
+    height: 100vh; /* 100% of the viewport height */
+  }
+  
+.child-container {
+    flex: 1; /* Each child container takes up equal space */
+}
+  
+  
