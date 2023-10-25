@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
-  { path: 'case-view', component: CaseFormComponent, canActivate: [authGuard] },
+  { path: 'case/:hash', component: CaseFormComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home component
   { path: '**', redirectTo: '/home'} // handle unknown paths]
 ];

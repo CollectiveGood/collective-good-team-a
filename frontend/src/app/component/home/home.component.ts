@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit{
 
   cases: Case[] | null = null;
   case: Case | null = null;
+  clickedCaseURL: string | null = null;
   loading: boolean = false;
   
   constructor(private caseService: CaseService) {}
@@ -43,6 +44,5 @@ export class HomeComponent implements OnInit{
   caseClick(clickedCase: Case) {
     // You can access the case information here and perform any necessary actions
     console.log('Button clicked for case:', clickedCase);
-    // Add your custom logic here
   }
 }
