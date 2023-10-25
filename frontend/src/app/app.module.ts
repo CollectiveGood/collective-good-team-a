@@ -28,6 +28,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CaseFormComponent } from './component/case-form/case-form.component';
+import { CaseViewComponent } from './component/case-form/case-view/case-view.component';
+import { FormViewComponent } from './component/case-form/form-view/form-view.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { CaseFormComponent } from './component/case-form/case-form.component';
     ToolbarComponent,
     PdfViewerComponent,
     PasswordConfirmationDialogComponent,
-    CaseFormComponent
+    CaseFormComponent,
+    CaseViewComponent,
+    FormViewComponent
   ],
   imports: [
     BrowserModule,
