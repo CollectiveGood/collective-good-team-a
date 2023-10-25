@@ -27,6 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CaseFormComponent } from './component/case-form/case-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     AccountComponent,
     ToolbarComponent,
     PdfViewerComponent,
-    PasswordConfirmationDialogComponent
+    PasswordConfirmationDialogComponent,
+    CaseFormComponent
   ],
   imports: [
     BrowserModule,
