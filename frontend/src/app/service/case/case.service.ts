@@ -15,16 +15,19 @@ export class CaseService {
       withCredentials: true,
     });
   }
+
   // Sojin
   getAssignedCases(): Observable<Case[]> {
     return this.http.get<Case[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
     });
   }
+
   getCaseAsPDF(hash: string): Observable<Blob> {
     // Set the request options to accept PDF
     const options = {
       responseType: 'blob' as 'json',
+      withCredentials: true,
     };
     return this.http.get<Blob>(`${environment.apiUrl}/getCase/${hash}`, options);
   }

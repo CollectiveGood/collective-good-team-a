@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./pdf-viewer.component.css']
 })
 export class PdfViewerComponent {
-  pdfSrc: String = '../../assets/BudFraWat2_fin-1.pdf';
+  @Input() pdfData!: Blob;
+  pdfSrc: SafeResourceUrl | null = null;
+
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngOnChanges() {
+    if (this.pdfData) {
+      this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(this.pdfData));
+    }
+  }
 }
