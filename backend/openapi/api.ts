@@ -256,6 +256,34 @@ export interface paths {
       };
     };
   };
+  "/updateAssignment": {
+    /** Updates the information attached to an assignment */
+    post: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            json: components["schemas"]["AnyValue"];
+            caseId: string;
+            userId: number;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully updated the information of the case */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;

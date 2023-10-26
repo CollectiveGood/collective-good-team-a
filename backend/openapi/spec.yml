@@ -257,7 +257,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
-
+  /updateAssignment:
+    post:
+      summary: Updates the information attached to an assignment
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                json:
+                  $ref: "#/components/schemas/AnyValue"
+                caseId:
+                  type: string
+                userId:
+                  type: number
+              required:
+                - json
+                - caseId
+                - userId
+      responses:
+        "200":
+          description: successfully updated the information of the case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
 components:
   schemas:
     AnyValue: {}

@@ -111,6 +111,20 @@ export async function getAssignedCases(user: number) {
   return cs;
 }
 
+export async function updateAssignment(
+  info: any,
+  userId: number,
+  caseId: string
+) {
+  const c = await prisma.assignments.update({
+    where: {
+      userId_hash: { hash: caseId, userId: userId },
+    },
+    data: { info: info },
+  });
+  return c;
+}
+
 export async function allInfo() {
   const infos = await prisma.assignments.findMany({
     take: 15,
