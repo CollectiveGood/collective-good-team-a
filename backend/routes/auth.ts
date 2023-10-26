@@ -101,7 +101,7 @@ router.post("/updateAccount", <RequestHandler>async function (req, res, next) {
   const currUser = req.user as User;
 
   // checks if the old password is correct
-  if (getHash(input.oldPassword + input.email) !== currUser.password) {
+  if (getHash(input.oldPassword + currUser.email) !== currUser.password) {
     const errorResponse = {
       response: "incorrect existing password!",
     };
