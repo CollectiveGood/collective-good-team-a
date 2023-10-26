@@ -8,7 +8,10 @@ import { getCase } from "../resolvers";
 import { fileStorage } from "./fileStorage";
 const { randomBytes } = require("node:crypto");
 
-const storage = new Storage({ projectId: "150959018727" });
+const storage = new Storage({
+  projectId: "150959018727",
+  keyFilename: ".key",
+});
 
 const bucketName = "collective-good-cases";
 
