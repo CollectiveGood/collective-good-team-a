@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-case-view',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./case-view.component.css']
 })
 export class CaseViewComponent {
-
+  @Input() caseHash = ''; //will be replaced from parent component
 }
+

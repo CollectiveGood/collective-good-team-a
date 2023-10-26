@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/model/user.model';
-import { AuthService } from 'src/app/service/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordConfirmationDialogComponent } from '../dialog/password-confirmation-dialog/password-confirmation-dialog.component';
+import { PasswordChangeDialogComponent } from '../dialog/password-change-dialog/password-change-dialog.component';
 import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
@@ -12,15 +12,16 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class AccountComponent {
 
-  constructor(private authService: AuthService, 
+  constructor(
     private userService: UserService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog
+  ) { }
 
   userDetails: User | null = null;
 
   ngOnInit(): void {
     // Retrieve account details
-    this.authService.getUser()?.subscribe(userDetails => {
+    this.userService.getUser()?.subscribe(userDetails => {
       this.userDetails = userDetails;
     });
   }
@@ -36,6 +37,13 @@ export class AccountComponent {
   }
 
   openPasswordChangeDialog(): void {
-    // TODO: Open password change dialog
+    const dialogRef = this.dialog.open(PasswordChangeDialogComponent, {
+      width: '400px',
+      data: { userDetails: this.userDetails }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // TODO
+    });
   }
 }

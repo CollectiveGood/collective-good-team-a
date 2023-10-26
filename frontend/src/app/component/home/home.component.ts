@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Case } from 'src/app/model/case.model';
+import { AssignedCase, Case } from 'src/app/model/case.model';
+import { Router } from '@angular/router';
 import { CaseService } from 'src/app/service/case/case.service';
 
 @Component({
@@ -7,27 +8,23 @@ import { CaseService } from 'src/app/service/case/case.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
-  cases: Case[] | null = null;
-  case: Case | null = null;
+  assignedCases: AssignedCase[] | null = null;
   loading: boolean = false;
   
-  constructor(private caseService: CaseService) {}
+  constructor( private router: Router, private caseService: CaseService) {}
 
   ngOnInit(): void {
-    // Retrieve list of cases
+    // Retrieve list of assigned cases
     this.loading = true;
-    this.caseService.getAllCases()?.subscribe({
+    this.caseService.getAssignedCases().subscribe({
       next: (response) => {
-        console.log("attempting to get cases");
-        // console.log(response);
-        this.cases = response;
-        if (this.cases.length == 0) {
-          this.cases = null;
-        } else {
-          console.log(this.cases.length);
+        if (response.length === 0) { // if none assigned, set to null
+          return;
         }
+        this.assignedCases = response;
+        console.log(this.assignedCases);
       },
       error: (e) => {
         console.log(e);
@@ -38,11 +35,12 @@ export class HomeComponent implements OnInit{
     });
   }
 
+
   //Sojin
   // Handle button click
-  caseClick(clickedCase: Case) {
+  caseClick(clickedCase: AssignedCase) {
     // You can access the case information here and perform any necessary actions
-    console.log('Button clicked for case:', clickedCase);
-    // Add your custom logic here
+    console.log('Button clicked for case:',clickedCase.hash);
+    this.router.navigate([`/case/${clickedCase.hash}`])
   }
 }

@@ -4,7 +4,8 @@
     <div class="child-container">
       <mat-card class="child-card">
         <mat-card-content>
-          <app-case-view></app-case-view>
+          <!-- <app-case-view [caseHash] = "caseHash"></app-case-view> -->
+          <app-pdf-viewer [pdfData]="caseBlob"></app-pdf-viewer>
         </mat-card-content>
       </mat-card>
     </div>

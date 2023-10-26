@@ -2,8 +2,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../../model/user.model';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -29,12 +27,6 @@ export class AuthService {
         return user != null;
       })
     )
-  }
-
-  getUser(): Observable<User> | null {
-    return this.http.get<User>(`${environment.apiUrl}/details`, {
-      withCredentials: true,
-    });
   }
 
   logout(): Observable<HttpResponse<any>> {
