@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -6,15 +6,39 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './pdf-viewer.component.html',
   styleUrls: ['./pdf-viewer.component.css']
 })
-export class PdfViewerComponent {
+export class PdfViewerComponent implements OnChanges {
   @Input() pdfData!: Blob;
-  pdfSrc: SafeResourceUrl | null = null;
+  pdfDataUrl: SafeResourceUrl = '';
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnChanges() {
-    if (this.pdfData) {
-      this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(this.pdfData));
+  ngOnChanges(changes: SimpleChanges): void {
+    // Load pdf when data becomes available
+    if (changes['pdfData']) {
+      const newPdfData = changes['pdfData'].currentValue as Blob;
+      if (newPdfData) {
+        this.loadPdf(newPdfData);
+      }
     }
   }
+
+  loadPdf(pdfData: Blob): void {
+    // Load PDF to be rendered
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      const data = e.target?.result;
+      if (data) {
+        if (data instanceof ArrayBuffer) {
+          // Create object URL and mark it as safe
+          const blob = new Blob([data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          this.pdfDataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        } else {
+          this.pdfDataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(data);
+        }
+      }
+    };
+    fileReader.readAsArrayBuffer(pdfData);
+  }
+  
 }
