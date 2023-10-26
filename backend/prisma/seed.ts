@@ -7,6 +7,7 @@ const fileHandler = new googleFileStorage();
 const prisma = new PrismaClient();
 
 async function main() {
+  await fileHandler.deleteAll();
   const file1 = "./files/BudFraWat2_fin-1.pdf";
   const hash1 = await fileHandler.uploadFile(readFileSync(file1));
   const file2 = "./files/STAT303-1_Fall2023_Syllabus.pdf";

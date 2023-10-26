@@ -34,4 +34,12 @@ export class googleFileStorage implements fileStorage {
     await file.save(buffer);
     return id;
   };
+
+  deleteAll = async () => {
+    const allFiles = await storage.bucket(bucketName).getFiles();
+    for (const file of allFiles[0]) {
+      file.delete();
+    }
+    return true;
+  };
 }
