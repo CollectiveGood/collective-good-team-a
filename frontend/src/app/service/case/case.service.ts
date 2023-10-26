@@ -25,10 +25,9 @@ export class CaseService {
 
   getCaseAsPDF(hash: string): Observable<Blob> {
     // Set the request options to accept PDF
-    const options = {
-      responseType: 'blob' as 'json',
+    return this.http.get(`${environment.apiUrl}/getCase/${hash}`, {
       withCredentials: true,
-    };
-    return this.http.get<Blob>(`${environment.apiUrl}/getCase/${hash}`, options);
+      responseType: 'blob'
+    });
   }
 }

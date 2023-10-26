@@ -13,17 +13,14 @@ export class CaseFormComponent {
 
   constructor(private route: ActivatedRoute, private caseService: CaseService) {
     this.route.params.subscribe(params => {
-      this.caseHash = params['hash'];
-      // Use caseHash to fetch and render the PDF for the selected case.
+      this.caseHash = params['hash']; // fetch and render the PDF for the selected case
     });
   }
 
   ngOnInit(): void {
-    // Use caseHash to fetch and render the PDF for the selected case.
-    console.log('Case hash: ', this.caseHash);
+    // Use caseHash to fetch and render the PDF for the selected case
     this.caseService.getCaseAsPDF(this.caseHash).subscribe({
       next: (response: Blob) => {
-        console.log('Get case successful: ', response);
         this.caseBlob = response;
       },
       error: (e) => {

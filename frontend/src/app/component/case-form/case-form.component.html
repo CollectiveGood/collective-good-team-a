@@ -3,9 +3,11 @@
 <div class="parent-container">
     <div class="child-container">
       <mat-card class="child-card">
-        <mat-card-content>
-          <!-- <app-case-view [caseHash] = "caseHash"></app-case-view> -->
+        <mat-card-content *ngIf="caseBlob">
           <app-pdf-viewer [pdfData]="caseBlob"></app-pdf-viewer>
+        </mat-card-content>
+        <mat-card-content *ngIf="!caseBlob">
+          Loading PDF...
         </mat-card-content>
       </mat-card>
     </div>
@@ -17,4 +19,3 @@
       </mat-card>
     </div>
   </div>
-  
