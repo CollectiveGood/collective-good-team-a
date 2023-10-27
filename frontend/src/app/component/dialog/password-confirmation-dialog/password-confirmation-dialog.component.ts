@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from 'src/app/service/auth/auth.service';
 import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class PasswordConfirmationDialogComponent {
   
   passwordInput: string = '';
   errorMessage: string = '';
-  success: boolean = false;
   loading: boolean = false; // for loading bar
 
   constructor(
@@ -40,7 +38,7 @@ export class PasswordConfirmationDialogComponent {
     this.userService.updateProfile(this.data.userDetails.name, this.data.userDetails.email, this.passwordInput, this.passwordInput).subscribe({
       next: (response) => {
         console.log(response);
-        this.success = true;
+        this.dialogRef.close('Your credentials have been updated successfully!');
       },
       error: (e) => {
         this.loading = false;
@@ -49,7 +47,7 @@ export class PasswordConfirmationDialogComponent {
           this.errorMessage = 'The password is incorrect.';
         } else {
           // Handle other errors
-          this.errorMessage = 'An error occurred updating your credentials.';
+          this.dialogRef.close('An error occurred while updating your credentials.')
         }
       },
       complete: () => {
@@ -59,6 +57,6 @@ export class PasswordConfirmationDialogComponent {
   }
 
   onCloseClick(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close();
   }
 }

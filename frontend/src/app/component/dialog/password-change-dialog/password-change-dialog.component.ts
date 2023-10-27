@@ -16,13 +16,12 @@ export class PasswordChangeDialogComponent {
   }
 
   errorMessage: string = '';
-  success: boolean = false;
   loading: boolean = false; // for loading bar
 
   constructor(
     public dialogRef: MatDialogRef<PasswordChangeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
 
@@ -31,7 +30,7 @@ export class PasswordChangeDialogComponent {
     this.errorMessage = '';
     const userDetails = this.data.userDetails;
     if (!userDetails) {
-      this.errorMessage = 'An error occurred while changing the password.';
+      this.dialogRef.close('An error occurred retrieving your credentials.'); // Close the dialog if the user details are not available (should not happen)
       return;
     }
     
@@ -46,31 +45,31 @@ export class PasswordChangeDialogComponent {
       this.errorMessage = 'New password must be at least 8 characters long.';
       return;
     }
-      // Complete the password change
+    
+    // Complete the password change
     this.loading = true;
     this.userService.updateProfile(userDetails?.name!, userDetails?.email!, this.newPasswordData.oldPassword, this.newPasswordData.newPassword).subscribe({
-        next: (response) => {
-          console.log(response);
-          this.success = true;
-        },
-        error: (e) => {
-          this.loading = false;
-          if (e.status === 409) {
-            // Old password is incorrect
-            this.errorMessage = 'Incorrect old password.';
-          } else {
-            // Handle other errors
-            this.errorMessage = 'An error occurred while changing the password.';
-          }
-        },
-        complete: () => {       
-          this.loading = false;
+      next: (response) => {
+        console.log(response);
+        this.dialogRef.close('Your password has been changed successfully!');
+      },
+      error: (e) => {
+        this.loading = false;
+        if (e.status === 409) {
+          // Old password is incorrect
+          this.errorMessage = 'Current password is incorrect.';
+        } else {
+          // Handle other errors
+          this.dialogRef.close('An error occurred while changing your password.')
         }
-      });
-    }
+      },
+      complete: () => {       
+        this.loading = false;
+      }
+    });
   }
 
   onCloseClick(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close();
   }
 }

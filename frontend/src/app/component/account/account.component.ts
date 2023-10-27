@@ -5,23 +5,24 @@ import { PasswordConfirmationDialogComponent } from '../dialog/password-confirma
 import { PasswordChangeDialogComponent } from '../dialog/password-change-dialog/password-change-dialog.component';
 import { UserService } from 'src/app/service/user/user.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css', '../../app.component.css']
+  styleUrls: ['./account.component.css' ]
 })
 export class AccountComponent {
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   userDetails: User | null = null;
-  errorMessage: string = '';
-
+  
   ngOnInit(): void {
     // Retrieve account details
     this.userService.getUser()?.subscribe(userDetails => {
@@ -39,10 +40,10 @@ export class AccountComponent {
     // Validate input
     if (this.userDetails === null) return;
     if (this.userDetails?.email === '' || this.userDetails?.name === '') {
-      this.errorMessage = 'Please fill out all fields.';
+      this.snackBar.open('Please fill out all fields.', 'Close', { duration: 3000 });
       return;
     } else if (!this.authService.isEmailValid(this.userDetails?.email)) {
-      this.errorMessage = 'Please enter a valid email address.';
+      this.snackBar.open('Please enter a valid email address.', 'Close', { duration: 3000 });
       return;
     } else {
       this.openPasswordConfirmationDialog();
@@ -50,18 +51,28 @@ export class AccountComponent {
   }
 
   openPasswordConfirmationDialog(): void {
-    this.dialog.open(PasswordConfirmationDialogComponent, {
-      width: '250px',
-      height: '250px',
+    let dialogRef = this.dialog.open(PasswordConfirmationDialogComponent, {
+      width: '400px',
       data: { userDetails: this.userDetails }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.snackBar.open(result, 'Close', { duration: 3000 });
+      }
     });
   }
 
   openPasswordChangeDialog(): void {
-    this.dialog.open(PasswordChangeDialogComponent, {
-      width: '250px',
-      height: '375px',
+    let dialogRef = this.dialog.open(PasswordChangeDialogComponent, {
+      width: '400px',
       data: { userDetails: this.userDetails }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.snackBar.open(result, 'Close', { duration: 3000 });
+      }
     });
   }
 }
