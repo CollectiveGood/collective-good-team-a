@@ -15,13 +15,8 @@ export class UserService {
     return this.http.get<User>(`${environment.apiUrl}/details`, { withCredentials: true });
   }
 
-  changePassword(email: string, password: string, oldPassword: string): Observable<User> {
-    const body = { email, password, oldPassword };
-    return this.http.post<User>(`${environment.apiUrl}/updateAccount`, body, { withCredentials: true });
-  }
-
-  updateProfile(name: string, email: string, oldPassword: string): Observable<User> {
-    const body = { name, email, oldPassword };
+  updateProfile(name: string, email: string, oldPassword: string, password: string): Observable<User> {
+    const body = { name, email, oldPassword, password };
     return this.http.post<User>(`${environment.apiUrl}/updateAccount`, body, { withCredentials: true });
   }
 }

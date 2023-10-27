@@ -17,6 +17,7 @@ export class PasswordChangeDialogComponent {
 
   errorMessage: string = '';
   success: boolean = false;
+  loading: boolean = false; // for loading bar
 
   constructor(
     public dialogRef: MatDialogRef<PasswordChangeDialogComponent>,
@@ -44,16 +45,16 @@ export class PasswordChangeDialogComponent {
     } else if (this.newPasswordData.newPassword.length < 8) {
       this.errorMessage = 'New password must be at least 8 characters long.';
       return;
-    } else if (this.newPasswordData.oldPassword === this.newPasswordData.newPassword) {
-      this.errorMessage = 'New password cannot be the same as the old password.';
-      return;
-    } else {
-      this.userService.changePassword(userDetails?.email!, this.newPasswordData.newPassword, this.newPasswordData.oldPassword).subscribe({
+    }
+      // Complete the password change
+    this.loading = true;
+    this.userService.updateProfile(userDetails?.name!, userDetails?.email!, this.newPasswordData.oldPassword, this.newPasswordData.newPassword).subscribe({
         next: (response) => {
           console.log(response);
           this.success = true;
         },
         error: (e) => {
+          this.loading = false;
           if (e.status === 409) {
             // Old password is incorrect
             this.errorMessage = 'Incorrect old password.';
@@ -61,13 +62,12 @@ export class PasswordChangeDialogComponent {
             // Handle other errors
             this.errorMessage = 'An error occurred while changing the password.';
           }
+        },
+        complete: () => {       
+          this.loading = false;
         }
       });
     }
-  }
-
-  onCancelClick(): void {
-    this.dialogRef.close(true);
   }
 
   onCloseClick(): void {

@@ -29,6 +29,12 @@ export class AccountComponent {
     });
   }
 
+  ngOnChanges(): void {
+    this.userService.getUser()?.subscribe(userDetails => {
+      this.userDetails = userDetails;
+    });
+  }
+
   onSubmit(): void {
     // Validate input
     if (this.userDetails === null) return;
@@ -44,27 +50,18 @@ export class AccountComponent {
   }
 
   openPasswordConfirmationDialog(): void {
-    const dialogRef = this.dialog.open(PasswordConfirmationDialogComponent, {
-      width: '400px',
+    this.dialog.open(PasswordConfirmationDialogComponent, {
+      width: '250px',
+      height: '250px',
       data: { userDetails: this.userDetails }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (this.userDetails) {
-        this.userDetails.email = result.newEmail;
-        this.userDetails.name = result.newName;
-      }
     });
   }
 
   openPasswordChangeDialog(): void {
-    const dialogRef = this.dialog.open(PasswordChangeDialogComponent, {
-      width: '400px',
+    this.dialog.open(PasswordChangeDialogComponent, {
+      width: '250px',
+      height: '375px',
       data: { userDetails: this.userDetails }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // TODO
     });
   }
 }

@@ -13,6 +13,7 @@ export class PasswordConfirmationDialogComponent {
   passwordInput: string = '';
   errorMessage: string = '';
   success: boolean = false;
+  loading: boolean = false; // for loading bar
 
   constructor(
     public dialogRef: MatDialogRef<PasswordConfirmationDialogComponent>,
@@ -33,12 +34,16 @@ export class PasswordConfirmationDialogComponent {
       this.errorMessage = 'Please enter your password.';
       return;
     }
-    this.userService.updateProfile(this.data.userDetails.name, this.data.userDetails.email, this.passwordInput).subscribe({
+
+    // Update profile
+    this.loading = true;
+    this.userService.updateProfile(this.data.userDetails.name, this.data.userDetails.email, this.passwordInput, this.passwordInput).subscribe({
       next: (response) => {
         console.log(response);
         this.success = true;
       },
       error: (e) => {
+        this.loading = false;
         if (e.status === 409) {
           // Password is incorrect
           this.errorMessage = 'The password is incorrect.';
@@ -46,12 +51,11 @@ export class PasswordConfirmationDialogComponent {
           // Handle other errors
           this.errorMessage = 'An error occurred updating your credentials.';
         }
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
-  }
-
-  onCancelClick(): void {
-    this.dialogRef.close(true);
   }
 
   onCloseClick(): void {
