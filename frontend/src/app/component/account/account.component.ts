@@ -21,19 +21,24 @@ export class AccountComponent {
     private snackBar: MatSnackBar
   ) { }
 
-  userDetails: User | null = null;
-  
+  userDetails!: User;
+  initialUserDetails!: User; // track changes to user details
+  formChanged: boolean = false;
+
   ngOnInit(): void {
     // Retrieve account details
     this.userService.getUser()?.subscribe(userDetails => {
       this.userDetails = userDetails;
+      this.initialUserDetails = { ...userDetails }; // make copy of initial user details
     });
   }
 
-  ngOnChanges(): void {
-    this.userService.getUser()?.subscribe(userDetails => {
-      this.userDetails = userDetails;
-    });
+  onInputChange(): void {
+    // Check if the form values are different from the initial values
+    this.formChanged = (
+      this.userDetails.name !== this.initialUserDetails.name ||
+      this.userDetails.email !== this.initialUserDetails.email
+    );
   }
 
   onSubmit(): void {
@@ -59,6 +64,10 @@ export class AccountComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.snackBar.open(result, 'Close', { duration: 3000 });
+        if (result === 'Your credentials have been updated successfully!') {
+          this.initialUserDetails = { ...this.userDetails }; // update initial user details
+          this.formChanged = false;
+        }
       }
     });
   }

@@ -15,13 +15,13 @@
             <form (ngSubmit)="onSubmit()">
               <mat-form-field>
                 <mat-label>Name</mat-label>
-                <input matInput type="text" id="name" name="name" [(ngModel)]="userDetails.name" required>
+                <input matInput type="text" id="name" name="name" [(ngModel)]="userDetails.name" required (ngModelChange)="onInputChange()">
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Email</mat-label>
-                <input matInput type="text" id="email" name="email" [(ngModel)]="userDetails.email" required>
+                <input matInput type="text" id="email" name="email" [(ngModel)]="userDetails.email" required (ngModelChange)="onInputChange()">
               </mat-form-field>
-              <button mat-raised-button type="submit" color="primary">Save</button>
+              <button mat-raised-button type="submit" color="primary" [disabled]="!formChanged">Save</button>
             </form>
           </div>
           
