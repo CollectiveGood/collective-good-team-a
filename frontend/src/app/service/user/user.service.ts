@@ -19,4 +19,9 @@ export class UserService {
     const body = { email, password, oldPassword };
     return this.http.post<User>(`${environment.apiUrl}/updateAccount`, body, { withCredentials: true });
   }
+
+  updateProfile(name: string, email: string, oldPassword: string): Observable<User> {
+    const body = { name, email, oldPassword };
+    return this.http.post<User>(`${environment.apiUrl}/updateAccount`, body, { withCredentials: true });
+  }
 }

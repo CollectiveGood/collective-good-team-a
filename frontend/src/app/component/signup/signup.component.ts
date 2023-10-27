@@ -27,7 +27,7 @@ export class SignupComponent {
       this.snackBar.open("Please fill out all fields.", "Close", { duration: 5000 });
       return;
     }
-    if (!this.isEmailValid(this.email)) {
+    if (!this.authService.isEmailValid(this.email)) {
       this.snackBar.open("Please enter a valid email address.", "Close", { duration: 5000 });
       return;
     }
@@ -61,11 +61,5 @@ export class SignupComponent {
         this.loading = false;
       }
     })
-  }
-
-  private isEmailValid(email: string): boolean {
-    // Regular expression for a basic email validation
-    const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
   }
 }

@@ -5,7 +5,7 @@ import { UserService } from 'src/app/service/user/user.service';
 @Component({
   selector: 'app-password-change-dialog',
   templateUrl: './password-change-dialog.component.html',
-  styleUrls: ['./password-change-dialog.component.css']
+  styleUrls: ['./password-change-dialog.component.css', '../../../app.component.css']
 })
 export class PasswordChangeDialogComponent {
 
