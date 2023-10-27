@@ -1,14 +1,18 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <a routerLink="/" class="logo-link">CollectiveGood</a>
-      <span class="spacer"></span>
-      <span>{{ activeUser?.name }}</span>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/account">My Account</button>
-        <button mat-menu-item (click)="clickLogout()">Log Out</button>
-      </mat-menu>
-    </mat-toolbar-row>
+  <mat-toolbar-row>
+    <a routerLink="/" class="logo-link">CollectiveGood</a>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/home">
+      <mat-icon>dashboard</mat-icon> Dashboard
+    </a>
+    <a mat-button routerLink="/account">
+      <mat-icon>person</mat-icon> Account
+    </a>
+    <a mat-button routerLink="/help">
+      <mat-icon>help</mat-icon> Help
+    </a>
+    <a mat-button (click)="clickLogout()">
+      <mat-icon>exit_to_app</mat-icon> Log Out
+    </a>
+  </mat-toolbar-row>
 </mat-toolbar>

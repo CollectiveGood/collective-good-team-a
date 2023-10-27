@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ConfirmLogoutDialogComponent } from 'src/app/component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 import { User } from 'src/app/model/user.model';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { UserService } from 'src/app/service/user/user.service';
@@ -15,7 +17,8 @@ export class ToolbarComponent {
   constructor(
     private userService: UserService,
     private authService: AuthService, 
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -24,14 +27,23 @@ export class ToolbarComponent {
     });
   }
 
+  
   clickLogout() {
-    this.authService.logout().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.router.navigate(['/login']);
-      },
-      error: (e) => {
-        console.log(e);
+    const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent, {
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe(confirmLogOut => {
+      if (confirmLogOut) {
+        this.authService.logout().subscribe({
+          next: (response) => {
+            console.log(response);
+            this.router.navigate(['/login']);
+          },
+          error: (e) => {
+            console.log(e);
+          }
+        });
       }
     });
   }

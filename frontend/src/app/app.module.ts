@@ -31,6 +31,7 @@ import { CaseFormComponent } from './component/case-form/case-form.component';
 import { CaseViewComponent } from './component/case-form/case-view/case-view.component';
 import { FormViewComponent } from './component/case-form/form-view/form-view.component';
 import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
+import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PasswordChangeDialogComponent } from './component/dialog/password-chang
     CaseFormComponent,
     CaseViewComponent,
     FormViewComponent,
-    PasswordChangeDialogComponent
+    PasswordChangeDialogComponent,
+    ConfirmLogoutDialogComponent
   ],
   imports: [
     BrowserModule,
