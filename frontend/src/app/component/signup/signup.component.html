@@ -4,41 +4,28 @@
     <mat-card-content>
       <h2>Create Account</h2>
       <form (ngSubmit)="onSubmit()">
-        <p>
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput type="text" id="name" name="name" [(ngModel)]="name" required>
-          </mat-form-field>
-        </p>
-        <p>
-          <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput type="text" id="email" name="email" [(ngModel)]="email" required>
-          </mat-form-field>
-        </p>
-        <p>
-          <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput type="password" id="password" name="password" [(ngModel)]="password" required>
-          </mat-form-field>
-        </p>
-        <p>
-          <mat-form-field>
-            <mat-label>Confirm Password</mat-label>
-            <input matInput type="password" id="password-confirm" name="password-confirm" [(ngModel)]="passwordConfirm" required>
-          </mat-form-field>
-        </p>
-        <p>
-          <button mat-raised-button color="primary" type="submit">Create Account</button>
-        </p>
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput type="text" id="name" name="name" [(ngModel)]="name" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="text" id="email" name="email" [(ngModel)]="email" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" id="password" name="password" [(ngModel)]="password" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" id="password-confirm" name="password-confirm" [(ngModel)]="passwordConfirm" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Create Account</button>
       </form>
+      <p></p>
       <h3>or</h3>
-        <p>
-          <button mat-raised-button routerLink="/login">Sign In</button>
-        </p>
-      <div *ngIf="loading">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
+      <button mat-raised-button routerLink="/login">Sign In</button>
     </mat-card-content>
   </mat-card>
   </div>

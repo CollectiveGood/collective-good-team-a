@@ -1,0 +1,17 @@
+.form-field {
+    padding-right: 10px;
+    width: 30%;
+}
+
+.text-area {
+    padding-right: 10px;
+    width: 45%;
+}
+
+mat-card-actions button {
+    margin-right: 5px;
+}
+
+.button-row {
+    justify-content: right;
+}

@@ -13,7 +13,12 @@ import { HomeComponent } from './component/home/home.component';
 import { AccountComponent } from './component/account/account.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { PdfViewerComponent } from './shared/pdf-viewer/pdf-viewer.component';
+import { CaseFormComponent } from './component/case-form/case-form.component';
+import { CaseViewComponent } from './component/case-form/case-view/case-view.component';
+import { FormViewComponent } from './component/case-form/form-view/form-view.component';
+import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
 import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
+import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -27,11 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CaseFormComponent } from './component/case-form/case-form.component';
-import { CaseViewComponent } from './component/case-form/case-view/case-view.component';
-import { FormViewComponent } from './component/case-form/form-view/form-view.component';
-import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
-import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-
     MatMenuModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

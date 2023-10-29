@@ -1,1 +1,44 @@
-<p>form-view works!</p>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Case Information</mat-card-title>
+        <mat-card-subtitle>Fill out the fields below.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form>
+            <h3>Demographic Information</h3>
+            <mat-form-field class="form-field">
+                <mat-label>Patient Name</mat-label>
+                <input matInput type="text" name="patient-name" id="patient-name">
+            </mat-form-field>
+            <mat-form-field class="form-field">
+                <mat-label>Gender</mat-label>
+                <mat-select>
+                    <mat-option>Male</mat-option>
+                    <mat-option>Female</mat-option>
+                    <mat-option>Other</mat-option>
+                    <mat-option>Not Specified</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" name="age" id="age">
+            </mat-form-field>
+            <h3>History</h3>
+            <mat-form-field class="text-area">
+                <mat-label>Past Medical History</mat-label>
+                <textarea matInput name="past-medical-history" id="past-medical-history"></textarea>
+            </mat-form-field>
+            <mat-form-field class="text-area">
+                <mat-label>Family History</mat-label>
+                <textarea matInput name="family-history" id="family-history"></textarea>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions class="button-row">
+        <button mat-raised-button color="warn">Close</button>
+        <button mat-raised-button color="accent">Save for Later</button>
+        <button mat-raised-button color="primary" >Submit For Review
+            <mat-icon>check</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>
