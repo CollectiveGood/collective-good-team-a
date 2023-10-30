@@ -1,38 +1,69 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Case Information</mat-card-title>
         <mat-card-subtitle>Fill out the fields below.</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <form>
-            <h3>Demographic Information</h3>
-            <mat-form-field class="form-field">
-                <mat-label>Patient Name</mat-label>
-                <input matInput type="text" name="patient-name" id="patient-name">
-            </mat-form-field>
-            <mat-form-field class="form-field">
-                <mat-label>Gender</mat-label>
-                <mat-select>
-                    <mat-option>Male</mat-option>
-                    <mat-option>Female</mat-option>
-                    <mat-option>Other</mat-option>
-                    <mat-option>Not Specified</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="form-field">
-                <mat-label>Age</mat-label>
-                <input matInput type="number" name="age" id="age">
-            </mat-form-field>
-            <h3>History</h3>
-            <mat-form-field class="text-area">
-                <mat-label>Past Medical History</mat-label>
-                <textarea matInput name="past-medical-history" id="past-medical-history"></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-                <mat-label>Family History</mat-label>
-                <textarea matInput name="family-history" id="family-history"></textarea>
-            </mat-form-field>
-        </form>
+        <div class="form-container">
+            <form>
+                <h2>Demographic Information</h2>
+                <div class="form-row">
+                    <mat-form-field class="form-field">
+                        <mat-label>Patient Name</mat-label>
+                        <input matInput type="text" name="patient-name" id="patient-name">
+                    </mat-form-field>
+                    <mat-form-field class="form-field">
+                        <mat-label>Gender</mat-label>
+                        <mat-select>
+                            <mat-option value="male">Male</mat-option>
+                            <mat-option value="female">Female</mat-option>
+                            <mat-option value="not-specified">Other</mat-option>
+                            <mat-option value="not-specified">Not Specified</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="form-field">
+                        <mat-label>Age</mat-label>
+                        <input matInput type="number" name="age" id="age">
+                    </mat-form-field>
+                </div>
+                <h2>History</h2>
+                <div class="form-row">
+                    <mat-form-field class="text-area">
+                        <mat-label>Past Medical History</mat-label>
+                        <textarea matInput name="past-medical-history" id="past-medical-history"></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="text-area">
+                        <mat-label>Family History</mat-label>
+                        <textarea matInput name="family-history" id="family-history"></textarea>
+                    </mat-form-field>
+               </div>
+               <h2>Symptoms</h2>
+               <div class="form-row">
+                    <mat-form-field class="text-area">
+                        <mat-label>Chief Complaint</mat-label>
+                        <textarea matInput name="chief-complaint" id="chief-complaint"></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="text-area">
+                        <mat-label>Symptoms</mat-label>
+                        <textarea matInput name="symptoms" id="symptoms"></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="text-area">
+                        <mat-label>HPI</mat-label>
+                        <textarea matInput name="hpi" id="hpi"></textarea>
+                    </mat-form-field>
+               </div>
+               <h2>Other Notes</h2>
+               <div class="form-row">
+                    <mat-form-field class="text-area">
+                        <mat-label>Physical Examination</mat-label>
+                        <textarea matInput type="text" name="physical-examination-notes" id="physical-examination-notes"></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="text-area">
+                        <mat-label>Labs & Diagnostics</mat-label>
+                        <textarea matInput type="text" name="labs-diagnostics-notes" id="labs-diagnostics-notes"></textarea>
+                    </mat-form-field>
+               </div>
+            </form>
+        </div>
     </mat-card-content>
     <mat-card-actions class="button-row">
         <button mat-raised-button color="warn">Close</button>
