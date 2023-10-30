@@ -1,13 +1,6 @@
-.mat-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
 .form-container {
     flex-grow: 1;
     overflow-y: auto;
-    max-height: calc(100vh - 175px);
 }
 
 .form-row {
@@ -32,6 +25,8 @@ mat-card-actions button {
 }
 
 .button-row {
-    margin-top: 10px;
+    position: sticky;
+    bottom: 0;
+    right: 0;
     justify-content: right;
 }

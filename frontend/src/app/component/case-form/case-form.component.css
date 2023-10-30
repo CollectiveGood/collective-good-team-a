@@ -1,16 +1,12 @@
 /* Sojin */
 .parent-container {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 64px);
 }
-  
+
 .child-container {
   flex: 1;
-  height: 100vh;
   display: flex;
   flex-direction: column;
-}  
-
-app-pdf-viewer {
-  height: 100%;
+  overflow: auto;
 }

@@ -36,7 +36,7 @@
                         <textarea matInput name="family-history" id="family-history"></textarea>
                     </mat-form-field>
                </div>
-               <h2>Symptoms</h2>
+               <h2>Symptoms & Examination</h2>
                <div class="form-row">
                     <mat-form-field class="text-area">
                         <mat-label>Chief Complaint</mat-label>
@@ -51,22 +51,30 @@
                         <textarea matInput name="hpi" id="hpi"></textarea>
                     </mat-form-field>
                </div>
-               <h2>Other Notes</h2>
                <div class="form-row">
                     <mat-form-field class="text-area">
                         <mat-label>Physical Examination</mat-label>
                         <textarea matInput type="text" name="physical-examination-notes" id="physical-examination-notes"></textarea>
                     </mat-form-field>
+               </div>
+               <div class="form-row">
                     <mat-form-field class="text-area">
                         <mat-label>Labs & Diagnostics</mat-label>
                         <textarea matInput type="text" name="labs-diagnostics-notes" id="labs-diagnostics-notes"></textarea>
+                    </mat-form-field>
+               </div>
+               <h2>Additional Notes</h2>
+               <div class="form-row">
+                    <mat-form-field class="text-area">
+                        <mat-label>Additional Notes Here</mat-label>
+                        <textarea matInput type="text" name="additional-notes" id="additional-notes"></textarea>
                     </mat-form-field>
                </div>
             </form>
         </div>
     </mat-card-content>
     <mat-card-actions class="button-row">
-        <button mat-raised-button color="warn">Close</button>
+        <button mat-raised-button color="warn" routerLink="/home">Close</button>
         <button mat-raised-button color="accent">Save for Later</button>
         <button mat-raised-button color="primary" >Submit For Review
             <mat-icon>check</mat-icon>

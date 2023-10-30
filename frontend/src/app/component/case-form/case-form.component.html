@@ -1,17 +1,11 @@
 <!-- Sojin -->
 <app-toolbar></app-toolbar>
 <div class="parent-container">
-    <div class="child-container">
-      <mat-card class="child-card">
-        <mat-card-content *ngIf="caseBlob">
-          <app-pdf-viewer [pdfData]="caseBlob"></app-pdf-viewer>
-        </mat-card-content>
-        <mat-card-content *ngIf="!caseBlob">
-          Loading PDF...
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="child-container">
-      <app-form-view></app-form-view>
-    </div>
+  <div class="child-container">
+    <app-pdf-viewer *ngIf="caseBlob" [pdfData]="caseBlob"></app-pdf-viewer>
+    <p *ngIf="!caseBlob">Loading PDF...</p>
   </div>
+  <div class="child-container">
+    <app-form-view></app-form-view>
+  </div>
+</div>
