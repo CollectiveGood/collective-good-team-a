@@ -75,8 +75,8 @@
     </mat-card-content>
     <mat-card-actions class="button-row">
         <button mat-raised-button color="warn" routerLink="/home">Close</button>
-        <button mat-raised-button color="accent">Save for Later</button>
-        <button mat-raised-button color="primary" >Submit For Review
+        <button mat-raised-button color="accent">Save Draft</button>
+        <button mat-raised-button color="primary" [disabled]="submitted">Submit For Review
             <mat-icon>check</mat-icon>
         </button>
     </mat-card-actions>

@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./form-view.component.css']
 })
 export class FormViewComponent {
+
+  submitted: boolean = false;
+  
   constructor() { }
 }
