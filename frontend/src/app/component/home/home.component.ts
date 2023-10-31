@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AssignedCase } from 'src/app/model/case.model';
+import { Assignment } from 'src/app/models';
 import { Router } from '@angular/router';
 import { CaseService } from 'src/app/service/case/case.service';
 
@@ -10,7 +10,7 @@ import { CaseService } from 'src/app/service/case/case.service';
 })
 export class HomeComponent implements OnInit {
 
-  assignedCases: AssignedCase[] | null = null;
+  assignedCases: Assignment[] | null = null;
   loading: boolean = false;
   
   constructor( private router: Router, private caseService: CaseService) {}
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   //Sojin
   // Handle button click
-  caseClick(clickedCase: AssignedCase) {
-    this.router.navigate([`/case/${clickedCase.hash}`])
+  caseClick(assignedCase: Assignment) {
+    this.router.navigate([`/case/${assignedCase.hash}`])
   }
 }

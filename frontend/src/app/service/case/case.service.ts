@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AssignedCase, Case } from 'src/app/model/case.model';
+import { Assignment, Case } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -17,8 +17,8 @@ export class CaseService {
   }
 
   // Sojin
-  getAssignedCases(): Observable<AssignedCase[]> {
-    return this.http.get<AssignedCase[]>(`${environment.apiUrl}/assignedCases`, {
+  getAssignedCases(): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
     });
   }

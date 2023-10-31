@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmLogoutDialogComponent } from 'src/app/component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
-import { User } from 'src/app/model/user.model';
+import { User } from 'src/app/models';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { UserService } from 'src/app/service/user/user.service';
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from 'src/app/model/user.model';
+import { User } from 'src/app/models';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordConfirmationDialogComponent } from '../dialog/password-confirmation-dialog/password-confirmation-dialog.component';
 import { PasswordChangeDialogComponent } from '../dialog/password-change-dialog/password-change-dialog.component';
