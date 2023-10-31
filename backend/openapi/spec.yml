@@ -292,6 +292,80 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /resolveCase:
+    post:
+      summary: Accepts a case if resolved, rejects a case if not resolved
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                caseId:
+                  type: string
+                userId:
+                  type: number
+                resolved:
+                  type: boolean
+              required:
+                - caseId
+                - userId
+                - resolved
+      responses:
+        "200":
+          description: successfully resolved the case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getAssignments:
+    get:
+      summary: Gets all the cases assigned by this user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                includeNotCompleted:
+                  type: boolean
+                includeReviewed:
+                  type: boolean
+                start:
+                  type: number
+                take:
+                  type: number
+                desc:
+                  type: boolean
+              required:
+                - includeReviewed
+                - includeNotCompleted
+                - start
+                - take
+                - desc
+      responses:
+        "200":
+          description: successfully got the cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
 components:
   schemas:
     AnyValue: {}
@@ -350,11 +424,17 @@ components:
               type: string
           required:
             - caseName
+        reviewed:
+          type: string
+          enum: [PENDING, ACCEPTED, REJECTED]
+        completed:
+          type: boolean
       required:
         - info
         - userId
         - hash
-
+        - resolved
+        - completed
     SignUpInput:
       type: object
       properties:

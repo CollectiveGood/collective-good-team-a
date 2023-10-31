@@ -26,6 +26,12 @@ enum Role {
   ADMIN
 }
 
+enum Accepted {
+  ACCEPTED
+  REJECTED
+  PENDING
+}
+
 model Case {
   fileName String @id
   caseName String
@@ -36,11 +42,12 @@ model Case {
 }
 
 model Assignments {
-  user      User    @relation(fields: [userId], references: [id])
-  case      Case    @relation(fields: [hash], references: [fileName])
-  info      Json?
-  completed Boolean @default(false)
-  reviewed  Boolean @default(false)
+  user        User     @relation(fields: [userId], references: [id])
+  case        Case     @relation(fields: [hash], references: [fileName])
+  info        Json?
+  completed   Boolean  @default(false)
+  reviewed    Accepted @default(PENDING)
+  lastUpdated DateTime @updatedAt
 
   userId Int
   hash   String
