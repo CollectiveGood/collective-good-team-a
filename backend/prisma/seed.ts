@@ -35,6 +35,16 @@ async function main() {
       email: "tyler@gmail.com",
       name: "tyler",
       password: getHash("test2" + "tyler@gmail.com"),
+    },
+  });
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@gmail.com" },
+    update: {},
+    create: {
+      email: "admin@gmail.com",
+      name: "admin",
+      password: getHash("admin" + "admin@gmail.com"),
+      role: "ADMIN",
       cases: {
         create: [
           {
@@ -45,6 +55,7 @@ async function main() {
       },
     },
   });
+
   const submission = await prisma.assignments.upsert({
     where: {
       userId_hash: {
@@ -77,7 +88,7 @@ async function main() {
     },
   });
 
-  console.log({ adam, tyler, submission, assignment });
+  console.log({ adam, tyler, admin, submission, assignment });
 }
 
 main()
