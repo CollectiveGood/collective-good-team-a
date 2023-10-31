@@ -151,6 +151,8 @@ export async function getCasesAdmin(
     orderBy: { lastUpdated: desc ? "desc" : "asc" },
     skip: start,
     take: take,
+    include: { case: { select: { caseName: true } } },
+
     where: {
       AND: [
         { OR: [{ completed: true }, { completed: !includeNotCompleted }] },
