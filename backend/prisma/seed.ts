@@ -1,7 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { readFileSync } from "fs";
 import { googleFileStorage } from "../helper/fileHandler/googleFileStorage";
-import { getHash } from "../helper/resolvers";
+import {
+  addCase,
+  assignCase,
+  makeAdminUser,
+  makeUser,
+  updateAssignment,
+} from "../helper/resolvers";
 
 const fileHandler = new googleFileStorage();
 const prisma = new PrismaClient();
@@ -13,71 +19,44 @@ async function main() {
   const file2 = "./files/STAT303-1_Fall2023_Syllabus.pdf";
   const hash2 = await fileHandler.uploadFile(readFileSync(file2));
 
-  const adam = await prisma.user.upsert({
-    where: { email: "adam@gmail.com" },
-    update: {},
-    create: {
-      email: "adam@gmail.com",
-      name: "adam",
-      password: getHash("test" + "adam@gmail.com"),
-      cases: {
-        create: {
-          fileName: hash1,
-          caseName: "Research Paper #1",
-        },
-      },
-    },
-  });
-  const tyler = await prisma.user.upsert({
-    where: { email: "tyler@gmail.com" },
-    update: {},
-    create: {
-      email: "tyler@gmail.com",
-      name: "tyler",
-      password: getHash("test2" + "tyler@gmail.com"),
-      cases: {
-        create: [
-          {
-            fileName: hash2,
-            caseName: "Syllabus #1",
-          },
-        ],
-      },
-    },
-  });
-  const submission = await prisma.assignments.upsert({
-    where: {
-      userId_hash: {
-        hash: hash2,
-        userId: 1,
-      },
-    },
-    update: {},
-    create: {
-      info: { field1: "this is field1", field2: "this is field2" },
-      userId: 1,
-      hash: hash2,
-    },
-  });
+  const adam = await makeUser("adam", "test", "adam@gmail.com");
+  const tyler = await makeUser("tyler", "test1", "tyler@gmail.com");
+  const admin = await makeAdminUser("admin", "admin", "admin@gmail.com");
+  const case1 = await addCase(admin.id, hash1, "Research Paper #1");
+  const case2 = await addCase(admin.id, hash2, "Syllabus #1");
 
-  const assignment = await prisma.assignments.upsert({
-    where: {
-      userId_hash: {
-        hash: hash1,
-        userId: 1,
-      },
-    },
-    update: {
-      info: undefined,
-    },
-    create: {
-      userId: 1,
-      hash: hash1,
-      info: undefined,
-    },
-  });
+  assignCase(adam.id, hash1);
+  assignCase(adam.id, hash2);
+  assignCase(tyler.id, hash1);
+  const unsubmittedAssignment = await updateAssignment(
+    { field1: "this is field1", field2: "this is field2" },
+    adam.id,
+    hash1,
+    false
+  );
+  const incompleteAssignment = await updateAssignment(
+    undefined,
+    adam.id,
+    hash2,
+    false
+  );
+  const submittedAssignment = await updateAssignment(
+    { field1: "this is a submittedCase case" },
+    tyler.id,
+    hash1,
+    true
+  );
 
-  console.log({ adam, tyler, submission, assignment });
+  console.log({
+    adam,
+    tyler,
+    admin,
+    case1,
+    case2,
+    unsubmittedAssignment,
+    incompleteAssignment,
+    submittedAssignment,
+  });
 }
 
 main()
