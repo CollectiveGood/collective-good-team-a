@@ -273,6 +273,8 @@ paths:
                   type: string
                 userId:
                   type: number
+                completed:
+                  type: boolean
               required:
                 - json
                 - caseId

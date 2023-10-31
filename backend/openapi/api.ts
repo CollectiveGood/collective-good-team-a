@@ -265,6 +265,7 @@ export interface paths {
             json: components["schemas"]["AnyValue"];
             caseId: string;
             userId: number;
+            completed?: boolean;
           };
         };
       };

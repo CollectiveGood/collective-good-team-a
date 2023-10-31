@@ -36,9 +36,11 @@ model Case {
 }
 
 model Assignments {
-  user User  @relation(fields: [userId], references: [id])
-  case Case  @relation(fields: [hash], references: [fileName])
-  info Json?
+  user      User    @relation(fields: [userId], references: [id])
+  case      Case    @relation(fields: [hash], references: [fileName])
+  info      Json?
+  completed Boolean @default(false)
+  reviewed  Boolean @default(false)
 
   userId Int
   hash   String

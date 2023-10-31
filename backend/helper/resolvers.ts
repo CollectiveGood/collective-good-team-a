@@ -114,13 +114,14 @@ export async function getAssignedCases(user: number) {
 export async function updateAssignment(
   info: any,
   userId: number,
-  caseId: string
+  caseId: string,
+  completed: boolean
 ) {
   const c = await prisma.assignments.update({
     where: {
       userId_hash: { hash: caseId, userId: userId },
     },
-    data: { info: info },
+    data: { info: info, completed: completed },
   });
   return c;
 }
