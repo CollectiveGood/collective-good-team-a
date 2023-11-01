@@ -145,7 +145,8 @@ export async function getCasesAdmin(
   includeReviewed: boolean,
   start: number,
   take: number,
-  desc: boolean
+  desc: boolean,
+  hash: string | undefined
 ) {
   const assignments = await prisma.assignments.findMany({
     orderBy: { lastUpdated: desc ? "desc" : "asc" },
@@ -163,6 +164,7 @@ export async function getCasesAdmin(
             includeReviewed ? { reviewed: "REJECTED" } : {},
           ],
         },
+        hash ? { hash: hash } : {},
       ],
     },
   });

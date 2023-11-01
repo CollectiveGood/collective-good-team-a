@@ -78,7 +78,8 @@ router.get("/getAssignments", localAuthStrategy, <RequestHandler>(
       input.includeReviewed,
       input.start,
       input.take,
-      input.desc
+      input.desc,
+      input.hash
     );
     return res.status(200).json(assignments satisfies SuccessType);
   }

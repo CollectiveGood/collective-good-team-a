@@ -324,6 +324,7 @@ export interface paths {
             start: number;
             take: number;
             desc: boolean;
+            hash?: string;
           };
         };
       };

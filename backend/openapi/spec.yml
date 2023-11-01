@@ -345,6 +345,8 @@ paths:
                   type: number
                 desc:
                   type: boolean
+                hash:
+                  type: string
               required:
                 - includeReviewed
                 - includeNotCompleted
