@@ -256,6 +256,93 @@ export interface paths {
       };
     };
   };
+  "/updateAssignment": {
+    /** Updates the information attached to an assignment */
+    post: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            json: components["schemas"]["AnyValue"];
+            caseId: string;
+            userId: number;
+            completed?: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully updated the information of the case */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/resolveCase": {
+    /** Accepts a case if resolved, rejects a case if not resolved */
+    post: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            caseId: string;
+            userId: number;
+            resolved: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully resolved the case */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/getAssignments": {
+    /** Gets all the cases assigned by this user */
+    get: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            includeNotCompleted: boolean;
+            includeReviewed: boolean;
+            start: number;
+            take: number;
+            desc: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully got the cases */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"][];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -285,6 +372,9 @@ export interface components {
       case?: {
         caseName: string;
       };
+      /** @enum {string} */
+      reviewed?: "PENDING" | "ACCEPTED" | "REJECTED";
+      completed: boolean;
     };
     SignUpInput: {
       name: string;

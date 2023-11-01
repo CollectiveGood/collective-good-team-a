@@ -111,6 +111,64 @@ export async function getAssignedCases(user: number) {
   return cs;
 }
 
+export async function updateAssignment(
+  info: any,
+  userId: number,
+  caseId: string,
+  completed: boolean
+) {
+  const c = await prisma.assignments.update({
+    where: {
+      userId_hash: { hash: caseId, userId: userId },
+    },
+    data: { info: info, completed: completed },
+  });
+  return c;
+}
+
+export async function resolveAssignment(
+  userId: number,
+  caseId: string,
+  resolved: boolean
+) {
+  const c = await prisma.assignments.update({
+    where: {
+      userId_hash: { hash: caseId, userId: userId },
+    },
+    data: { reviewed: resolved ? "ACCEPTED" : "REJECTED" },
+  });
+  return c;
+}
+
+export async function getCasesAdmin(
+  includeNotCompleted: boolean,
+  includeReviewed: boolean,
+  start: number,
+  take: number,
+  desc: boolean
+) {
+  const assignments = await prisma.assignments.findMany({
+    orderBy: { lastUpdated: desc ? "desc" : "asc" },
+    skip: start,
+    take: take,
+    include: { case: { select: { caseName: true } } },
+
+    where: {
+      AND: [
+        { OR: [{ completed: true }, { completed: !includeNotCompleted }] },
+        {
+          OR: [
+            { reviewed: "PENDING" },
+            includeReviewed ? { reviewed: "ACCEPTED" } : {},
+            includeReviewed ? { reviewed: "REJECTED" } : {},
+          ],
+        },
+      ],
+    },
+  });
+  return assignments;
+}
+
 export async function allInfo() {
   const infos = await prisma.assignments.findMany({
     take: 15,

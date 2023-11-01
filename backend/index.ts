@@ -36,9 +36,11 @@ app.use(passport.authenticate("session"));
 
 app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/user"));
-app.use("/", require("./routes/case"));
 app.use("/", require("./routes/errors"));
-app.use("/", require("./routes/assignments"));
+app.use("/", require("./routes/user/case"));
+app.use("/", require("./routes/user/assignments"));
+app.use("/", require("./routes/admin/case"));
+app.use("/", require("./routes/admin/assignments"));
 
 const PORT = process.env.PORT || 3000;
 // Start the server
