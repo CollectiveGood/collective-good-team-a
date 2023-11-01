@@ -368,6 +368,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /getUsers:
+    get:
+      summary: Gets a list of users
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                includeAdmins:
+                  type: boolean
+                email:
+                  type: string
+                start:
+                  type: number
+                take:
+                  type: number
+                desc:
+                  type: boolean
+              required:
+                - includeAdmins
+                - start
+                - take
+                - desc
+      responses:
+        "200":
+          description: successfully got the users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
 components:
   schemas:
     AnyValue: {}

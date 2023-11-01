@@ -171,6 +171,26 @@ export async function getCasesAdmin(
   return assignments;
 }
 
+export async function getUsers(
+  includeAdmins: boolean,
+  email: string | undefined,
+  start: number,
+  take: number,
+  desc: boolean
+) {
+  return await prisma.user.findMany({
+    orderBy: { id: desc ? "desc" : "asc" },
+    skip: start,
+    take: take,
+    where: {
+      AND: [
+        { OR: [{ role: "USER" }, includeAdmins ? { role: "ADMIN" } : {}] },
+        email ? { email: email } : {},
+      ],
+    },
+  });
+}
+
 export async function allInfo() {
   const infos = await prisma.assignments.findMany({
     take: 15,

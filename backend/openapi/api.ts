@@ -344,6 +344,36 @@ export interface paths {
       };
     };
   };
+  "/getUsers": {
+    /** Gets a list of users */
+    get: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            includeAdmins: boolean;
+            email?: string;
+            start: number;
+            take: number;
+            desc: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully got the users */
+        200: {
+          content: {
+            "application/json": components["schemas"]["User"][];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
