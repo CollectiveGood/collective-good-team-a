@@ -19,7 +19,7 @@ import { FormViewComponent } from './component/case-form/form-view/form-view.com
 import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
 import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
 import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
-import { AdminCaseViewComponent } from './component/admin-case-view/admin-case-view.component';
+import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-case-view.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -35,6 +35,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { MatTableModule } from '@angular/material/table';
     FormViewComponent,
     PasswordChangeDialogComponent,
     ConfirmLogoutDialogComponent,
-    AdminCaseViewComponent
+    AdminCaseViewComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,

@@ -425,7 +425,7 @@ export interface components {
       fileName: string;
       caseName: string;
       authorId: number;
-      finalJson?: components["schemas"]["AnyValue"];
+      finalJson: components["schemas"]["AnyValue"];
     };
     Assignment: {
       info: components["schemas"]["AnyValue"];

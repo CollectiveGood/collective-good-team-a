@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmLogoutDialogComponent } from 'src/app/component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
@@ -11,7 +11,7 @@ import { UserService } from 'src/app/service/user/user.service';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit {
   activeUser: User | null = null;
 
   constructor(

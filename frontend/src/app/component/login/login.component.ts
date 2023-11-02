@@ -21,7 +21,7 @@ export class LoginComponent {
 
   ngOnInit(): void {
     // Navigate to home if already logged in
-    if (this.authService.checkAuthentication()) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/home']);
     }
   }
@@ -36,7 +36,11 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
         console.log('Login successful: ', response);
-        this.router.navigate(['/home']);
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin/home']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       },
       error: (e) => {
         this.loading = false;

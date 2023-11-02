@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
+import { User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
 
   constructor(private http: HttpClient) {}
-
+  
   login(username: string, password: string): Observable<HttpResponse<any>> {
     const body = { username, password };
     return this.http.post(`${environment.apiUrl}/login`, body, {
@@ -18,13 +19,24 @@ export class AuthService {
     });
   }
 
-  checkAuthentication(): Observable<boolean> {
+  isLoggedIn(): Observable<boolean> {
     // A user is logged in if /details returns a user object
     return this.http.get<boolean>(`${environment.apiUrl}/details`, {
       withCredentials: true,
     }).pipe(
       map(user => {
         return user != null;
+      })
+    )
+  }
+
+  isAdmin(): Observable<boolean> {
+    // A user is an admin if /details returns a user object with the role set to ADMIN
+    return this.http.get<User>(`${environment.apiUrl}/details`, {
+      withCredentials: true,
+    }).pipe(
+      map(user => {
+        return user != null && user.role === 'ADMIN';
       })
     )
   }
