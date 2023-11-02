@@ -19,6 +19,7 @@ import { FormViewComponent } from './component/case-form/form-view/form-view.com
 import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
 import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
 import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
+import { AdminCaseViewComponent } from './component/admin-case-view/admin-case-view.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -33,7 +34,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-import { AdminCaseViewComponent } from './component/admin-case-view/admin-case-view.component';
 import { MatTableModule } from '@angular/material/table';
 
 

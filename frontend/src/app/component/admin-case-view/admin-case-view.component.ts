@@ -3,7 +3,7 @@ import { Assignment, User, Case } from 'src/app/models';
 import { Router } from '@angular/router';
 import { CaseService } from 'src/app/service/case/case.service';
 import { UserService } from 'src/app/service/user/user.service';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -13,9 +13,11 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class AdminCaseViewComponent {
 
-  dataSource: MatTableDataSource<Case> = new MatTableDataSource([]); // Create a data source
+  caseList: Case[] = [];
   loading: boolean = false;
   user: User | null = null;
+  displayedColumns: string[] = ['caseName'];
+  dataSource: MatTableDataSource<Case> = new MatTableDataSource<Case>();
 
   constructor(private router: Router, private caseService: CaseService, private userService: UserService) {
 
@@ -26,10 +28,11 @@ export class AdminCaseViewComponent {
     this.loading = true;
     this.caseService.getAllCases().subscribe({
       next: (response) => {
-        if (response.length === 0) { // if none assigned, set to null
+        if (response.length === 0) { // if none, set to null
           return;
         }
-        this.dataSource = response;
+        this.caseList = response;
+        this.dataSource.data = this.caseList;
       },
       error: (e) => {
         console.log(e);
