@@ -74,8 +74,8 @@ router.get("/getCases", localAuthStrategy, <RequestHandler>(
 
     const input = req.body as InputType;
     const cases = await getCasesDetailed(
-      input.isCompleted,
-      input.hasSubmissions,
+      // input.isCompleted,
+      input.hasAssignments,
       input.start,
       input.take,
       input.desc

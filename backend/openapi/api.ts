@@ -381,7 +381,7 @@ export interface paths {
         content: {
           "application/x-www-form-urlencoded": {
             isCompleted: boolean;
-            hasSubmissions: boolean;
+            hasAssignments: boolean;
             start: number;
             take: number;
             desc: boolean;
@@ -425,7 +425,7 @@ export interface components {
       fileName: string;
       caseName: string;
       authorId: number;
-      finalJson: null | string;
+      finalJson?: components["schemas"]["AnyValue"];
     };
     Assignment: {
       info: components["schemas"]["AnyValue"];

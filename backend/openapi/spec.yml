@@ -420,7 +420,7 @@ paths:
               properties:
                 isCompleted:
                   type: boolean
-                hasSubmissions:
+                hasAssignments:
                   type: boolean
                 start:
                   type: number
@@ -430,7 +430,7 @@ paths:
                   type: boolean
               required:
                 - isCompleted
-                - hasSubmissions
+                - hasAssignments
                 - start
                 - take
                 - desc
@@ -488,9 +488,7 @@ components:
         authorId:
           type: number
         finalJson:
-          type:
-            - "null"
-            - string
+          $ref: "#/components/schemas/AnyValue"
       required:
         - fileName
         - caseName
