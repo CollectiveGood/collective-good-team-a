@@ -1,0 +1,11 @@
+<app-toolbar></app-toolbar>
+<!-- Sojin -->
+<div>
+    <h1>All Cases - Admin</h1>
+</div>
+<table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="caseName">
+        <th mat-header-cell *matHeaderCellDef> Case Name </th>
+        <td mat-cell *matCellDef="let case"> {{case.caseName}} </td>
+    </ng-container>
+</table>

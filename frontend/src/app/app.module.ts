@@ -33,6 +33,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { AdminCaseViewComponent } from './component/admin-case-view/admin-case-view.component';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { MatSelectModule } from '@angular/material/select';
     CaseViewComponent,
     FormViewComponent,
     PasswordChangeDialogComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,
+    AdminCaseViewComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +70,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressBarModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
