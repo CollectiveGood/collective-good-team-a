@@ -3,13 +3,13 @@ export interface User {
     name: string;
     email: string;
     password: string;
-    role: Role;
+    role: string; //Role
 }
 
-export enum Role {
-  USER,
-  ADMIN
-}
+// export enum Role {
+//   USER,
+//   ADMIN
+// }
 
 export interface Case {
     URLhash: string;

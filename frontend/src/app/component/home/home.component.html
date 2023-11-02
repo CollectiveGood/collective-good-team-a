@@ -1,9 +1,12 @@
 <app-toolbar></app-toolbar>
 <!-- Sojin -->
-<div class="header-container">
+<div *ngIf="user && user.role === 'USER'" class="header-container">
     <h1>My Dashboard</h1>
 </div>
-<div class="card-container">
+<div *ngIf="user && user.role === 'ADMIN'" class="header-container">
+    <h1>My Dashboard - Admin</h1>
+</div>
+<div  *ngIf="user && user.role === 'USER'" class="card-container">
     <mat-card>
         <!-- <mat-card-title>My Assigned Cases</mat-card-title> -->
         <mat-card-title>Assigned To Me</mat-card-title>
@@ -30,6 +33,48 @@
     </mat-card>
     <mat-card>
         <mat-card-title>Pending Review</mat-card-title>
+        <hr class="line-break">
+        <mat-card-content>
+            <!-- <button mat-raised-button color="primary" class="custom-button">Click Meeeeee eeeeee eee</button> -->
+            <p>None to display</p>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-title>Completed Cases</mat-card-title>
+        <hr class="line-break">
+        <mat-card-content>
+            <!-- <button mat-raised-button color="primary" class="custom-button">Click Me</button> -->
+            <p>None to display</p>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div  *ngIf="user && user.role === 'ADMIN'" class="card-container">
+    <mat-card>
+        <!-- <mat-card-title>My Assigned Cases</mat-card-title> -->
+        <mat-card-title>Cases to Assign</mat-card-title>
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+        <hr class="line-break">
+        <mat-card-content>
+            <ng-container *ngIf="assignedCases != null; else noCases">
+                <div class="button-list">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="custom-button"
+                    *ngFor="let assignedCase of assignedCases"
+                    (click)="caseClick(assignedCase)"
+                  >
+                    {{ assignedCase.case.caseName }}
+                  </button>
+                </div>
+              </ng-container>
+            <ng-template #noCases>
+                <p>None to display</p>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-title>Cases to Review</mat-card-title>
         <hr class="line-break">
         <mat-card-content>
             <!-- <button mat-raised-button color="primary" class="custom-button">Click Meeeeee eeeeee eee</button> -->
