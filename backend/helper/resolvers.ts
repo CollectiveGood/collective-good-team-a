@@ -72,6 +72,29 @@ export async function getCases() {
   return cs;
 }
 
+export async function getCasesDetailed(
+  isCompleted: boolean,
+  hasSubmissions: boolean,
+  start: number,
+  take: number,
+  desc: boolean
+) {
+  const cs = await prisma.case.findMany({
+    orderBy: { createdAt: desc ? "desc" : "asc" },
+    skip: start,
+    take: take,
+    where: {
+      AND: [
+        hasSubmissions
+          ? { Assignments: { some: {} } }
+          : { Assignments: { none: {} } },
+        isCompleted ? { finalJson: { not: null } } : { finalJson: null },
+      ],
+    },
+  });
+  return cs;
+}
+
 export async function upsertInfo(info: any, userId: number, hash: string) {
   // Can be replaced to upsert to allow for updates
   const information = await prisma.assignments.upsert({

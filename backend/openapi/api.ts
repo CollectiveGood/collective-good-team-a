@@ -374,6 +374,36 @@ export interface paths {
       };
     };
   };
+  "/getCases": {
+    /** Gets a list of cases */
+    get: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            isCompleted: boolean;
+            hasSubmissions: boolean;
+            start: number;
+            take: number;
+            desc: boolean;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully got the users */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Case"][];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -395,6 +425,7 @@ export interface components {
       fileName: string;
       caseName: string;
       authorId: number;
+      finalJson: null | string;
     };
     Assignment: {
       info: components["schemas"]["AnyValue"];

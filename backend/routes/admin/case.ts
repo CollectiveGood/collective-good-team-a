@@ -3,7 +3,13 @@ import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
 import { localAuthStrategy } from "../../helper/authStrategy";
 import { googleFileStorage } from "../../helper/fileHandler/googleFileStorage";
-import { addCase, getCase, getCases, getHash } from "../../helper/resolvers";
+import {
+  addCase,
+  getCase,
+  getCases,
+  getCasesDetailed,
+  getHash,
+} from "../../helper/resolvers";
 import { paths } from "../../openapi/api";
 const multer = require("multer");
 const upload = multer(memoryStorage());
@@ -56,5 +62,26 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
 
   res.status(200).json(response satisfies SuccessType);
 });
+
+router.get("/getCases", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/getCases"]["get"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+    type SuccessType =
+      paths["/getCases"]["get"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/getCases"]["get"]["responses"]["500"]["content"]["application/json"];
+
+    const input = req.body as InputType;
+    const cases = await getCasesDetailed(
+      input.isCompleted,
+      input.hasSubmissions,
+      input.start,
+      input.take,
+      input.desc
+    );
+    return res.status(200).json(cases satisfies SuccessType);
+  }
+));
 
 module.exports = router;
