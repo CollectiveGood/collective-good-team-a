@@ -73,8 +73,8 @@ export async function getCases() {
 }
 
 export async function getCasesDetailed(
-  isCompleted: boolean,
-  hasSubmissions: boolean,
+  // isCompleted: boolean,
+  hasAssignments: boolean,
   start: number,
   take: number,
   desc: boolean
@@ -85,10 +85,12 @@ export async function getCasesDetailed(
     take: take,
     where: {
       AND: [
-        hasSubmissions
+        hasAssignments
           ? { Assignments: { some: {} } }
           : { Assignments: { none: {} } },
-        isCompleted ? { finalJson: { not: null } } : { finalJson: null },
+        // isCompleted
+        // ? { finalJson: { not: {} } }
+        // : { NOT: { finalJson: { not: { modelName: null } } } },
       ],
     },
   });
