@@ -210,6 +210,32 @@ export interface paths {
       };
     };
   };
+  "/deleteCase": {
+    /** deletes a case */
+    post: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            hash: string;
+          };
+        };
+      };
+      responses: {
+        /** @description case deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Case"];
+          };
+        };
+        /** @description Server failed to finish the function */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
   "/assignCase": {
     /** assigns the case (hash) to the user (user) */
     post: {
@@ -425,7 +451,7 @@ export interface components {
       fileName: string;
       caseName: string;
       authorId: number;
-      finalJson?: components["schemas"]["AnyValue"];
+      finalJson: components["schemas"]["AnyValue"];
     };
     Assignment: {
       info: components["schemas"]["AnyValue"];

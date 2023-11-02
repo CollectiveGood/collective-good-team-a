@@ -5,6 +5,7 @@ import { localAuthStrategy } from "../../helper/authStrategy";
 import { googleFileStorage } from "../../helper/fileHandler/googleFileStorage";
 import {
   addCase,
+  deleteCase,
   getCase,
   getCases,
   getCasesDetailed,
@@ -62,6 +63,20 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
 
   res.status(200).json(response satisfies SuccessType);
 });
+
+router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/deleteCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+    type SuccessType =
+      paths["/deleteCase"]["post"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/deleteCase"]["post"]["responses"]["500"]["content"]["application/json"];
+    const input = req.body as InputType;
+    const c = await deleteCase(input.hash);
+    return res.status(200).json(c satisfies SuccessType);
+  }
+));
 
 router.get("/getCases", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
