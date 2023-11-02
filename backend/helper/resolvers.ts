@@ -39,7 +39,7 @@ export async function makeAdminUser(
   const user = await prisma.user.create({
     data: {
       name: name,
-      password: password,
+      password: sha256(password + email),
       email: email,
       role: "ADMIN",
     },
