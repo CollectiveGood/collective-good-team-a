@@ -36,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
+import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { AdminHomeComponent } from './component/admin/admin-home/admin-home.comp
     PasswordChangeDialogComponent,
     ConfirmLogoutDialogComponent,
     AdminCaseViewComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    FileUploadDialogComponent
   ],
   imports: [
     BrowserModule,

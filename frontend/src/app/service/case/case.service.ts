@@ -51,6 +51,8 @@ export class CaseService {
 
     return this.http.post(`${environment.apiUrl}/addCase`, formData, {
       withCredentials: true,
+      reportProgress: true,
+      observe: 'events'
     });
   }
 

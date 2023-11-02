@@ -3,6 +3,16 @@
 <mat-card>
     <mat-card-title>Case List</mat-card-title>
     <mat-card-content>
+        <!-- <input #fileInput type="file" (change)="onFileSelect($event)" accept=".pdf" style="display: none">
+        <button mat-raised-button (click)="fileInput.click()" color="primary">
+            <mat-icon>add</mat-icon>
+            Upload New Case
+        </button> -->
+        <button mat-raised-button (click)="openUploadCaseDialog()" color="link">
+            <mat-icon>add</mat-icon>
+            Upload New Case
+        </button>
+
         <div class="table-wrapper">
             <table mat-table [dataSource]="caseList">
                 <!-- Case Name Column -->
