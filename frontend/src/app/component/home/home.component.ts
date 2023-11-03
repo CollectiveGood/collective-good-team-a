@@ -3,6 +3,7 @@ import { Assignment, User } from 'src/app/models';
 import { Router } from '@angular/router';
 import { CaseService } from 'src/app/service/case/case.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,11 @@ export class HomeComponent implements OnInit {
   user: User | null = null;
 
   
-  constructor( private router: Router, private caseService: CaseService, private authService: AuthService) {
+  constructor(
+    private router: Router, 
+    private caseService: CaseService, 
+    private assignmentService: AssignmentService,
+    private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -27,7 +32,7 @@ export class HomeComponent implements OnInit {
 
     // Retrieve list of assigned cases
     this.loading = true;
-    this.caseService.getAssignedCases().subscribe({
+    this.assignmentService.getAssignedCases().subscribe({
       next: (response) => {
         if (response.length === 0) { // if none assigned, set to null
           return;

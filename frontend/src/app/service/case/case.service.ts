@@ -17,21 +17,6 @@ export class CaseService {
     });
   }
 
-  /* Admin-only - retrieve all case assignments and their status */
-  getAllAssignments(): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(`${environment.apiUrl}/getAssignments`, {
-      withCredentials: true,
-    });
-  }
-
-  // Sojin
-  /* Get all cases assigned to the current user */
-  getAssignedCases(): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
-      withCredentials: true,
-    });
-  }
-
   /* Get a case by its hash value
   *  @param hash: the hash value of the case
   */
@@ -69,20 +54,6 @@ export class CaseService {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-    });
-  }
-
-  /* Admin-only - assign a case to a user
-  *  @param user: the user to assign the case to
-  *  @param caseHash: the hash value of the case to assign
-  */
-  assignCase(user: string, caseHash: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('user', user);
-    formData.append('case', caseHash);
-
-    return this.http.post(`${environment.apiUrl}/assignCase`, formData, {
-      withCredentials: true,
     });
   }
 }
