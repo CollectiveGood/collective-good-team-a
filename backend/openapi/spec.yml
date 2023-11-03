@@ -170,18 +170,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
-  /cases:
-    get:
-      summary: gets all the cases
-      responses:
-        "200":
-          description: up to 15 cases
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Case"
   /addCase:
     get:
       summary: adds a case to the database and returns the inserted value

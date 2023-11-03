@@ -7,7 +7,6 @@ import {
   addCase,
   deleteCase,
   getCase,
-  getCases,
   getCasesDetailed,
   getHash,
 } from "../../helper/resolvers";
@@ -19,16 +18,6 @@ var express = require("express");
 const fileStorage = new googleFileStorage();
 
 var router = express.Router();
-
-router.get("/cases", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    type SuccessType =
-      paths["/cases"]["get"]["responses"]["200"]["content"]["application/json"];
-
-    const cases = await getCases();
-    res.status(200).json(cases satisfies SuccessType);
-  }
-));
 
 /*
 Uploads a PDF to the server and inserts an entry into the database, with the hash of the path as the key
