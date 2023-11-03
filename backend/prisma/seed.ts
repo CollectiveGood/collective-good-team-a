@@ -64,19 +64,13 @@ async function main() {
 
   const update = await prisma.case.update({
     where: { fileName: hash4 },
-    data: { finalJson: { field1: "this is the final submission" } },
+    data: {
+      finalJson: { field1: "this is the final submission" },
+      completed: true,
+    },
   });
 
-  console.log({
-    adam,
-    tyler,
-    admin,
-    case1,
-    case2,
-    unsubmittedAssignment,
-    incompleteAssignment,
-    submittedAssignment,
-  });
+  console.log("Seeding complete!");
 }
 
 main()
