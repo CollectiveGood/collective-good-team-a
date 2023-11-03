@@ -50,9 +50,7 @@ export class CaseService {
     formData.append('file', file);
 
     return this.http.post(`${environment.apiUrl}/addCase`, formData, {
-      withCredentials: true,
-      reportProgress: true,
-      observe: 'events'
+      withCredentials: true
     });
   }
 

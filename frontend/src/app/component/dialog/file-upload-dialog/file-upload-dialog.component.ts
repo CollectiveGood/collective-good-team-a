@@ -13,9 +13,8 @@ import { CaseService } from 'src/app/service/case/case.service';
 export class FileUploadDialogComponent {
 
   file: File | null = null;
-  uploadProgress: number | null = null;
-  uploadSub: Subscription | null = null;
-  
+  loading: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<FileUploadDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -23,37 +22,31 @@ export class FileUploadDialogComponent {
     private snackBar: MatSnackBar
   ) { }
 
-  onFileSelect(event: any): void {
+  onFileSelect(event: any) {
     this.file = event.target.files[0];
+  }
 
+  onUploadClick(): void {
     if (this.file) {
-      const upload$ = this.caseService.addCase(this.file).pipe(
-        finalize(() => this.reset())
-      );
-
-      this.uploadSub = upload$.subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.uploadProgress = Math.round(100 * event.loaded / event.total);
-        } else {
-          // Check if upload was successful.
-          if (event.status === 200) {
-            this.snackBar.open('File uploaded successfully!', 'Close', { duration: 3000 });
-          } else {
-            this.snackBar.open('File upload failed.', 'Close', { duration: 3000 });
-          }
+      this.loading = true;
+      this.caseService.addCase(this.file).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.snackBar.open('Case uploaded successfully!', 'Close', {
+            duration: 3000,
+          });
+          this.dialogRef.close(true);
+        },
+        error: (e) => {
+          this.snackBar.open('An error occurred while uploading the case.', 'Close', { duration: 3000 });
+          console.error(e);
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
         }
-      });   
+      });
     } 
-  }
-
-  cancelUpload(): void {
-    this.uploadSub?.unsubscribe();
-    this.reset();
-  }
-
-  reset(): void {
-    this.uploadProgress = 0;
-    this.uploadSub = null;
   }
 
   onCloseClick(): void {

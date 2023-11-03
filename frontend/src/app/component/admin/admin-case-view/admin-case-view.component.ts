@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Assignment, User, Case } from 'src/app/models';
 import { Router } from '@angular/router';
 import { CaseService } from 'src/app/service/case/case.service';
@@ -6,19 +6,26 @@ import { UserService } from 'src/app/service/user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploadDialogComponent } from '../../dialog/file-upload-dialog/file-upload-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-admin-case-view',
   templateUrl: './admin-case-view.component.html',
   styleUrls: ['./admin-case-view.component.css'],
 })
-export class AdminCaseViewComponent {
+export class AdminCaseViewComponent implements AfterViewInit {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef<HTMLInputElement> | undefined;
-  
-  caseList: Case[] = [];
-  loading: boolean = false;
-  user: User | null = null;
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+
   displayedColumns: string[] = ['caseName', 'actions'];
+  dataSource = new MatTableDataSource<Case>();
+  
+  loading: boolean = false;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   constructor(
     private caseService: CaseService, 
@@ -27,17 +34,22 @@ export class AdminCaseViewComponent {
   ) {}
 
   ngOnInit(): void {
-    // Retrieve list of assigned cases
+    this.loadCaseList();
+  }
+
+  loadCaseList(): void {
+    // Load list of cases in the database
     this.loading = true;
     this.caseService.getAllCases().subscribe({
       next: (response) => {
-        if (response.length === 0) { // if none, set to null
+        if (response.length === 0) { // if no cases, return
           return;
         }
-        this.caseList = response;
+        this.dataSource.data = response;
       },
       error: (e) => {
-        console.log(e);
+        console.error(e);
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;
@@ -50,19 +62,12 @@ export class AdminCaseViewComponent {
       width: '400px'
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     this.uploadFile(result);
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadCaseList();
+      }
+    });
   }
-  // onFileSelect(event): void {
-  //   const file: File = event.target.files[0];
-
-  //   if (file) {
-  //     this.uploadFile(file);
-  //   }
-  // }
 
   uploadFile(file: File): void {
     const formData = new FormData();

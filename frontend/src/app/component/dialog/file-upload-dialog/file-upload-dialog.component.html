@@ -1,10 +1,11 @@
 <h1 mat-dialog-title>Upload New Case</h1>
 <mat-dialog-content>
-    <mat-progress-bar mode="determinate" [value]="uploadProgress" *ngIf="uploadProgress"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <input #fileInput type="file" (change)="onFileSelect($event)" accept=".pdf" style="display: none">
     <p>{{file?.name || "No file chosen"}}</p>
-    <button mat-raised-button color="link" (click)="fileInput.click()">Choose</button> 
+    <button mat-raised-button color="link" (click)="fileInput.click()">Choose File</button> 
 </mat-dialog-content>
 <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onUploadClick()" [disabled]="!file">Upload</button>
     <a (click)="onCloseClick()" mat-raised-button color="warn">Close</a>
 </mat-dialog-actions>

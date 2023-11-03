@@ -20,6 +20,8 @@ import { PasswordChangeDialogComponent } from './component/dialog/password-chang
 import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
 import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-case-view.component';
+import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
+import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
 
 // UI
 import { FormsModule } from '@angular/forms';
@@ -35,9 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
-import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -75,7 +75,8 @@ import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog
     MatSnackBarModule,
     MatDialogModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
