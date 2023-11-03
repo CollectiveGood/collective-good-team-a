@@ -7,9 +7,9 @@ export interface User {
 }
 
 export interface Case {
-    URLhash: string;
-    url: string;
+    fileName: string;
     caseName: string;
+    createdAt: Date;
     authorId: number;
 }
 

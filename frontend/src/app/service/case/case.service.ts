@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Assignment, Case } from 'src/app/models';
@@ -45,13 +45,30 @@ export class CaseService {
   /* Admin-only - upload a case
   *  @param file: the file to upload
   */
-  addCase(file: File): Observable<any> {
+  addCase(file: File): Observable<HttpResponse<any>> {
     const formData = new FormData();
     formData.append('file', file);
 
     return this.http.post(`${environment.apiUrl}/addCase`, formData, {
       withCredentials: true,
       observe: 'response',
+    });
+  }
+
+  /* Admin-only - delete a case
+  *  @param hash: the hash value of the case to delete
+  */
+  deleteCase(hash: string) {
+    /// Use HTTP params to create form data
+    const formData = new HttpParams().set('hash', hash);
+    const body = formData.toString();
+    console.log(body);
+    
+    return this.http.post(`${environment.apiUrl}/deleteCase`, body, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     });
   }
 

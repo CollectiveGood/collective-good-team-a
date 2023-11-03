@@ -1,9 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Assignment, User, Case } from 'src/app/models';
-import { Router } from '@angular/router';
+import { Case } from 'src/app/models';
 import { CaseService } from 'src/app/service/case/case.service';
-import { UserService } from 'src/app/service/user/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploadDialogComponent } from '../../dialog/file-upload-dialog/file-upload-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
@@ -29,7 +26,6 @@ export class AdminCaseViewComponent implements AfterViewInit {
 
   constructor(
     private caseService: CaseService, 
-    private snackbar: MatSnackBar,
     private dialog: MatDialog
   ) {}
 
@@ -65,21 +61,6 @@ export class AdminCaseViewComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadCaseList();
-      }
-    });
-  }
-
-  uploadFile(file: File): void {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    this.caseService.addCase(file).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.snackbar.open("Upload successful!", "Close", { duration: 3000 });
-      },
-      error: (e) => {
-        console.error(e);
       }
     });
   }

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CaseService } from 'src/app/service/case/case.service';
 import { Observable, forkJoin } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-file-upload-dialog',
@@ -28,7 +29,7 @@ export class FileUploadDialogComponent {
     if (this.files.length > 0) {
       this.loading = true;
 
-      const uploadObservables: Observable<any>[] = this.files.map(file => this.caseService.addCase(file));
+      const uploadObservables: Observable<HttpResponse<any>>[] = this.files.map(file => this.caseService.addCase(file));
 
       forkJoin(uploadObservables).subscribe({
         next: (responses) => {
