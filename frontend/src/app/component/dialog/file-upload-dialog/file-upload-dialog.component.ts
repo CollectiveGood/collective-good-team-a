@@ -1,9 +1,8 @@
-import { HttpEventType } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription, finalize } from 'rxjs';
 import { CaseService } from 'src/app/service/case/case.service';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-file-upload-dialog',
@@ -11,8 +10,7 @@ import { CaseService } from 'src/app/service/case/case.service';
   styleUrls: ['./file-upload-dialog.component.css']
 })
 export class FileUploadDialogComponent {
-
-  file: File | null = null;
+  files: File[] = [];
   loading: boolean = false;
 
   constructor(
@@ -23,30 +21,41 @@ export class FileUploadDialogComponent {
   ) { }
 
   onFileSelect(event: any) {
-    this.file = event.target.files[0];
+    this.files = Array.from(event.target.files);
   }
 
   onUploadClick(): void {
-    if (this.file) {
+    if (this.files.length > 0) {
       this.loading = true;
-      this.caseService.addCase(this.file).subscribe({
-        next: (response) => {
-          console.log(response);
-          this.snackBar.open('Case uploaded successfully!', 'Close', {
-            duration: 3000,
+
+      const uploadObservables: Observable<any>[] = this.files.map(file => this.caseService.addCase(file));
+
+      forkJoin(uploadObservables).subscribe({
+        next: (responses) => {
+
+          // Check if all uploads were successful
+          const allUploadsSuccessful = responses.every(response => {
+            return response.status === 200;
           });
-          this.dialogRef.close(true);
+
+          if (allUploadsSuccessful) {
+            // All files were uploaded successfully
+            this.snackBar.open('Case(s) uploaded successfully!', 'Close', {
+              duration: 3000,
+            });
+            this.dialogRef.close(true);
+          } else {
+            // At least one upload failed
+            this.snackBar.open('Failed to upload one or more files', 'Close', { duration: 3000 });
+          }
         },
-        error: (e) => {
-          this.snackBar.open('An error occurred while uploading the case.', 'Close', { duration: 3000 });
-          console.error(e);
+        error: (error) => {
+          this.snackBar.open('An error occurred while uploading the case(s).', 'Close', { duration: 3000 });
           this.loading = false;
+          console.error(error);
         },
-        complete: () => {
-          this.loading = false;
-        }
       });
-    } 
+    }
   }
 
   onCloseClick(): void {
