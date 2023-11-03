@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Case } from 'src/app/models';
 import { CaseService } from 'src/app/service/case/case.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,9 +17,9 @@ export class AdminCaseViewComponent implements AfterViewInit {
 
   displayedColumns: string[] = ['caseName', 'actions'];
   dataSource = new MatTableDataSource<Case>();
-  
   loading: boolean = false;
-
+  searchText: string = '';
+  
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -31,6 +31,11 @@ export class AdminCaseViewComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.loadCaseList();
+
+    // Set filter predicate
+    this.dataSource.filterPredicate = (data: Case, filter: string) => {
+      return data.caseName.toLowerCase().includes(filter);
+    }
   }
 
   loadCaseList(): void {
@@ -51,6 +56,10 @@ export class AdminCaseViewComponent implements AfterViewInit {
         this.loading = false;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.filter = this.searchText.trim().toLowerCase();
   }
 
   openUploadCaseDialog(): void {
