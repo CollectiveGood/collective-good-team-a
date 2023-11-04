@@ -223,6 +223,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /resolveCase:
+    post:
+      summary: resolves a case
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                shouldResolve:
+                  type: boolean
+                hash:
+                  type: string
+                json:
+                  $ref: "#/components/schemas/AnyValue"
+              required:
+                - hash
+                - shouldResolve
+                - json
+      responses:
+        "200":
+          description: case successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Case"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /assignCase:
     post:
       summary: assigns the case (hash) to the user (user)
@@ -307,9 +340,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
-  /resolveCase:
+  /resolveAssignment:
     post:
-      summary: Accepts a case if resolved, rejects a case if not resolved
+      summary: Accepts an assignment if resolved, rejects an assignment if not resolved
       requestBody:
         required: true
         content:
@@ -329,7 +362,7 @@ paths:
                 - resolved
       responses:
         "200":
-          description: successfully resolved the case
+          description: successfully resolved the assignment
           content:
             application/json:
               schema:

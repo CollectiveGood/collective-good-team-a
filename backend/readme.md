@@ -19,4 +19,6 @@ User enters a case [getCase/{hash}], submits case [updateAssignment]
 Admin can view the submissions for a case [getAssignments] (with hash = case)
 
 - Admin can resolve the submissions of a case [resolveCase] (hash, userId)
-- Admin can conglomorate information to a final information and mark a case complete (this might delete existing outstanding assignments?)
+- Admin can conglomorate information to a final information and mark a case complete [resolveCase] (this might delete existing outstanding assignments?)
+
+user should be able to see if a case is complete? [???]

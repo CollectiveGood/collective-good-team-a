@@ -7,8 +7,9 @@ import {
   addCase,
   deleteCase,
   getCase,
-  getCasesDetailed,
+  getCases,
   getHash,
+  resolveCase,
 } from "../../helper/resolvers";
 import { paths } from "../../openapi/api";
 const multer = require("multer");
@@ -77,7 +78,7 @@ router.get("/getCases", localAuthStrategy, <RequestHandler>(
       paths["/getCases"]["get"]["responses"]["500"]["content"]["application/json"];
 
     const input = req.body as InputType;
-    const cases = await getCasesDetailed(
+    const cases = await getCases(
       input.isCompleted,
       input.hasAssignments,
       input.start,
@@ -85,6 +86,20 @@ router.get("/getCases", localAuthStrategy, <RequestHandler>(
       input.desc
     );
     return res.status(200).json(cases satisfies SuccessType);
+  }
+));
+
+router.post("/resolveCase", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/resolveCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+    type SuccessType =
+      paths["/resolveCase"]["post"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/resolveCase"]["post"]["responses"]["500"]["content"]["application/json"];
+    const input = req.body as InputType;
+    const c = await resolveCase(input.hash, input.shouldResolve, input.json);
+    return res.status(200).json(c satisfies SuccessType);
   }
 ));
 

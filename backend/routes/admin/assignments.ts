@@ -45,7 +45,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.post("/resolveCase", localAuthStrategy, <RequestHandler>(
+router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/resolveCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
