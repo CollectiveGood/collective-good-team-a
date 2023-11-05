@@ -3,7 +3,7 @@ import { RequestHandler } from "express";
 import { localAuthStrategy } from "../../helper/authStrategy";
 import {
   assignCase,
-  getCasesAdmin,
+  getAssignmentsAdmin,
   resolveAssignment,
 } from "../../helper/resolvers";
 import { paths } from "../../openapi/api";
@@ -45,7 +45,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.post("/resolveCase", localAuthStrategy, <RequestHandler>(
+router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/resolveCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
@@ -73,7 +73,7 @@ router.get("/getAssignments", localAuthStrategy, <RequestHandler>(
     type FailureType =
       paths["/getAssignments"]["get"]["responses"]["500"]["content"]["application/json"];
     const input = req.body as InputType;
-    const assignments = await getCasesAdmin(
+    const assignments = await getAssignmentsAdmin(
       input.includeNotCompleted,
       input.includeReviewed,
       input.start,

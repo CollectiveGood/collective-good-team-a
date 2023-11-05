@@ -8,8 +8,8 @@ import {
   deleteCase,
   getCase,
   getCases,
-  getCasesDetailed,
   getHash,
+  resolveCase,
 } from "../../helper/resolvers";
 import { paths } from "../../openapi/api";
 const multer = require("multer");
@@ -19,16 +19,6 @@ var express = require("express");
 const fileStorage = new googleFileStorage();
 
 var router = express.Router();
-
-router.get("/cases", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    type SuccessType =
-      paths["/cases"]["get"]["responses"]["200"]["content"]["application/json"];
-
-    const cases = await getCases();
-    res.status(200).json(cases satisfies SuccessType);
-  }
-));
 
 /*
 Uploads a PDF to the server and inserts an entry into the database, with the hash of the path as the key
@@ -88,14 +78,28 @@ router.get("/getCases", localAuthStrategy, <RequestHandler>(
       paths["/getCases"]["get"]["responses"]["500"]["content"]["application/json"];
 
     const input = req.body as InputType;
-    const cases = await getCasesDetailed(
-      // input.isCompleted,
+    const cases = await getCases(
+      input.isCompleted,
       input.hasAssignments,
       input.start,
       input.take,
       input.desc
     );
     return res.status(200).json(cases satisfies SuccessType);
+  }
+));
+
+router.post("/resolveCase", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/resolveCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+    type SuccessType =
+      paths["/resolveCase"]["post"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/resolveCase"]["post"]["responses"]["500"]["content"]["application/json"];
+    const input = req.body as InputType;
+    const c = await resolveCase(input.hash, input.shouldResolve, input.json);
+    return res.status(200).json(c satisfies SuccessType);
   }
 ));
 

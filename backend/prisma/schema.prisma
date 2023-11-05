@@ -36,7 +36,8 @@ model Case {
   fileName  String   @id
   caseName  String
   createdAt DateTime @default(now())
-  finalJson Json?
+  finalJson Json     @default("{}")
+  completed Boolean  @default(false)
 
   uploader    User          @relation(fields: [authorId], references: [id])
   authorId    Int

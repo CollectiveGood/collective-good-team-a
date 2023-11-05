@@ -74,13 +74,8 @@ export async function getCase(hash: string) {
   return c;
 }
 
-export async function getCases() {
-  const cs = await prisma.case.findMany({ take: 15 });
-  return cs;
-}
-
-export async function getCasesDetailed(
-  // isCompleted: boolean,
+export async function getCases(
+  isCompleted: boolean,
   hasAssignments: boolean,
   start: number,
   take: number,
@@ -95,9 +90,7 @@ export async function getCasesDetailed(
         hasAssignments
           ? { Assignments: { some: {} } }
           : { Assignments: { none: {} } },
-        // isCompleted
-        // ? { finalJson: { not: {} } }
-        // : { NOT: { finalJson: { not: { modelName: null } } } },
+        isCompleted ? { completed: true } : { completed: false },
       ],
     },
   });
@@ -143,6 +136,18 @@ export async function getAssignedCases(user: number) {
   return cs;
 }
 
+export async function resolveCase(
+  hash: string,
+  shouldResolve: boolean,
+  json: any
+) {
+  const c = await prisma.case.update({
+    where: { fileName: hash },
+    data: { completed: shouldResolve, finalJson: json },
+  });
+  return c;
+}
+
 export async function updateAssignment(
   info: any,
   userId: number,
@@ -172,7 +177,7 @@ export async function resolveAssignment(
   return c;
 }
 
-export async function getCasesAdmin(
+export async function getAssignmentsAdmin(
   includeNotCompleted: boolean,
   includeReviewed: boolean,
   start: number,

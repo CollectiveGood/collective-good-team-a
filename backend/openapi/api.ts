@@ -170,19 +170,6 @@ export interface paths {
       };
     };
   };
-  "/cases": {
-    /** gets all the cases */
-    get: {
-      responses: {
-        /** @description up to 15 cases */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Case"][];
-          };
-        };
-      };
-    };
-  };
   "/addCase": {
     /** adds a case to the database and returns the inserted value */
     get: {
@@ -222,6 +209,34 @@ export interface paths {
       };
       responses: {
         /** @description case deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Case"];
+          };
+        };
+        /** @description Server failed to finish the function */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/resolveCase": {
+    /** resolves a case */
+    post: {
+      requestBody: {
+        content: {
+          "application/x-www-form-urlencoded": {
+            shouldResolve: boolean;
+            hash: string;
+            json: components["schemas"]["AnyValue"];
+          };
+        };
+      };
+      responses: {
+        /** @description case successfully updated */
         200: {
           content: {
             "application/json": components["schemas"]["Case"];
@@ -311,8 +326,8 @@ export interface paths {
       };
     };
   };
-  "/resolveCase": {
-    /** Accepts a case if resolved, rejects a case if not resolved */
+  "/resolveAssignment": {
+    /** Accepts an assignment if resolved, rejects an assignment if not resolved */
     post: {
       requestBody: {
         content: {
@@ -324,7 +339,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description successfully resolved the case */
+        /** @description successfully resolved the assignment */
         200: {
           content: {
             "application/json": components["schemas"]["Assignment"];
