@@ -320,9 +320,9 @@ paths:
                 caseId:
                   type: string
                 userId:
-                  type: number
+                  type: string
                 completed:
-                  type: boolean
+                  type: string
               required:
                 - json
                 - caseId

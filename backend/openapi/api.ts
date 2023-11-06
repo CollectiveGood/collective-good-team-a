@@ -305,8 +305,8 @@ export interface paths {
           "application/x-www-form-urlencoded": {
             json: components["schemas"]["AnyValue"];
             caseId: string;
-            userId: number;
-            completed?: boolean;
+            userId: string;
+            completed?: string;
           };
         };
       };

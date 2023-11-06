@@ -43,8 +43,10 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
 
     const input: InputType = req.body;
     const userId = (req.user! as User).id;
-
-    if (input.userId !== userId) {
+    const inputUserId = parseInt(input.userId); // parse id from string to int
+    const inputCompleted = input.completed === "true"; // parse completed from string to boolean
+    
+    if (parseInt(input.userId) !== userId) {
       const errorMessage = {
         response: "You can't submit for a different user!",
       };
@@ -53,9 +55,9 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
 
     const assignment = await updateAssignment(
       input.json,
-      input.userId,
+      inputUserId,
       input.caseId,
-      input.completed ?? false
+      inputCompleted
     );
     return res.status(200).json(assignment satisfies SuccessType);
   }
