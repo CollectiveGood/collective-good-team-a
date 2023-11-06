@@ -17,10 +17,11 @@ export interface Case {
 export interface Assignment {
     userId: number;
     hash: string;
-    case: Case,
-    info: any,
-    reviewed: string,
-    completed: boolean
+    case: Case;
+    info: any;
+    reviewed: string;
+    completed: boolean;
+    lastUpdated: Date
 }
 
 export interface UpdateAssignmentRequest {
@@ -37,4 +38,18 @@ export interface GetAssignmentsRequest {
     take: number;
     desc: boolean;
     hash: string;
+}
+
+export interface CaseInfo {
+    patientName: string;
+    patientGender: string;
+    patientAge: number;
+    medicalHistory: string;
+    familyHistory: string;
+    chiefComplaint: string;
+    symptoms: string;
+    hpi: string;
+    physicalExaminationNotes: string;
+    labDiagnosticsNotes: string;
+    otherNotes: string;
 }

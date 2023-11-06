@@ -12,7 +12,7 @@ export class CaseService {
 
   /* Admin-only - retrieve all cases in the database */
   getAllCases(): Observable<Case[]> {
-    return this.http.get<Case[]>(`${environment.apiUrl}/cases`, {
+    return this.http.get<Case[]>(`${environment.apiUrl}/getCases`, {
       withCredentials: true,
     });
   }

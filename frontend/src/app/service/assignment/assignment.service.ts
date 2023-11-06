@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AssignmentService {
 
+  private selectedAssignment: Assignment | null = null;
+
   constructor(private http: HttpClient) { }
 
   /* Admin-only - retrieve all case assignments and their status */
@@ -42,6 +44,15 @@ export class AssignmentService {
     });
   }
 
+  /* Getter and setter for the currently selected user assignment */
+  getSelectedAssignment(): Assignment | null {
+    return this.selectedAssignment;
+  }
+
+  setSelectedAssignment(assignment: Assignment | null): void {
+    this.selectedAssignment = assignment;
+  }
+
   /* Admin-only - assign a case to a user
   *  @param user: the user to assign the case to
   *  @param caseHash: the hash value of the case to assign
@@ -57,15 +68,23 @@ export class AssignmentService {
   }
 
   /* Update an assignment using form data
-  *  @param UpdateAssignmentRequest: the request body
+  *  @param updateAssignmentRequest: the request body
   */
-  updateAssignment(UpdateAssignmentRequest: UpdateAssignmentRequest): Observable<Assignment> {
-    const formData = new FormData();
-    formData.append('json', JSON.stringify(UpdateAssignmentRequest.json));
-
-    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, formData, {
+  updateAssignment(updateAssignmentRequest: UpdateAssignmentRequest): Observable<Assignment> {
+    const params = new URLSearchParams();
+    console.log('update assignment request', updateAssignmentRequest);
+  
+    params.set('json', JSON.stringify(updateAssignmentRequest.json));
+    params.set('caseId', updateAssignmentRequest.caseId);
+    params.set('userId', updateAssignmentRequest.userId.toString());
+    params.set('completed', updateAssignmentRequest.completed.toString());
+  
+    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, params.toString(), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
       withCredentials: true,
-    })
+    });
   }
 
   /* Mark a case assignment as resolved

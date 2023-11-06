@@ -16,10 +16,8 @@ export class HomeComponent implements OnInit {
   loading: boolean = false;
   user: User | null = null;
 
-  
   constructor(
     private router: Router, 
-    private caseService: CaseService, 
     private assignmentService: AssignmentService,
     private authService: AuthService) {
   }
@@ -51,6 +49,7 @@ export class HomeComponent implements OnInit {
   //Sojin
   // Handle button click
   caseClick(assignedCase: Assignment) {
+    this.assignmentService.setSelectedAssignment(assignedCase);
     this.router.navigate([`/case/${assignedCase.hash}`])
   }
 }

@@ -32,7 +32,7 @@ Gets cases assigned to a user
 info == undefined means case is UNCOMPLETE
 info == somejson means case is COMPLETE
 */
-router.get("/updateAssignment", localAuthStrategy, <RequestHandler>(
+router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/updateAssignment"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];

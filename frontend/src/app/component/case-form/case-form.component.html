@@ -6,6 +6,6 @@
     <p *ngIf="!caseBlob">Loading PDF...</p>
   </div>
   <div class="child-container">
-    <app-form-view></app-form-view>
+    <app-form-view (formSubmitted)="updateCaseInfo($event)"></app-form-view>
   </div>
 </div>
