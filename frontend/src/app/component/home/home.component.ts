@@ -13,6 +13,7 @@ import { AssignmentService } from 'src/app/service/assignment/assignment.service
 export class HomeComponent implements OnInit {
 
   assignedCases: Assignment[] | null = null;
+  pendingCases: Assignment[] | null = null;
   loading: boolean = false;
   user: User | null = null;
 
@@ -28,6 +29,10 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/admin/home']);
     }
 
+    this.getAssignedCases();
+  }
+
+  private getAssignedCases(): void {
     // Retrieve list of assigned cases
     this.loading = true;
     this.assignmentService.getAssignedCases().subscribe({

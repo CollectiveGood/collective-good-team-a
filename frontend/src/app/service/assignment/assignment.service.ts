@@ -20,28 +20,20 @@ export class AssignmentService {
     });
   }
 
-  /* Retrieve assignments based on criteria
-  *  @param requestParams: the criteria to filter by (see models.ts)
-  */
-  getAssignments(requestParams: GetAssignmentsRequest): Observable<Assignment[]> {
-    // Set the request headers (assuming you're sending form data)
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-
-    // Construct the query string based on requestParams
-    const queryString = `?includeNotCompleted=${requestParams.includeNotCompleted}&includeReviewed=${requestParams.includeReviewed}&start=${requestParams.start}&take=${requestParams.take}&desc=${requestParams.desc}&hash=${requestParams.hash}`;
-
-    // Send the GET request with the query string
-    return this.http.get<Assignment[]>(`${environment.apiUrl}${queryString}`, { headers });
-  }
-
   // Sojin
   /* Get all cases assigned to the current user */
   getAssignedCases(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
     });
+  }
+
+  getPendingCases() {
+    // TODO: implement
+  }
+
+  getCompletedCases() {
+    // TODO: implement
   }
 
   /* Getter and setter for the currently selected user assignment */
@@ -71,18 +63,14 @@ export class AssignmentService {
   *  @param updateAssignmentRequest: the request body
   */
   updateAssignment(updateAssignmentRequest: UpdateAssignmentRequest): Observable<Assignment> {
-    const params = new URLSearchParams();
-    console.log('update assignment request', updateAssignmentRequest);
+    const reqBody = {
+      json: updateAssignmentRequest.json,
+      caseId: updateAssignmentRequest.caseId,
+      userId: updateAssignmentRequest.userId,
+      completed: updateAssignmentRequest.completed,
+    };
   
-    params.set('json', JSON.stringify(updateAssignmentRequest.json));
-    params.set('caseId', updateAssignmentRequest.caseId);
-    params.set('userId', updateAssignmentRequest.userId.toString());
-    params.set('completed', updateAssignmentRequest.completed.toString());
-  
-    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, params.toString(), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, reqBody, {
       withCredentials: true,
     });
   }
@@ -102,4 +90,20 @@ export class AssignmentService {
       withCredentials: true,
     })
   }
+
+    /* Retrieve assignments based on criteria
+    *  @param requestParams: the criteria to filter by (see models.ts)
+    */
+    private getAssignments(requestParams: GetAssignmentsRequest): Observable<Assignment[]> {
+      // Set the request headers (assuming you're sending form data)
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+  
+      // Construct the query string based on requestParams
+      const queryString = `?includeNotCompleted=${requestParams.includeNotCompleted}&includeReviewed=${requestParams.includeReviewed}&start=${requestParams.start}&take=${requestParams.take}&desc=${requestParams.desc}&hash=${requestParams.hash}`;
+  
+      // Send the GET request with the query string
+      return this.http.get<Assignment[]>(`${environment.apiUrl}/getAssignments${queryString}`, { headers });
+    }
 }
