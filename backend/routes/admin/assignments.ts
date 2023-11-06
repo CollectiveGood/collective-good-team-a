@@ -48,11 +48,11 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
 router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/resolveCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/resolveAssignment"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
     type SuccessType =
-      paths["/resolveCase"]["post"]["responses"]["200"]["content"]["application/json"];
+      paths["/resolveAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
-      paths["/resolveCase"]["post"]["responses"]["500"]["content"]["application/json"];
+      paths["/resolveAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
 
     const input: InputType = req.body;
     const assignment = await resolveAssignment(
