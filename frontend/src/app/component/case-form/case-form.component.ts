@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseService } from 'src/app/service/case/case.service';
@@ -17,6 +17,7 @@ export class CaseFormComponent {
 
   constructor(
     private route: ActivatedRoute, 
+    private router: Router,
     private caseService: CaseService, 
     private assignmentService: AssignmentService,
     private snackBar: MatSnackBar) {
@@ -82,9 +83,10 @@ export class CaseFormComponent {
         console.error('Failed to update case information: ', e);
       },
       complete: () => {
-        this.snackBar.open('Case information updated', 'Close', {
+        this.snackBar.open('Case information updated successfully!', 'Close', {
           duration: 3000,
         });
+        this.router.navigate(['/home']);
       }
     });
   }
