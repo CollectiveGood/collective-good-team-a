@@ -12,7 +12,7 @@ var router = express.Router();
 router.get("/getUsers", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/getUsers"]["get"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/getUsers"]["get"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/getUsers"]["get"]["responses"]["200"]["content"]["application/json"];
     const input = req.body as InputType;

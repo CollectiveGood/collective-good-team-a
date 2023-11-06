@@ -57,7 +57,7 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
 router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/deleteCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/deleteCase"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/deleteCase"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
@@ -71,7 +71,7 @@ router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
 router.get("/getCases", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/getCases"]["get"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/getCases"]["get"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/getCases"]["get"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
@@ -92,7 +92,7 @@ router.get("/getCases", localAuthStrategy, <RequestHandler>(
 router.post("/resolveCase", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/resolveCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/resolveCase"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/resolveCase"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =

@@ -19,7 +19,7 @@ Expects xxx-url-encoded of `user` and `case`
 router.post("/assignCase", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/assignCase"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/assignCase"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/assignCase"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
@@ -48,7 +48,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
 router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/resolveAssignment"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/resolveAssignment"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/resolveAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
@@ -67,7 +67,7 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
 router.get("/getAssignments", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/getAssignments"]["get"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/getAssignments"]["get"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/getAssignments"]["get"]["responses"]["200"]["content"]["application/json"];
     type FailureType =

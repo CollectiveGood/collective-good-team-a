@@ -35,7 +35,7 @@ info == somejson means case is COMPLETE
 router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/updateAssignment"]["post"]["requestBody"]["content"]["application/x-www-form-urlencoded"];
+      paths["/updateAssignment"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/updateAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
@@ -43,10 +43,8 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
 
     const input: InputType = req.body;
     const userId = (req.user! as User).id;
-    const inputUserId = parseInt(input.userId); // parse id from string to int
-    const inputCompleted = input.completed === "true"; // parse completed from string to boolean
-    
-    if (parseInt(input.userId) !== userId) {
+
+    if (input.userId !== userId) {
       const errorMessage = {
         response: "You can't submit for a different user!",
       };
@@ -55,9 +53,9 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
 
     const assignment = await updateAssignment(
       input.json,
-      inputUserId,
+      input.userId,
       input.caseId,
-      inputCompleted
+      input.completed ?? false
     );
     return res.status(200).json(assignment satisfies SuccessType);
   }

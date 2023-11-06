@@ -202,7 +202,7 @@ export interface paths {
     post: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             hash: string;
           };
         };
@@ -228,7 +228,7 @@ export interface paths {
     post: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             shouldResolve: boolean;
             hash: string;
             json: components["schemas"]["AnyValue"];
@@ -256,7 +256,7 @@ export interface paths {
     post: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             user: string;
             case: string;
           };
@@ -302,11 +302,11 @@ export interface paths {
     post: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             json: components["schemas"]["AnyValue"];
             caseId: string;
-            userId: string;
-            completed?: string;
+            userId: number;
+            completed?: boolean;
           };
         };
       };
@@ -331,7 +331,7 @@ export interface paths {
     post: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             caseId: string;
             userId: number;
             resolved: boolean;
@@ -359,7 +359,7 @@ export interface paths {
     get: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             includeNotCompleted: boolean;
             includeReviewed: boolean;
             start: number;
@@ -390,7 +390,7 @@ export interface paths {
     get: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             includeAdmins: boolean;
             email?: string;
             start: number;
@@ -420,7 +420,7 @@ export interface paths {
     get: {
       requestBody: {
         content: {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             isCompleted: boolean;
             hasAssignments: boolean;
             start: number;
