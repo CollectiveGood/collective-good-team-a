@@ -18,7 +18,7 @@ export interface Assignment {
     userId: number;
     hash: string;
     case: Case;
-    info: any;
+    info: CaseInfo;
     reviewed: string;
     completed: boolean;
     lastUpdated: Date
@@ -51,5 +51,5 @@ export interface CaseInfo {
     hpi: string;
     physicalExaminationNotes: string;
     labDiagnosticsNotes: string;
-    otherNotes: string;
+    additionalNotes: string;
 }

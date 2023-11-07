@@ -13,7 +13,7 @@ import { CaseService } from 'src/app/service/case/case.service';
 export class CaseFormComponent {
   caseHash: string = '';
   caseBlob!: Blob;
-  caseAssignment: Assignment | undefined;
+  caseAssignment: Assignment | null = null;
 
   constructor(
     private route: ActivatedRoute, 
@@ -48,7 +48,7 @@ export class CaseFormComponent {
     this.assignmentService.getAssignedCases().subscribe({
       next: (response: Assignment[]) => {
         // Find the assignment with the matching hash
-        this.caseAssignment = response.find(assignment => assignment.hash === this.caseHash);
+        this.caseAssignment = response.find(assignment => assignment.hash === this.caseHash) || null;
         console.log(this.caseAssignment);
       },
       error: (e) => {
@@ -78,15 +78,13 @@ export class CaseFormComponent {
     this.assignmentService.updateAssignment(updateAssignmentRequest).subscribe({
       next: (response: Assignment) => {
         console.log(response);
-      },
-      error: (e) => {
-        console.error('Failed to update case information: ', e);
-      },
-      complete: () => {
-        this.snackBar.open('Case information updated successfully!', 'Close', {
+        this.snackBar.open('Case information submitted successfully!', 'Close', {
           duration: 3000,
         });
         this.router.navigate(['/home']);
+      },
+      error: (e) => {
+        console.error('Failed to update case information: ', e);
       }
     });
   }
