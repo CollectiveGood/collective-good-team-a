@@ -21,6 +21,7 @@ import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-
 import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-case-view.component';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
+import { SaveChangesDialogComponent } from './component/dialog/save-changes-dialog/save-changes-dialog.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -37,6 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-dialog/confirm-submit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ConfirmLogoutDialogComponent,
     AdminCaseViewComponent,
     AdminHomeComponent,
-    FileUploadDialogComponent
+    FileUploadDialogComponent,
+    SaveChangesDialogComponent,
+    ConfirmSubmitDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { CaseInfo } from 'src/app/models';
+import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
+import { Router } from '@angular/router';
+import { ConfirmSubmitDialogComponent } from '../../dialog/confirm-submit-dialog/confirm-submit-dialog.component';
 
 @Component({
   selector: 'app-form-view',
@@ -12,6 +16,8 @@ export class FormViewComponent {
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
   
   completed: boolean = false;
+  initialFormValues: any = {}; // for checking if changes have been made
+
   caseInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
@@ -26,7 +32,11 @@ export class FormViewComponent {
     additionalNotes: '',
   });
 
-  constructor(private formBuilder: FormBuilder) {  }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -47,9 +57,14 @@ export class FormViewComponent {
       formValues.physicalExaminationNotes = this.caseInfo.physicalExaminationNotes || '';
       formValues.labDiagnosticsNotes = this.caseInfo.labDiagnosticsNotes || '';
       formValues.additionalNotes = this.caseInfo.additionalNotes || '';
+      this.initialFormValues = {...formValues};
     }
   
     this.caseInfoForm.setValue(formValues);
+  }
+
+  private hasFormChanges(): boolean {
+    return JSON.stringify(this.caseInfoForm.value) !== JSON.stringify(this.initialFormValues);
   }
   
   saveDraft() {
@@ -59,9 +74,18 @@ export class FormViewComponent {
   }
 
   submitForReview() {
-    // Save form data and mark case as complete
-    this.completed = true;
-    this.onSubmit();
+    // Confirm submit
+    const dialogRef = this.dialog.open(ConfirmSubmitDialogComponent, {
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe(submit => {
+      if (submit) {
+        // Save form data and mark case as complete
+        this.completed = true;
+        this.onSubmit();
+      }
+    });
   }
 
   onSubmit() {
@@ -71,4 +95,24 @@ export class FormViewComponent {
     }
     this.formSubmitted.emit(submitData);
   }
+
+  onClose() {
+    if (this.hasFormChanges()) {
+      const dialogRef = this.dialog.open(SaveChangesDialogComponent, {
+        width: '300px',
+      });
+  
+      dialogRef.afterClosed().subscribe(saveChanges => {
+        if (saveChanges === undefined) { // User canceled or clicked outside of dialog
+          return;
+        } else if (saveChanges === true) {
+          this.saveDraft();
+        } else {
+          this.router.navigate(['/home']);
+        }
+      });
+    } else {
+      this.router.navigate(['/home']); // No changes, navigate directly
+    }
+  }  
 }

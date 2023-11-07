@@ -73,7 +73,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions class="button-row">
-      <button mat-raised-button type="button" color="warn" routerLink="/home">Close</button>
+      <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>
       <button mat-raised-button type="button" color="accent" (click)="saveDraft()">Save Draft</button>
       <button mat-raised-button type="button" color="primary" (click)="submitForReview()">Submit For Review
         <mat-icon>check</mat-icon>
