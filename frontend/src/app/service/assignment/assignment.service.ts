@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
@@ -8,8 +8,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AssignmentService {
-
-  private selectedAssignment: Assignment | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -21,28 +19,47 @@ export class AssignmentService {
   }
 
   // Sojin
-  /* Get all cases assigned to the current user */
+  /* Get all cases newly assigned to the current user */
   getAssignedCases(): Observable<Assignment[]> {
+    // reviewed: PENDING or REJECTED, completed: false
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
-    });
+    }).pipe(
+      map((assignments: Assignment[]) => {
+        return assignments.filter((assignment: Assignment) => {
+          return (assignment.reviewed === "PENDING" || assignment.reviewed === "REJECTED") && !assignment.completed;
+        });
+      }
+    )
+    )
   }
 
+  /* Get all cases that the current user has submitted for review */
   getPendingCases() {
-    // TODO: implement
+    // reviewed: PENDING, completed: true
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
+      withCredentials: true,
+    }).pipe(
+      map((assignments: Assignment[]) => {
+        return assignments.filter((assignment: Assignment) => {
+          return assignment.reviewed === "PENDING" && assignment.completed;
+        });
+      }
+    ));
   }
 
+  /* Get all cases that the current user has submitted and been approved */
   getCompletedCases() {
-    // TODO: implement
-  }
-
-  /* Getter and setter for the currently selected user assignment */
-  getSelectedAssignment(): Assignment | null {
-    return this.selectedAssignment;
-  }
-
-  setSelectedAssignment(assignment: Assignment | null): void {
-    this.selectedAssignment = assignment;
+    // reviewed: ACCEPTED, completed: true
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
+      withCredentials: true,
+    }).pipe(
+      map((assignments: Assignment[]) => {
+        return assignments.filter((assignment: Assignment) => {
+          return assignment.reviewed === "ACCEPTED" && assignment.completed;
+        });
+      }
+    ));
   }
 
   /* Admin-only - assign a case to a user

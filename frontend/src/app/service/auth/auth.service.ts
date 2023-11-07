@@ -13,7 +13,7 @@ export class AuthService {
   
   login(username: string, password: string): Observable<HttpResponse<any>> {
     const body = { username, password };
-    return this.http.post(`${environment.apiUrl}/login`, body, {
+    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/login`, body, {
         observe: 'response',
         withCredentials: true,
     });

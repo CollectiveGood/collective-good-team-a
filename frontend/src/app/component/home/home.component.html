@@ -2,14 +2,14 @@
 <!-- Sojin -->
 <div class="header-container">
     <h1>My Dashboard</h1>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 </div>
 <div class="card-container">
     <mat-card>
         <mat-card-title>Assigned To Me</mat-card-title>
-        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
         <hr class="line-break">
         <mat-card-content>
-            <ng-container *ngIf="assignedCases != null; else noCases">
+            <ng-container *ngIf="assignedCases != null; else noAssignedCases">
                 <div class="button-list">
                     <button
                     mat-button
@@ -22,7 +22,7 @@
                     </button>
                 </div>
                 </ng-container>
-            <ng-template #noCases>
+            <ng-template #noAssignedCases>
                 <p>None to display</p>
             </ng-template>
         </mat-card-content>
@@ -31,14 +31,42 @@
         <mat-card-title>Pending Review</mat-card-title>
         <hr class="line-break">
         <mat-card-content>
-            <p>None to display</p>
+            <ng-container *ngIf="pendingCases != null; else noPendingCases">
+                <div class="button-list">
+                    <button
+                    mat-button
+                    color="primary"
+                    class="custom-button"
+                    *ngFor="let pendingCase of pendingCases"
+                    (click)="caseClick(pendingCase)"
+                    >
+                    {{ pendingCase.case.caseName }}
+                    </button>
+                </div>
+                </ng-container>
+            <ng-template #noPendingCases>
+                <p>None to display</p>
+            </ng-template>
         </mat-card-content>
     </mat-card>
     <mat-card>
         <mat-card-title>Completed Cases</mat-card-title>
         <hr class="line-break">
-        <mat-card-content>
+        <ng-container *ngIf="completedCases != null; else noCompletedCases">
+            <div class="button-list">
+                <button
+                mat-button
+                color="primary"
+                class="custom-button"
+                *ngFor="let completedCase of completedCases"
+                (click)="caseClick(completedCase)"
+                >
+                {{ completedCase.case.caseName }}
+                </button>
+            </div>
+            </ng-container>
+        <ng-template #noCompletedCases>
             <p>None to display</p>
-        </mat-card-content>
+        </ng-template>
     </mat-card>
 </div>

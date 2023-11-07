@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
   assignedCases: Assignment[] | null = null;
   pendingCases: Assignment[] | null = null;
+  completedCases: Assignment[] | null = null;
   loading: boolean = false;
   user: User | null = null;
 
@@ -29,7 +30,10 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/admin/home']);
     }
 
+    // Set case assignment lists
     this.getAssignedCases();
+    this.getPendingCases();
+    this.getCompletedCases();
   }
 
   private getAssignedCases(): void {
@@ -51,10 +55,48 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  private getPendingCases(): void {
+    // Retrieve list of pending cases
+    this.loading = true;
+    this.assignmentService.getPendingCases().subscribe({
+      next: (response) => {
+        if (response.length === 0) { // if none pending, set to null
+          return;
+        }
+        this.pendingCases = response;
+      },
+      error: (e) => {
+        console.log(e);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  private getCompletedCases(): void {
+    // Retrieve list of completed cases
+    this.loading = true;
+    this.assignmentService.getCompletedCases().subscribe({
+      next: (response) => {
+        if (response.length === 0) { // if none completed, set to null
+          return;
+        }
+        this.completedCases = response;
+        console.log(response);
+      },
+      error: (e) => {
+        console.log(e);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
   //Sojin
   // Handle button click
   caseClick(assignedCase: Assignment) {
-    this.assignmentService.setSelectedAssignment(assignedCase);
     this.router.navigate([`/case/${assignedCase.hash}`])
   }
 }
