@@ -11,7 +11,7 @@ export class FormViewComponent {
   @Input() caseInfo: CaseInfo | undefined;
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
   
-  submitted: boolean = false;
+  completed: boolean = false;
   caseInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
@@ -52,8 +52,23 @@ export class FormViewComponent {
     this.caseInfoForm.setValue(formValues);
   }
   
+  saveDraft() {
+    // Save form data without marking case as complete
+    this.completed = false;
+    this.onSubmit();
+  }
+
+  submitForReview() {
+    // Save form data and mark case as complete
+    this.completed = true;
+    this.onSubmit();
+  }
+
   onSubmit() {
-    const formData = this.caseInfoForm.value;
-    this.formSubmitted.emit(formData);
+    const submitData = {
+      formData: this.caseInfoForm.value,
+      completed: this.completed,
+    }
+    this.formSubmitted.emit(submitData);
   }
 }

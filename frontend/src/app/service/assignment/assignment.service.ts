@@ -30,8 +30,7 @@ export class AssignmentService {
           return (assignment.reviewed === "PENDING" || assignment.reviewed === "REJECTED") && !assignment.completed;
         });
       }
-    )
-    )
+    ));
   }
 
   /* Get all cases that the current user has submitted for review */

@@ -64,23 +64,28 @@ export class CaseFormComponent {
     });
   }
 
-  updateCaseInfo(formData: any) {
-    console.log(formData);
-
+  /* Save or submit case information (based on completed flag) */
+  updateCaseInfo(data: any) {
     const updateAssignmentRequest: UpdateAssignmentRequest = {
-      json: formData,
+      json: data.formData,
       caseId: this.caseHash,
       userId: this.caseAssignment?.userId || 0,
-      completed: false,
+      completed: data.completed,
     };
   
     // Update the case info for the selected case
     this.assignmentService.updateAssignment(updateAssignmentRequest).subscribe({
       next: (response: Assignment) => {
         console.log(response);
-        this.snackBar.open('Case information submitted successfully!', 'Close', {
-          duration: 3000,
-        });
+        if (data.completed) {
+          this.snackBar.open('Case information submitted successfully!', 'Close', {
+            duration: 3000,
+          });
+        } else {
+          this.snackBar.open('Case information saved successfully!', 'Close', {
+            duration: 3000,
+          });
+        }
         this.router.navigate(['/home']);
       },
       error: (e) => {
