@@ -18,9 +18,16 @@ export class AssignmentService {
     });
   }
 
-  // Sojin
-  /* Get all cases newly assigned to the current user */
+
+  /* Get all cases assigned to the current user */
   getAssignedCases(): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
+      withCredentials: true,
+    });
+  }
+
+  /* Get all cases newly assigned to the current user */
+  getNewAssignedCases(): Observable<Assignment[]> {
     // reviewed: PENDING or REJECTED, completed: false
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseInfo } from 'src/app/models';
+import { Assignment, CaseInfo } from 'src/app/models';
 import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
 import { Router } from '@angular/router';
 import { ConfirmSubmitDialogComponent } from '../../dialog/confirm-submit-dialog/confirm-submit-dialog.component';
@@ -12,10 +12,11 @@ import { ConfirmSubmitDialogComponent } from '../../dialog/confirm-submit-dialog
   styleUrls: ['./form-view.component.css']
 })
 export class FormViewComponent {
-  @Input() caseInfo: CaseInfo | undefined;
+  @Input() caseAssignment: Assignment | undefined;
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
   
-  completed: boolean = false;
+  caseInfo: CaseInfo | undefined;
+  completed: boolean = false; // for marking case as complete after form submission
   initialFormValues: any = {}; // for checking if changes have been made
 
   caseInfoForm = this.formBuilder.group({
@@ -45,6 +46,7 @@ export class FormViewComponent {
   private initForm(): void {
     const formValues: any = {};
     // Populate the formValues object with the caseInfo properties
+    this.caseInfo = this.caseAssignment?.info;
     if (this.caseInfo) {
       formValues.patientName = this.caseInfo.patientName || '';
       formValues.patientGender = this.caseInfo.patientGender || '';

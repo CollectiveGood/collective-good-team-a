@@ -13,7 +13,6 @@ import { AccountComponent } from './component/account/account.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { PdfViewerComponent } from './shared/pdf-viewer/pdf-viewer.component';
 import { CaseFormComponent } from './component/case-form/case-form.component';
-import { CaseViewComponent } from './component/case-form/case-view/case-view.component';
 import { FormViewComponent } from './component/case-form/form-view/form-view.component';
 import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
 import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
@@ -51,7 +50,6 @@ import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-
     PdfViewerComponent,
     PasswordConfirmationDialogComponent,
     CaseFormComponent,
-    CaseViewComponent,
     FormViewComponent,
     PasswordChangeDialogComponent,
     ConfirmLogoutDialogComponent,

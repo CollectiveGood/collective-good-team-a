@@ -1,83 +1,96 @@
-<mat-card>
-  <form [formGroup]="caseInfoForm">
-    <mat-card-header>
-      <mat-card-subtitle>Fill out the fields below.</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="form-container">
-          <h2>Demographic Information</h2>
-          <div class="form-row">
-            <mat-form-field class="form-field">
-              <mat-label>Patient Name</mat-label>
-              <input matInput type="text" formControlName="patientName" id="patient-name">
-            </mat-form-field>
-            <mat-form-field class="form-field">
-              <mat-label>Gender</mat-label>
-              <mat-select formControlName="patientGender" id="gender">
-                <mat-option value="male">Male</mat-option>
-                <mat-option value="female">Female</mat-option>
-                <mat-option value="other">Other</mat-option>
-                <mat-option value="not-specified">Not Specified</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="form-field">
-              <mat-label>Age</mat-label>
-              <input matInput type="number" formControlName="patientAge" id="age">
-            </mat-form-field>
-          </div>
-          <h2>History</h2>
-          <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Past Medical History</mat-label>
-              <textarea matInput formControlName="medicalHistory" id="medical-history"></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-              <mat-label>Family History</mat-label>
-              <textarea matInput formControlName="familyHistory" id="family-history"></textarea>
-            </mat-form-field>
-          </div>
-          <h2>Symptoms & Examination</h2>
-          <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Chief Complaint</mat-label>
-              <textarea matInput formControlName="chiefComplaint" id="chief-complaint"></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-              <mat-label>Symptoms</mat-label>
-              <textarea matInput formControlName="symptoms" id="symptoms"></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-              <mat-label>HPI</mat-label>
-              <textarea matInput formControlName="hpi" id="hpi"></textarea>
-            </mat-form-field>
-          </div>
-          <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Physical Examination</mat-label>
-              <textarea matInput formControlName="physicalExaminationNotes" id="physical-examination-notes"></textarea>
-            </mat-form-field>
-          </div>
-          <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Labs & Diagnostics</mat-label>
-              <textarea matInput formControlName="labDiagnosticsNotes" id="lab-diagnostics-notes"></textarea>
-            </mat-form-field>
-          </div>
-          <h2>Additional Notes</h2>
-          <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Additional Notes Here</mat-label>
-              <textarea matInput formControlName="additionalNotes" id="additional-notes"></textarea>
-            </mat-form-field>
-          </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions class="button-row">
-      <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>
-      <button mat-raised-button type="button" color="accent" (click)="saveDraft()">Save Draft</button>
-      <button mat-raised-button type="button" color="primary" (click)="submitForReview()">Submit For Review
-        <mat-icon>check</mat-icon>
-      </button>
-    </mat-card-actions>
-  </form>
-</mat-card>
+<ng-container *ngIf="!caseAssignment?.completed; else completedView">
+  <mat-card>
+    <form [formGroup]="caseInfoForm">
+      <mat-card-header>
+        <mat-card-subtitle>Fill out the fields below.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-container">
+            <h2>Demographic Information</h2>
+            <div class="form-row">
+              <mat-form-field class="form-field">
+                <mat-label>Patient Name</mat-label>
+                <input matInput type="text" formControlName="patientName" id="patient-name">
+              </mat-form-field>
+              <mat-form-field class="form-field">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="patientGender" id="gender">
+                  <mat-option value="male">Male</mat-option>
+                  <mat-option value="female">Female</mat-option>
+                  <mat-option value="other">Other</mat-option>
+                  <mat-option value="not-specified">Not Specified</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="form-field">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" formControlName="patientAge" id="age">
+              </mat-form-field>
+            </div>
+            <h2>History</h2>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Past Medical History</mat-label>
+                <textarea matInput formControlName="medicalHistory" id="medical-history"></textarea>
+              </mat-form-field>
+              <mat-form-field class="text-area">
+                <mat-label>Family History</mat-label>
+                <textarea matInput formControlName="familyHistory" id="family-history"></textarea>
+              </mat-form-field>
+            </div>
+            <h2>Symptoms & Examination</h2>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Chief Complaint</mat-label>
+                <textarea matInput formControlName="chiefComplaint" id="chief-complaint"></textarea>
+              </mat-form-field>
+              <mat-form-field class="text-area">
+                <mat-label>Symptoms</mat-label>
+                <textarea matInput formControlName="symptoms" id="symptoms"></textarea>
+              </mat-form-field>
+              <mat-form-field class="text-area">
+                <mat-label>HPI</mat-label>
+                <textarea matInput formControlName="hpi" id="hpi"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Physical Examination</mat-label>
+                <textarea matInput formControlName="physicalExaminationNotes" id="physical-examination-notes"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Labs & Diagnostics</mat-label>
+                <textarea matInput formControlName="labDiagnosticsNotes" id="lab-diagnostics-notes"></textarea>
+              </mat-form-field>
+            </div>
+            <h2>Additional Notes</h2>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Additional Notes Here</mat-label>
+                <textarea matInput formControlName="additionalNotes" id="additional-notes"></textarea>
+              </mat-form-field>
+            </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="button-row">
+        <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>
+        <button mat-raised-button type="button" color="accent" (click)="saveDraft()">Save Draft</button>
+        <button mat-raised-button type="button" color="primary" (click)="submitForReview()">Submit For Review
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</ng-container>
+
+<ng-template #completedView>
+  <div class="completed-view">
+    <div class="center-container">
+      <mat-icon class="check-icon" color="accent" aria-hidden="false" aria-label="Check">check_circle</mat-icon>
+      <h1 class="mat-display-1">Case Submitted!</h1>
+      <p class="mat-body-1">Thank you for submitting this case. It is now under review.</p>
+      <button mat-raised-button type="button" color="link" (click)="onClose()">Close</button>
+    </div>
+  </div>
+</ng-template>

@@ -31,15 +31,15 @@ export class HomeComponent implements OnInit {
     }
 
     // Set case assignment lists
-    this.getAssignedCases();
+    this.getNewAssignedCases();
     this.getPendingCases();
     this.getCompletedCases();
   }
 
-  private getAssignedCases(): void {
+  private getNewAssignedCases(): void {
     // Retrieve list of assigned cases
     this.loading = true;
-    this.assignmentService.getAssignedCases().subscribe({
+    this.assignmentService.getNewAssignedCases().subscribe({
       next: (response) => {
         if (response.length === 0) { // if none assigned, set to null
           return;

@@ -31,3 +31,23 @@ mat-card-actions button {
     justify-content: right;
     background-color: white;
 }
+
+/* For completed view */
+.completed-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 64px);
+  }
+  
+.center-container {
+    text-align: center;
+}
+
+.check-icon {
+    padding-bottom: 10px;
+}
+
+button {
+    margin-bottom: 5px;
+}

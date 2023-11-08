@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
+import { Assignment, UpdateAssignmentRequest } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseService } from 'src/app/service/case/case.service';
 
