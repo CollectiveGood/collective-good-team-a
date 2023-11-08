@@ -2,16 +2,14 @@
   <mat-toolbar-row>
     <a routerLink="/" class="logo-link">CollectiveGood</a>
     <span class="spacer"></span>
-    <ng-container *ngIf="activeUser?.role === 'ADMIN'; else nonAdmin">
+    <ng-container *ngIf="activeUser?.role === 'ADMIN'">
       <a mat-button routerLink="/admin/home">
-        <mat-icon>home</mat-icon> Admin Home
+        <mat-icon>admin_panel_settings</mat-icon> Admin
       </a>
     </ng-container>
-    <ng-template #nonAdmin>
-      <a mat-button routerLink="/home">
-        <mat-icon>dashboard</mat-icon> Dashboard
-      </a>
-    </ng-template>
+    <a mat-button routerLink="/home">
+      <mat-icon>dashboard</mat-icon> Dashboard
+    </a>
     <a mat-button routerLink="/account">
       <mat-icon>person</mat-icon> Account
     </a>

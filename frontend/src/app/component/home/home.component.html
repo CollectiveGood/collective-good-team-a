@@ -1,7 +1,7 @@
 <app-toolbar></app-toolbar>
 <!-- Sojin -->
 <div class="header-container">
-    <h1>My Dashboard</h1>
+    <h1>Dashboard</h1>
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 </div>
 <div class="card-container">
@@ -9,16 +9,16 @@
         <mat-card-title>Assigned To Me</mat-card-title>
         <hr class="line-break">
         <mat-card-content>
-            <ng-container *ngIf="assignedCases != null; else noAssignedCases">
+            <ng-container *ngIf="newAssignedCases != null; else noAssignedCases">
                 <div class="button-list">
                     <button
                     mat-button
                     color="primary"
                     class="custom-button"
-                    *ngFor="let assignedCase of assignedCases"
-                    (click)="caseClick(assignedCase)"
+                    *ngFor="let newAssignedCase of newAssignedCases"
+                    (click)="caseClick(newAssignedCase)"
                     >
-                    {{ assignedCase.case.caseName }}
+                    {{ newAssignedCase.case.caseName }}
                     </button>
                 </div>
                 </ng-container>

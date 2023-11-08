@@ -12,7 +12,7 @@ import { AssignmentService } from 'src/app/service/assignment/assignment.service
 })
 export class HomeComponent implements OnInit {
 
-  assignedCases: Assignment[] | null = null;
+  newAssignedCases: Assignment[] | null = null;
   pendingCases: Assignment[] | null = null;
   completedCases: Assignment[] | null = null;
   loading: boolean = false;
@@ -20,16 +20,11 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router, 
-    private assignmentService: AssignmentService,
-    private authService: AuthService) {
+    private assignmentService: AssignmentService
+    ) {
   }
 
   ngOnInit(): void {
-    // Check that user isn't an admin
-    if (this.authService.isAdmin()) {
-      this.router.navigate(['/admin/home']);
-    }
-
     // Set case assignment lists
     this.getNewAssignedCases();
     this.getPendingCases();
@@ -44,7 +39,7 @@ export class HomeComponent implements OnInit {
         if (response.length === 0) { // if none assigned, set to null
           return;
         }
-        this.assignedCases = response;
+        this.newAssignedCases = response;
       },
       error: (e) => {
         console.log(e);
