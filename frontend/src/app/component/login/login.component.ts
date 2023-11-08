@@ -28,7 +28,7 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.email == '' || this.password == '') {
-      this.snackBar.open("Please enter your email and password.", "Close", { duration: 5000 });
+      this.snackBar.open("Please enter your email and password.", "Close", { duration: 3000 });
       return;
     }
     this.loading = true;
@@ -36,20 +36,16 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe({
       next: (response: HttpResponse<any>) => {
         console.log('Login successful: ', response);
-        if (this.authService.isAdmin()) {
-          this.router.navigate(['/admin/home']);
-        } else {
-          this.router.navigate(['/home']);
-        }
+        this.router.navigate(['/home']);
       },
       error: (e) => {
         this.loading = false;
         if (e.status === 401) {
-          this.snackBar.open("The username or password is incorrect.", "Close", { duration: 5000 });
+          this.snackBar.open("The username or password is incorrect.", "Close", { duration: 3000 });
           return;
         }
         console.log(e);
-        this.snackBar.open("An error occurred while logging in.", "Close", { duration: 5000 });
+        this.snackBar.open("An error occurred while logging in.", "Close", { duration: 3000 });
       },
       complete: () => {
         this.loading = false;
