@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { getCase } from "../resolvers";
+import { getCase } from "../resolvers/case";
 import { fileStorage } from "./fileStorage";
 const { randomBytes } = require("node:crypto");
 

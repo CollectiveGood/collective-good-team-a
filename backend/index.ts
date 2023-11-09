@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 // Loads values from .env
 require("dotenv").config();
 
-const app: Express = express();
+export const app: Express = express();
 
 // Middleware initialization
 app.use(cors({ credentials: true, origin: "http://localhost:4200" }));
@@ -45,6 +45,9 @@ app.use("/", require("./routes/admin/users"));
 
 const PORT = process.env.PORT || 3000;
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}

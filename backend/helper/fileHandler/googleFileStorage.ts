@@ -4,7 +4,7 @@
 
 // Imports the Google Cloud client library
 import { Storage } from "@google-cloud/storage";
-import { getCase } from "../resolvers";
+import { getCase } from "../resolvers/case";
 import { fileStorage } from "./fileStorage";
 const { randomBytes } = require("node:crypto");
 

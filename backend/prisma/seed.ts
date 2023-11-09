@@ -1,19 +1,20 @@
 import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 import { readFileSync } from "fs";
 import { googleFileStorage } from "../helper/fileHandler/googleFileStorage";
 import {
-  addCase,
   assignCase,
-  makeAdminUser,
-  makeUser,
   resolveAssignment,
   updateAssignment,
-} from "../helper/resolvers";
+} from "../helper/resolvers/assignment";
+import { addCase } from "../helper/resolvers/case";
+import { makeAdminUser, makeUser } from "../helper/resolvers/user";
 
 const fileHandler = new googleFileStorage();
-const prisma = new PrismaClient();
 
-async function main() {
+export async function seedDatabase(prisma: PrismaClient) {
   await fileHandler.deleteAll();
   const file1 = "./files/BudFraWat2_fin-1.pdf";
   const hash1 = await fileHandler.uploadFile(readFileSync(file1));
@@ -73,12 +74,14 @@ async function main() {
   console.log("Seeding complete!");
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+if (require.main === module) {
+  seedDatabase(prisma)
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+}
