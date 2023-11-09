@@ -21,6 +21,7 @@ import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
 import { SaveChangesDialogComponent } from './component/dialog/save-changes-dialog/save-changes-dialog.component';
+import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-dialog/confirm-submit-dialog.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -37,7 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-dialog/confirm-submit-dialog.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-
     MatDialogModule,
     MatSelectModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
