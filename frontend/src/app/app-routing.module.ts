@@ -9,12 +9,14 @@ import { CaseFormComponent } from './component/case-form/case-form.component';
 import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-case-view.component';
 import { adminGuard } from './service/auth/admin.guard';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
+import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
 
 const routes: Routes = [
   // Admin routes
-  { path: 'admin/cases', component: AdminCaseViewComponent, canActivate: [adminGuard, authGuard] },
   { path: 'admin/home', component: AdminHomeComponent, canActivate: [adminGuard, authGuard] },
-  
+  { path: 'admin/cases', component: AdminCaseViewComponent, canActivate: [adminGuard, authGuard] },
+  { path: 'admin/users', component: AdminUserViewComponent, canActivate: [adminGuard, authGuard]},
+
   // User routes
   { path: 'home', component: HomeComponent, canActivate: [authGuard]},
   { path: 'login', component: LoginComponent },

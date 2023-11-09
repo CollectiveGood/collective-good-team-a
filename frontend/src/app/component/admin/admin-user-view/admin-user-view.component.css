@@ -1,0 +1,14 @@
+table {
+    width: 90%;
+}
+
+.header-container {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+mat-form-field {
+    margin-right: 10px;
+}

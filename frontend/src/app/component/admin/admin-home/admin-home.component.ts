@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { CaseService } from 'src/app/service/case/case.service';
-import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-admin-home',

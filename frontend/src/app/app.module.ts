@@ -39,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { MatSortModule } from '@angular/material/sort';
     AdminHomeComponent,
     FileUploadDialogComponent,
     SaveChangesDialogComponent,
-    ConfirmSubmitDialogComponent
+    ConfirmSubmitDialogComponent,
+    AdminUserViewComponent
   ],
   imports: [
     BrowserModule,
