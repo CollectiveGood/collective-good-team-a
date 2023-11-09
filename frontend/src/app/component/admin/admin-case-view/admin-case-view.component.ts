@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
+import { CaseViewDialogComponent } from '../../dialog/case-view-dialog/case-view-dialog.component';
 
 @Component({
   selector: 'app-admin-case-view',
@@ -77,7 +78,13 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onCaseClick(): void {
-    // TODO
+  onCaseClick(clickedCase: Case): void {
+    this.dialog.open(CaseViewDialogComponent, {
+      width: '800px',
+      data: {
+        caseId: clickedCase.fileName, // File name is the same as case hash
+        caseName: clickedCase.caseName
+      }
+    });
   }
 }

@@ -40,6 +40,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
+import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-
     FileUploadDialogComponent,
     SaveChangesDialogComponent,
     ConfirmSubmitDialogComponent,
-    AdminUserViewComponent
+    AdminUserViewComponent,
+    CaseViewDialogComponent
   ],
   imports: [
     BrowserModule,
