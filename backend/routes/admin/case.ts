@@ -8,9 +8,9 @@ import {
   deleteCase,
   getCase,
   getCases,
-  getHash,
   resolveCase,
-} from "../../helper/resolvers";
+} from "../../helper/resolvers/case";
+import { getHash } from "../../helper/resolvers/misc";
 import { paths } from "../../openapi/api";
 const multer = require("multer");
 const upload = multer(memoryStorage());

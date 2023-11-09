@@ -1,7 +1,10 @@
 import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { localAuthStrategy } from "../../helper/authStrategy";
-import { getAssignedCases, updateAssignment } from "../../helper/resolvers";
+import {
+  getAssignedCases,
+  updateAssignment,
+} from "../../helper/resolvers/assignment";
 import { paths } from "../../openapi/api";
 
 var express = require("express");

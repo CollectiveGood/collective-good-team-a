@@ -3,7 +3,7 @@ import {
   adminAuthStrategy,
   localAuthStrategy,
 } from "../../helper/authStrategy";
-import { getUsers } from "../../helper/resolvers";
+import { getUsers } from "../../helper/resolvers/user";
 import { paths } from "../../openapi/api";
 
 var express = require("express");

@@ -1,6 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import { Strategy as LocalStrategy } from "passport-local";
-import { getHash } from "./resolvers";
+import { getHash } from "./resolvers/misc";
 const passport = require("passport");
 const prisma = new PrismaClient();
 

@@ -1,6 +1,7 @@
 import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
-import { getHash, makeUser, updateUser } from "../helper/resolvers";
+import { getHash } from "../helper/resolvers/misc";
+import { makeUser, updateUser } from "../helper/resolvers/user";
 import { paths } from "../openapi/api";
 const express = require("express");
 const passport = require("passport");

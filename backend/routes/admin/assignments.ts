@@ -5,7 +5,7 @@ import {
   assignCase,
   getAssignmentsAdmin,
   resolveAssignment,
-} from "../../helper/resolvers";
+} from "../../helper/resolvers/assignment";
 import { paths } from "../../openapi/api";
 var express = require("express");
 const prisma = new PrismaClient();
