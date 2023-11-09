@@ -41,6 +41,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
 import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
+import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/cas
     SaveChangesDialogComponent,
     ConfirmSubmitDialogComponent,
     AdminUserViewComponent,
-    CaseViewDialogComponent
+    CaseViewDialogComponent,
+    ConfirmCaseDeleteDialogComponent
   ],
   imports: [
     BrowserModule,

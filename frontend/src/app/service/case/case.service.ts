@@ -41,19 +41,14 @@ export class CaseService {
   }
 
   /* Admin-only - delete a case
-  *  @param hash: the hash value of the case to delete
+  *  @param hash: the hash (or id) of the case to delete
   */
-  deleteCase(hash: string) {
-    /// Use HTTP params to create form data
-    const formData = new HttpParams().set('hash', hash);
-    const body = formData.toString();
-    console.log(body);
-    
-    return this.http.post(`${environment.apiUrl}/deleteCase`, body, {
+  deleteCase(hash: string): Observable<HttpResponse<any>> {
+    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/deleteCase`, {
+      hash: hash,
+    }, {
       withCredentials: true,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      observe: 'response',
     });
   }
 }

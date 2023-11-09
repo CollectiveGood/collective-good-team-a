@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { CaseViewDialogComponent } from '../../dialog/case-view-dialog/case-view-dialog.component';
+import { ConfirmCaseDeleteDialogComponent } from '../../dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 
 @Component({
   selector: 'app-admin-case-view',
@@ -84,6 +85,28 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
       data: {
         caseId: clickedCase.fileName, // File name is the same as case hash
         caseName: clickedCase.caseName
+      }
+    });
+  }
+
+  onDeleteClick(clickedCase: Case): void {
+    const dialogRef = this.dialog.open(ConfirmCaseDeleteDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.caseService.deleteCase(clickedCase.fileName).subscribe({
+          next: (response) => {
+            console.log(response);
+          },
+          error: (e) => {
+            console.error(e);
+          },
+          complete: () => {
+            this.loadCaseList();
+          }
+        });
       }
     });
   }
