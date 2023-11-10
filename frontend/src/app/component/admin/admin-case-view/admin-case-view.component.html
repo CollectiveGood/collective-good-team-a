@@ -9,7 +9,7 @@
       <mat-label>Search Cases</mat-label>
       <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
     </mat-form-field>
-    <button mat-raised-button color="link">
+    <button mat-raised-button color="link" (click)="openUploadCaseDialog()">
       <mat-icon>upload</mat-icon> Upload
     </button>
   </div>
