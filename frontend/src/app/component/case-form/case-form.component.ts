@@ -34,6 +34,7 @@ export class CaseFormComponent {
       },
       error: (e) => {
         console.error('Get case failed: ', e);
+        this.snackBar.open('An error occurred while retrieving case information', 'Close', { duration: 3000 });
       },
       complete: () => {
         if (this.caseBlob === undefined) {

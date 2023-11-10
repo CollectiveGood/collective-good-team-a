@@ -22,6 +22,9 @@ import { AdminHomeComponent } from './component/admin/admin-home/admin-home.comp
 import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
 import { SaveChangesDialogComponent } from './component/dialog/save-changes-dialog/save-changes-dialog.component';
 import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-dialog/confirm-submit-dialog.component';
+import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
+import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
+import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,9 +42,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
-import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
-import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,9 @@ import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-cas
     MatSelectModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCheckboxModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

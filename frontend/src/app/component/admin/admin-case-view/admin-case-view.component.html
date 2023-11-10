@@ -5,6 +5,16 @@
     <h1>Cases</h1>
   </div>
   <div class="header-right">
+    <button mat-button color="primary" [matMenuTriggerFor]="filterMenu">Filter
+      <mat-icon>filter_alt</mat-icon>
+    </button>
+      <mat-menu #filterMenu="matMenu">
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button>Completed</mat-radio-button>
+          <mat-radio-button>In Progress</mat-radio-button>
+        </mat-radio-group>
+        <mat-checkbox>Has Assignments</mat-checkbox>
+      </mat-menu>
     <mat-form-field>
       <mat-label>Search Cases</mat-label>
       <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
@@ -35,10 +45,10 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let case">
-            <button mat-button color="link">
+            <button mat-button color="link"> Edit
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-button color="warn" (click)="onDeleteClick(case)">
+            <button mat-button color="warn" (click)="onDeleteClick(case)"> Delete
               <mat-icon>delete</mat-icon>
             </button>
           </td>
