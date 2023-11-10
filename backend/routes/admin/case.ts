@@ -71,11 +71,11 @@ router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
 router.post("/getCases", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/getCases"]["get"]["requestBody"]["content"]["application/json"];
+      paths["/getCases"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
-      paths["/getCases"]["get"]["responses"]["200"]["content"]["application/json"];
+      paths["/getCases"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
-      paths["/getCases"]["get"]["responses"]["500"]["content"]["application/json"];
+      paths["/getCases"]["post"]["responses"]["500"]["content"]["application/json"];
 
     const input = req.body as InputType;
     const cases = await getCases(

@@ -477,8 +477,6 @@ paths:
                 desc:
                   type: boolean
               required:
-                - isCompleted
-                - hasAssignments
                 - start
                 - take
                 - desc

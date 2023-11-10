@@ -67,11 +67,11 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
 router.post("/getAssignments", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/getAssignments"]["get"]["requestBody"]["content"]["application/json"];
+      paths["/getAssignments"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
-      paths["/getAssignments"]["get"]["responses"]["200"]["content"]["application/json"];
+      paths["/getAssignments"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
-      paths["/getAssignments"]["get"]["responses"]["500"]["content"]["application/json"];
+      paths["/getAssignments"]["post"]["responses"]["500"]["content"]["application/json"];
     const input = req.body as InputType;
     const assignments = await getAssignmentsAdmin(
       input.includeNotCompleted,

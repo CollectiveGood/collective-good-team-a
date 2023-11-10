@@ -12,9 +12,9 @@ var router = express.Router();
 router.post("/getUsers", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
-      paths["/getUsers"]["get"]["requestBody"]["content"]["application/json"];
+      paths["/getUsers"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
-      paths["/getUsers"]["get"]["responses"]["200"]["content"]["application/json"];
+      paths["/getUsers"]["post"]["responses"]["200"]["content"]["application/json"];
     const input = req.body as InputType;
     const users = await getUsers(
       input.includeAdmins,
