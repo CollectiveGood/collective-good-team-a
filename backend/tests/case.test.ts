@@ -10,6 +10,8 @@ const prisma = new PrismaClient();
 
 const user = { username: "adam@gmail.com", password: "test" };
 const admin = { username: "admin@gmail.com", password: "admin" };
+
+// Should run prisma migrate reset --force before running this test
 beforeAll(async () => {
   try {
     await seedDatabase(prisma);
@@ -51,8 +53,8 @@ describe("getDetails", () => {
 });
 
 describe("getCases", () => {
-  describe("GET /admin/case/getCases", () => {
-    it("Details", async () => {
+  describe("Tests getting case", () => {
+    it("get /getCases", async () => {
       const cookies = await getCookies(admin);
       const body = {
         isCompleted: false,
@@ -81,5 +83,50 @@ describe("getCases", () => {
         .set("Cookie", cookies);
       expect(response3.body).toHaveLength(1);
     }, 10000);
+  });
+});
+
+describe("Test Case full cycle", () => {
+  let hash = "";
+
+  describe("adds a case", () => {
+    it("POST /addCase", async () => {
+      const cookies = await getCookies(admin);
+      const response = await request(app)
+        .post("/addCase")
+        .attach("file", "./files/a.pdf")
+        .set("Cookie", cookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("fileName");
+      hash = response.body["fileName"];
+    });
+  });
+
+  describe("resolves a case", () => {
+    it("POST /resolveCase", async () => {
+      const cookies = await getCookies(admin);
+      const response = await request(app)
+        .post("/resolveCase")
+        .send({ hash: hash, shouldResolve: true, json: { value: "value" } })
+        .set("Cookie", cookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("completed");
+      expect(response.body).toHaveProperty("finalJson");
+      expect(response.body["completed"]).toBe(true);
+      expect(response.body["finalJson"]).toHaveProperty("value");
+      expect(response.body["finalJson"]["value"]).toBe("value");
+    });
+  });
+
+  describe("deletes a case", () => {
+    it("POST /deleteCase", async () => {
+      const cookies = await getCookies(admin);
+      const response = await request(app)
+        .post("/deleteCase")
+        .send({ hash: hash })
+        .set("Cookie", cookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("fileName");
+    });
   });
 });
