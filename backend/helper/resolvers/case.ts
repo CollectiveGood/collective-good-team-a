@@ -26,8 +26,8 @@ export async function getCase(hash: string) {
 }
 
 export async function getCases(
-  isCompleted: boolean,
-  hasAssignments: boolean,
+  isCompleted: boolean | undefined,
+  hasAssignments: boolean | undefined,
   start: number,
   take: number,
   desc: boolean
@@ -38,10 +38,12 @@ export async function getCases(
     take: take,
     where: {
       AND: [
-        hasAssignments
+        hasAssignments === undefined
+          ? {}
+          : hasAssignments
           ? { Assignments: { some: {} } }
           : { Assignments: { none: {} } },
-        isCompleted ? { completed: true } : { completed: false },
+        isCompleted === undefined ? {} : { completed: isCompleted },
       ],
     },
   });

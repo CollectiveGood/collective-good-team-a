@@ -356,7 +356,7 @@ export interface paths {
   };
   "/getAssignments": {
     /** Gets all the cases assigned by this user */
-    get: {
+    post: {
       requestBody: {
         content: {
           "application/json": {
@@ -387,7 +387,7 @@ export interface paths {
   };
   "/getUsers": {
     /** Gets a list of users */
-    get: {
+    post: {
       requestBody: {
         content: {
           "application/json": {
@@ -417,12 +417,12 @@ export interface paths {
   };
   "/getCases": {
     /** Gets a list of cases */
-    get: {
+    post: {
       requestBody: {
         content: {
           "application/json": {
-            isCompleted: boolean;
-            hasAssignments: boolean;
+            isCompleted?: boolean;
+            hasAssignments?: boolean;
             start: number;
             take: number;
             desc: boolean;
