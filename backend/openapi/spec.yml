@@ -374,7 +374,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
   /getAssignments:
-    get:
+    post:
       summary: Gets all the cases assigned by this user
       requestBody:
         required: true
@@ -417,7 +417,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
   /getUsers:
-    get:
+    post:
       summary: Gets a list of users
       requestBody:
         required: true
@@ -457,7 +457,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
   /getCases:
-    get:
+    post:
       summary: Gets a list of cases
       requestBody:
         required: true
