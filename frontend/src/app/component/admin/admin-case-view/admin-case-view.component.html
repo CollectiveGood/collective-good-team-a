@@ -1,17 +1,18 @@
 <app-toolbar></app-toolbar>
 <!-- Sojin -->
 <div class="header-container">
+  <div class="header-left">
     <h1>Cases</h1>
-    <div>
-        <mat-form-field>
-            <mat-label>Search Cases</mat-label>
-            <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
-        </mat-form-field>
-        <button mat-raised-button (click)="openUploadCaseDialog()" color="accent">
-            <mat-icon>add</mat-icon>
-            Upload New Case
-        </button>
-    </div>
+  </div>
+  <div class="header-right">
+    <mat-form-field>
+      <mat-label>Search Cases</mat-label>
+      <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
+    </mat-form-field>
+    <button mat-raised-button color="link">
+      <mat-icon>upload</mat-icon> Upload
+    </button>
+  </div>
 </div>
 <div class="mat-elevation-z8">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>

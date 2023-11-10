@@ -1,12 +1,14 @@
 <app-toolbar></app-toolbar>
 <div class="header-container">
+  <div class="header-left">
     <h1>Users</h1>
-    <div>
-        <mat-form-field>
-            <mat-label>Search Users</mat-label>
-            <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
-        </mat-form-field>
-    </div>
+  </div>
+  <div class="header-right">
+    <mat-form-field>
+      <mat-label>Search Users</mat-label>
+      <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
+    </mat-form-field>
+  </div>
 </div>
 <div class="mat-elevation-z8">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>

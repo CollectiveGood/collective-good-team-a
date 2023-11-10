@@ -3,9 +3,26 @@
     <a routerLink="/" class="logo-link">CollectiveGood</a>
     <span class="spacer"></span>
     <ng-container *ngIf="activeUser?.role === 'ADMIN'">
-      <a mat-button routerLink="/admin/home">
-        <mat-icon>admin_panel_settings</mat-icon> Admin
-      </a>
+      <button mat-button [matMenuTriggerFor]="menu">Admin
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item color="primary" routerLink="/admin/home">
+            <mat-icon>dashboard</mat-icon>
+            Admin Dashboard
+          </button>
+          <button mat-menu-item color="primary" routerLink="/admin/users">
+            <mat-icon>person</mat-icon>
+            Users
+          </button>
+          <button mat-menu-item color="accent" routerLink="/admin/cases">
+            <mat-icon>assignment</mat-icon>
+            Cases
+          </button>
+          <button mat-menu-item color="primary" routerLink="/admin/assignments">Assignments
+            <mat-icon>assignment_ind</mat-icon>
+          </button>
+        </mat-menu>
     </ng-container>
     <a mat-button routerLink="/home">
       <mat-icon>dashboard</mat-icon> Dashboard
