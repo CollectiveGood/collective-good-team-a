@@ -64,7 +64,7 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.get("/getAssignments", localAuthStrategy, <RequestHandler>(
+router.post("/getAssignments", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/getAssignments"]["get"]["requestBody"]["content"]["application/json"];

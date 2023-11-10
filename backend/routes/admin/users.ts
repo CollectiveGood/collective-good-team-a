@@ -9,7 +9,7 @@ import { paths } from "../../openapi/api";
 var express = require("express");
 var router = express.Router();
 
-router.get("/getUsers", localAuthStrategy, <RequestHandler>(
+router.post("/getUsers", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/getUsers"]["get"]["requestBody"]["content"]["application/json"];

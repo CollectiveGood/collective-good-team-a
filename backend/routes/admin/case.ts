@@ -68,7 +68,7 @@ router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.get("/getCases", localAuthStrategy, <RequestHandler>(
+router.post("/getCases", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/getCases"]["get"]["requestBody"]["content"]["application/json"];
