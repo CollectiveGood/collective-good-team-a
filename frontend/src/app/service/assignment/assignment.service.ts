@@ -13,11 +13,19 @@ export class AssignmentService {
 
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(`${environment.apiUrl}/getAssignments`, {
+    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, {}, {
       withCredentials: true,
     });
   }
 
+  /* Admin-only - retrieve case assignments using specified filter parameters
+  *  @param request: the request object containing the filter parameters (see models.ts)
+  */
+  getAssignments(request: GetAssignmentsRequest): Observable<Assignment[]> {
+    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
+      withCredentials: true,
+    });
+  }
 
   /* Get all cases assigned to the current user */
   getAssignedCases(): Observable<Assignment[]> {
@@ -113,20 +121,4 @@ export class AssignmentService {
       withCredentials: true,
     })
   }
-
-    /* Retrieve assignments based on criteria
-    *  @param requestParams: the criteria to filter by (see models.ts)
-    */
-    private getAssignments(requestParams: GetAssignmentsRequest): Observable<Assignment[]> {
-      // Set the request headers (assuming you're sending form data)
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-      });
-  
-      // Construct the query string based on requestParams
-      const queryString = `?includeNotCompleted=${requestParams.includeNotCompleted}&includeReviewed=${requestParams.includeReviewed}&start=${requestParams.start}&take=${requestParams.take}&desc=${requestParams.desc}&hash=${requestParams.hash}`;
-  
-      // Send the GET request with the query string
-      return this.http.get<Assignment[]>(`${environment.apiUrl}/getAssignments${queryString}`, { headers });
-    }
 }

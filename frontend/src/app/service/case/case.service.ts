@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Assignment, Case } from 'src/app/models';
+import { Case, GetCasesRequest } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,14 +12,17 @@ export class CaseService {
 
   /* Admin-only - retrieve all cases in the database */
   getAllCases(): Observable<Case[]> {
-    const body = {
-      isCompleted: false,
-      hasAssignments: true,
-      start: 0,
-      take: 1000,
-      desc: false
-    }
-    return this.http.post<Case[]>(`${environment.apiUrl}/getCases`, body, {
+    // Send empty body as there are no filters
+    return this.http.post<Case[]>(`${environment.apiUrl}/getCases`, {}, {
+      withCredentials: true,
+    });
+  }
+
+  /* Admin-only - retrieve cases using specified filter parameters
+  *  @param request: the request object containing the filter parameters (see models.ts)
+  */
+  getCases(request: GetCasesRequest): Observable<Case[]> {
+    return this.http.post<Case[]>(`${environment.apiUrl}/getCases`, request, {
       withCredentials: true,
     });
   }

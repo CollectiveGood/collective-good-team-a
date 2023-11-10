@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/models';
+import { GetUsersRequest, User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -18,9 +18,16 @@ export class UserService {
 
   /* Admin-only - Get all users in the database */
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/getUsers`, { withCredentials: true });
+    return this.http.post<User[]>(`${environment.apiUrl}/getUsers`, {}, { withCredentials: true });
   }
 
+  /* Admin-only - Get users using specified filter parameters
+  *  @param request: the request object containing the filter parameters (see models.ts)
+  */
+  getUsers(request: GetUsersRequest): Observable<User[]> {
+    return this.http.post<User[]>(`${environment.apiUrl}/getUsers`, request, { withCredentials: true });
+  }
+  
   /* Update user information */
   updateProfile(name: string, email: string, oldPassword: string, password: string): Observable<User> {
     const body = { name, email, oldPassword, password };

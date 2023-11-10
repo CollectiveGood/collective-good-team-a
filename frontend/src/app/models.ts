@@ -40,6 +40,22 @@ export interface GetAssignmentsRequest {
     hash: string;
 }
 
+export interface GetCasesRequest {
+    isCompleted: boolean;
+    hasAssignments: boolean;
+    start: number;
+    take: number;
+    desc: boolean;
+}
+
+export interface GetUsersRequest {
+    includeAdmins: boolean;
+    email: string,
+    start: number;
+    take: number;
+    desc: boolean;
+}
+
 export interface CaseInfo {
     patientName: string;
     patientGender: string;
