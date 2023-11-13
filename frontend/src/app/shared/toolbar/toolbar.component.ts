@@ -14,11 +14,35 @@ import { UserService } from 'src/app/service/user/user.service';
 export class ToolbarComponent implements OnInit {
   activeUser: User | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, 
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userService.getUser()?.subscribe((user) => {
       this.activeUser = user;
+    });
+  }
+
+  onClickLogout() {
+    const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent, {
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe(confirmLogOut => {
+      if (confirmLogOut) {
+        this.authService.logout().subscribe({
+          next: (response) => {
+            console.log(response);
+            this.router.navigate(['/login']);
+          },
+          error: (e) => {
+            console.log(e);
+          }
+        });
+      }
     });
   }
 }

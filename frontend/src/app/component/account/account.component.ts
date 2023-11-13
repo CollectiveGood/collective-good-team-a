@@ -6,7 +6,6 @@ import { PasswordChangeDialogComponent } from '../dialog/password-change-dialog/
 import { UserService } from 'src/app/service/user/user.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmLogoutDialogComponent } from '../dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +20,6 @@ export class AccountComponent {
     private authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private router: Router
   ) { }
 
   userDetails!: User;
@@ -84,26 +82,6 @@ export class AccountComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.snackBar.open(result, 'Close', { duration: 3000 });
-      }
-    });
-  }
-
-  onClickLogout() {
-    const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent, {
-      width: '300px',
-    });
-
-    dialogRef.afterClosed().subscribe(confirmLogOut => {
-      if (confirmLogOut) {
-        this.authService.logout().subscribe({
-          next: (response) => {
-            console.log(response);
-            this.router.navigate(['/login']);
-          },
-          error: (e) => {
-            console.log(e);
-          }
-        });
       }
     });
   }
