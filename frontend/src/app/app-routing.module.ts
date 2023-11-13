@@ -10,13 +10,15 @@ import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-
 import { adminGuard } from './service/auth/admin.guard';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
+import { AdminAssignmentViewComponent } from './component/admin/admin-assignment-view/admin-assignment-view.component';
 
 const routes: Routes = [
   // Admin routes
   { path: 'admin/home', component: AdminHomeComponent, canActivate: [adminGuard, authGuard] },
   { path: 'admin/cases', component: AdminCaseViewComponent, canActivate: [adminGuard, authGuard] },
-  { path: 'admin/users', component: AdminUserViewComponent, canActivate: [adminGuard, authGuard]},
-
+  { path: 'admin/users', component: AdminUserViewComponent, canActivate: [adminGuard, authGuard] },
+  { path: 'admin/assignments', component: AdminAssignmentViewComponent, canActivate: [adminGuard, authGuard] },
+  
   // User routes
   { path: 'home', component: HomeComponent, canActivate: [authGuard]},
   { path: 'login', component: LoginComponent },

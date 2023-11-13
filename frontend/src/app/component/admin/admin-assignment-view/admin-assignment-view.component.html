@@ -1,0 +1,55 @@
+<app-toolbar></app-toolbar>
+<div class="header-container">
+  <div class="header-left">
+    <h1>Assignments</h1>
+  </div>
+  <div class="header-right">
+    <mat-form-field>
+      <mat-label>Search Assignments</mat-label>
+      <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
+    </mat-form-field>
+  </div>
+</div>
+<div class="mat-elevation-z8">
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Case ID Column -->
+        <ng-container matColumnDef="caseName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Name </th>
+          <td mat-cell *matCellDef="let assignment">{{ assignment.case.caseName }}</td>
+        </ng-container>
+      
+        <!-- User ID Column -->
+        <ng-container matColumnDef="assignee">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Assignee </th>
+          <td mat-cell *matCellDef="let assignment">{{ assignment.userId }}</td>
+        </ng-container>
+
+        <!-- Last Updated Column -->
+        <ng-container matColumnDef="lastUpdated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated </th>
+            <td mat-cell *matCellDef="let assignment">{{ datePipe.transform(assignment.lastUpdated, 'mediumDate') }}</td>
+          </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let assignment">{{ assignment.reviewed }}</td>
+          </ng-container>
+        
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let assignment">
+                <a mat-button>
+                    <mat-icon>edit</mat-icon>Modify
+                </a>
+            </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let user; columns: displayedColumns"></tr>
+      </table>
+      
+    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons aria-label="Select page of assignments"></mat-paginator>
+</div>

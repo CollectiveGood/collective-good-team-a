@@ -13,6 +13,13 @@ export class AssignmentService {
 
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
+    const request = {
+      "includeReviewed": true,
+      "includeNotCompleted": true,
+      "start": 0,
+      "take": 1000,
+      "desc": false
+    };
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, {}, {
       withCredentials: true,
     });
