@@ -6,6 +6,7 @@ import {
   getAssignmentsAdmin,
   resolveAssignment,
 } from "../../helper/resolvers/assignment";
+import { getIdFromEmail } from "../../helper/resolvers/user";
 import { paths } from "../../openapi/api";
 var express = require("express");
 const prisma = new PrismaClient();
@@ -26,8 +27,17 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       paths["/assignCase"]["post"]["responses"]["500"]["content"]["application/json"];
 
     const input: InputType = req.body;
-    const assignee = parseInt(input.user);
+
+    let assignee: number = NaN;
     const hash = input.case;
+
+    // user is an email
+    if (isNaN(Number(input.user))) {
+      assignee = (await getIdFromEmail(input.user))!;
+    } else {
+      // user is an id
+      assignee = parseInt(input.user);
+    }
 
     const existingAssignment = await prisma.assignments.findFirst({
       where: { hash: hash, userId: assignee },
