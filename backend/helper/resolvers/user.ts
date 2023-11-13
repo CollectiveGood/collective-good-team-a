@@ -66,3 +66,10 @@ export async function getUsers(
     },
   });
 }
+
+export async function getIdFromEmail(email: string) {
+  const user = await prisma.user.findFirst({
+    where: { email: email },
+  });
+  return user?.id;
+}
