@@ -20,7 +20,7 @@ export class AssignmentService {
       "take": 1000,
       "desc": false
     };
-    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, {}, {
+    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
       withCredentials: true,
     });
   }
@@ -85,30 +85,34 @@ export class AssignmentService {
 
   /* Admin-only - assign a case to a user
   *  @param user: the user to assign the case to
-  *  @param caseHash: the hash value of the case to assign
+  *  @param reviewer: the reviewer to assign the case to
+  *  @param caseId: the id or hash value of the case to assign
   */
-  assignCase(user: string, caseHash: string): Observable<Assignment> {
-    const formData = new FormData();
-    formData.append('user', user);
-    formData.append('case', caseHash);
+  assignCase(user: string, reviewer: string, caseId: string): Observable<Assignment> {
+    const request = {
+      "user": user,
+      "reviewer": reviewer,
+      "case": caseId,
+    };
 
-    return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, formData, {
+    return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, request, {
       withCredentials: true,
     });
+
   }
 
   /* Update an assignment using form data
   *  @param updateAssignmentRequest: the request body
   */
   updateAssignment(updateAssignmentRequest: UpdateAssignmentRequest): Observable<Assignment> {
-    const reqBody = {
+    const request = {
       json: updateAssignmentRequest.json,
       caseId: updateAssignmentRequest.caseId,
       userId: updateAssignmentRequest.userId,
       completed: updateAssignmentRequest.completed,
     };
   
-    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, reqBody, {
+    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, request, {
       withCredentials: true,
     });
   }

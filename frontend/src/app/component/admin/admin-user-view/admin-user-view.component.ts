@@ -29,8 +29,7 @@ export class AdminUserViewComponent implements OnInit, AfterViewInit {
     // Set filter predicate
     this.dataSource.filterPredicate = (data: User, filter: string) => {
       return data.name.toLowerCase().includes(filter) ||
-        data.email.toLowerCase().includes(filter) ||
-        data.role.toLowerCase().includes(filter);
+        data.email.toLowerCase().includes(filter)
     }
   }
 

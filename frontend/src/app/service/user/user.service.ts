@@ -18,7 +18,13 @@ export class UserService {
 
   /* Admin-only - Get all users in the database */
   getAllUsers(): Observable<User[]> {
-    return this.http.post<User[]>(`${environment.apiUrl}/getUsers`, {}, { withCredentials: true });
+    const request = {
+      "includeAdmins": true,
+      "start": 0,
+      "take": 1000,
+      "desc": false
+    }
+    return this.http.post<User[]>(`${environment.apiUrl}/getUsers`, request, { withCredentials: true });
   }
 
   /* Admin-only - Get users using specified filter parameters

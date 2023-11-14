@@ -14,10 +14,10 @@ import { AdminAssignmentViewComponent } from './component/admin/admin-assignment
 
 const routes: Routes = [
   // Admin routes
-  { path: 'admin/home', component: AdminHomeComponent, canActivate: [adminGuard, authGuard] },
-  { path: 'admin/cases', component: AdminCaseViewComponent, canActivate: [adminGuard, authGuard] },
-  { path: 'admin/users', component: AdminUserViewComponent, canActivate: [adminGuard, authGuard] },
-  { path: 'admin/assignments', component: AdminAssignmentViewComponent, canActivate: [adminGuard, authGuard] },
+  { path: 'admin/home', component: AdminHomeComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'admin/cases', component: AdminCaseViewComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'admin/users', component: AdminUserViewComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'admin/assignments', component: AdminAssignmentViewComponent, canActivate: [authGuard, adminGuard] },
   
   // User routes
   { path: 'home', component: HomeComponent, canActivate: [authGuard]},

@@ -45,6 +45,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { MatRadioModule } from '@angular/material/radio';
     ConfirmSubmitDialogComponent,
     CaseViewDialogComponent,
     ConfirmCaseDeleteDialogComponent,
-    AdminAssignmentViewComponent
+    AdminAssignmentViewComponent,
+    CaseAssignmentDialogComponent
   ],
   imports: [
     BrowserModule,
