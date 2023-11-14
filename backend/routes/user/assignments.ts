@@ -3,6 +3,7 @@ import { RequestHandler } from "express";
 import { localAuthStrategy } from "../../helper/authStrategy";
 import {
   getAssignedCases,
+  getReviewerCases,
   updateAssignment,
 } from "../../helper/resolvers/assignment";
 import { paths } from "../../openapi/api";
@@ -26,6 +27,20 @@ router.get("/assignedCases", localAuthStrategy, <RequestHandler>(
     const userId = (req.user! as User).id;
 
     const cases = await getAssignedCases(userId);
+    return res.status(200).json(cases satisfies SuccessType);
+  }
+));
+
+router.get("/assignedReviewerCases", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type SuccessType =
+      paths["/assignedCases"]["get"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/assignedCases"]["get"]["responses"]["500"]["content"]["application/json"];
+
+    const userId = (req.user! as User).id;
+
+    const cases = await getReviewerCases(userId);
     return res.status(200).json(cases satisfies SuccessType);
   }
 ));
@@ -56,7 +71,6 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
 
     const assignment = await updateAssignment(
       input.json,
-      input.userId,
       input.caseId,
       input.completed ?? false
     );

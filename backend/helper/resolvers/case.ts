@@ -27,7 +27,7 @@ export async function getCase(hash: string) {
 
 export async function getCases(
   isCompleted: boolean | undefined,
-  hasAssignments: boolean | undefined,
+  hasAssignment: boolean | undefined,
   start: number,
   take: number,
   desc: boolean
@@ -38,26 +38,16 @@ export async function getCases(
     take: take,
     where: {
       AND: [
-        hasAssignments === undefined
+        hasAssignment === undefined
           ? {}
-          : hasAssignments
-          ? { Assignments: { some: {} } }
-          : { Assignments: { none: {} } },
-        isCompleted === undefined ? {} : { completed: isCompleted },
+          : hasAssignment
+          ? { Assignment: { isNot: null } }
+          : { Assignment: { is: null } },
+        isCompleted === undefined
+          ? {}
+          : { Assignment: { completed: isCompleted } },
       ],
     },
   });
   return cs;
-}
-
-export async function resolveCase(
-  hash: string,
-  shouldResolve: boolean,
-  json: any
-) {
-  const c = await prisma.case.update({
-    where: { fileName: hash },
-    data: { completed: shouldResolve, finalJson: json },
-  });
-  return c;
 }
