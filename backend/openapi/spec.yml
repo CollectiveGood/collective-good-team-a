@@ -223,39 +223,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
-  /resolveCase:
-    post:
-      summary: resolves a case
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                shouldResolve:
-                  type: boolean
-                hash:
-                  type: string
-                json:
-                  $ref: "#/components/schemas/AnyValue"
-              required:
-                - hash
-                - shouldResolve
-                - json
-      responses:
-        "200":
-          description: case successfully updated
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Case"
-        "500":
-          description: Server failed to finish the function
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Response"
+
   /assignCase:
     post:
       summary: assigns the case (hash) to the user (user)

@@ -223,34 +223,6 @@ export interface paths {
       };
     };
   };
-  "/resolveCase": {
-    /** resolves a case */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": {
-            shouldResolve: boolean;
-            hash: string;
-            json: components["schemas"]["AnyValue"];
-          };
-        };
-      };
-      responses: {
-        /** @description case successfully updated */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Case"];
-          };
-        };
-        /** @description Server failed to finish the function */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Response"];
-          };
-        };
-      };
-    };
-  };
   "/assignCase": {
     /** assigns the case (hash) to the user (user) */
     post: {

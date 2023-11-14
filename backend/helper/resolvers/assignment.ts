@@ -50,9 +50,11 @@ export async function updateAssignment(
       hash: caseId,
     },
     data: {
-      info: info,
-      completed: completed,
-      reviewed: completed ? "PENDING" : {},
+      ...{
+        info: info,
+        completed: completed,
+      },
+      ...(completed ? { reviewed: "PENDING" } : {}),
     },
   });
   return c;

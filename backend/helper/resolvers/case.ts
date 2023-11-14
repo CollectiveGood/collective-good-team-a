@@ -33,7 +33,6 @@ export async function getCases(
   desc: boolean
 ) {
   const cs = await prisma.case.findMany({
-    select: { Assignment: { select: { completed: true, reviewed: true } } },
     orderBy: { createdAt: desc ? "desc" : "asc" },
     skip: start,
     take: take,

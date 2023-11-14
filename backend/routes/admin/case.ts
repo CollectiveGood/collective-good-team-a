@@ -8,7 +8,6 @@ import {
   deleteCase,
   getCase,
   getCases,
-  resolveCase,
 } from "../../helper/resolvers/case";
 import { getHash } from "../../helper/resolvers/misc";
 import { paths } from "../../openapi/api";
@@ -86,20 +85,6 @@ router.post("/getCases", localAuthStrategy, <RequestHandler>(
       input.desc
     );
     return res.status(200).json(cases satisfies SuccessType);
-  }
-));
-
-router.post("/resolveCase", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    type InputType =
-      paths["/resolveCase"]["post"]["requestBody"]["content"]["application/json"];
-    type SuccessType =
-      paths["/resolveCase"]["post"]["responses"]["200"]["content"]["application/json"];
-    type FailureType =
-      paths["/resolveCase"]["post"]["responses"]["500"]["content"]["application/json"];
-    const input = req.body as InputType;
-    const c = await resolveCase(input.hash, input.shouldResolve, input.json);
-    return res.status(200).json(c satisfies SuccessType);
   }
 ));
 
