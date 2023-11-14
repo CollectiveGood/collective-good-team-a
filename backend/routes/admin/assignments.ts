@@ -23,6 +23,8 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       paths["/assignCase"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/assignCase"]["post"]["responses"]["200"]["content"]["application/json"];
+    type ConflictType = 
+      paths["/assignCase"]["post"]["responses"]["409"]["content"]["application/json"];
     type FailureType =
       paths["/assignCase"]["post"]["responses"]["500"]["content"]["application/json"];
 
@@ -50,7 +52,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       const errorResponse = {
         response: "This case has already been assigned to this user!",
       };
-      return res.status(500).json(errorResponse satisfies FailureType);
+      return res.status(409).json(errorResponse satisfies FailureType);
     }
 
     const resp = await assignCase(assignee, reviewer, hash);

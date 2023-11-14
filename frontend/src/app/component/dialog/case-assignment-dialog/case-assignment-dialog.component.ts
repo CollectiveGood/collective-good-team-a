@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Case, User } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseService } from 'src/app/service/case/case.service';
@@ -18,11 +19,13 @@ export class CaseAssignmentDialogComponent {
   selectedCase: Case | null = null;
   selectedUser: User | null = null;
   selectedReviewer: User | null = null;
-  
+  loading: boolean = false;
+
   constructor(
     private caseService: CaseService,
     private assignmentService: AssignmentService,
     private userService: UserService,
+    private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<CaseAssignmentDialogComponent>,
   ) { }
 
@@ -50,13 +53,21 @@ export class CaseAssignmentDialogComponent {
     if (this.selectedCase === null || this.selectedUser === null || this.selectedReviewer === null) {
       return;
     }
-    this.assignmentService.assignCase(this.selectedCase.caseName, this.selectedUser.email, this.selectedReviewer.email).subscribe({
+    this.loading = true;
+    this.assignmentService.assignCase(this.selectedUser.email, this.selectedReviewer.email, this.selectedCase.fileName).subscribe({
       next: (response) => {
         console.log(response);
-        this.dialogRef.close();
+        this.dialogRef.close("This case has been assigned successfully!");
       },
       error: (e) => {
+        if (e.status === 409) {
+          this.snackBar.open("This case is already assigned to this user.", "Close", { duration: 3000 });
+        }
+        this.loading = false;
         console.error(e);
+      },
+      complete: () => {
+        this.loading = false;
       }
     });    
   }

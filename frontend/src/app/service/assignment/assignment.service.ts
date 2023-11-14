@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
@@ -88,7 +88,7 @@ export class AssignmentService {
   *  @param reviewer: the reviewer to assign the case to
   *  @param caseId: the id or hash value of the case to assign
   */
-  assignCase(user: string, reviewer: string, caseId: string): Observable<Assignment> {
+  assignCase(user: string, reviewer: string, caseId: string): Observable<HttpResponse<Assignment>> {
     const request = {
       "user": user,
       "reviewer": reviewer,
@@ -97,8 +97,8 @@ export class AssignmentService {
 
     return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, request, {
       withCredentials: true,
+      observe: 'response',
     });
-
   }
 
   /* Update an assignment using form data

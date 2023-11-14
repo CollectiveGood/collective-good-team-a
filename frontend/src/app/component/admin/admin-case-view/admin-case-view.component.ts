@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { CaseViewDialogComponent } from '../../dialog/case-view-dialog/case-view-dialog.component';
 import { ConfirmCaseDeleteDialogComponent } from '../../dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-case-view',
@@ -43,7 +44,7 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  loadCaseList(): void {
+  private loadCaseList(): void {
     // Load list of cases in the database
     this.loading = true;
     this.caseService.getAllCases().subscribe({

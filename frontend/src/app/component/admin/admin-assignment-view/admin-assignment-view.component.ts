@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Assignment } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseAssignmentDialogComponent } from '../../dialog/case-assignment-dialog/case-assignment-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-assignment-view',
@@ -25,11 +26,13 @@ export class AdminAssignmentViewComponent {
 
   constructor(
     private assignmentService: AssignmentService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.loadAssignmentList();
+
     // Set filter predicate - TODO
     this.dataSource.filterPredicate = (data: Assignment, filter: string) => {
       return data.case.caseName.toLowerCase().includes(filter);
@@ -67,6 +70,13 @@ export class AdminAssignmentViewComponent {
   openCaseAssignmentDialog(): void {
     const dialogRef = this.dialog.open(CaseAssignmentDialogComponent, {
       width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackBar.open('Case assignment created successfully!', 'Close', { duration: 3000 });
+        this.loadAssignmentList();
+      }
     });
   }
 }
