@@ -52,7 +52,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       const errorResponse = {
         response: "This case has already been assigned to this user!",
       };
-      return res.status(409).json(errorResponse satisfies FailureType);
+      return res.status(409).json(errorResponse satisfies ConflictType);
     }
 
     const resp = await assignCase(assignee, reviewer, hash);
