@@ -258,6 +258,7 @@ export interface paths {
         content: {
           "application/json": {
             user: string;
+            reviewer: string;
             case: string;
           };
         };
@@ -279,6 +280,25 @@ export interface paths {
     };
   };
   "/assignedCases": {
+    /** gets all the assigned cases to the logged in user */
+    get: {
+      responses: {
+        /** @description all the assigned cases */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"][];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/assignedReviewerCases": {
     /** gets all the assigned cases to the logged in user */
     get: {
       responses: {
@@ -466,7 +486,6 @@ export interface components {
       fileName: string;
       caseName: string;
       authorId: number;
-      finalJson: components["schemas"]["AnyValue"];
     };
     Assignment: {
       info: components["schemas"]["AnyValue"];

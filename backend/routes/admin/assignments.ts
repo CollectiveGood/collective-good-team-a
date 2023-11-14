@@ -29,17 +29,20 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
     const input: InputType = req.body;
 
     let assignee: number = NaN;
+    let reviewer: number = NaN;
     const hash = input.case;
 
     // user is an email
     if (isNaN(Number(input.user))) {
       assignee = (await getIdFromEmail(input.user))!;
+      reviewer = (await getIdFromEmail(input.reviewer))!;
     } else {
       // user is an id
       assignee = parseInt(input.user);
+      reviewer = parseInt(input.reviewer);
     }
 
-    const existingAssignment = await prisma.assignments.findFirst({
+    const existingAssignment = await prisma.assignment.findFirst({
       where: { hash: hash, userId: assignee },
     });
 
@@ -50,7 +53,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       return res.status(500).json(errorResponse satisfies FailureType);
     }
 
-    const resp = await assignCase(assignee, hash);
+    const resp = await assignCase(assignee, reviewer, hash);
     return res.status(200).json(resp satisfies SuccessType);
   }
 ));
@@ -65,11 +68,7 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
       paths["/resolveAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
 
     const input: InputType = req.body;
-    const assignment = await resolveAssignment(
-      input.userId,
-      input.caseId,
-      input.resolved
-    );
+    const assignment = await resolveAssignment(input.caseId, input.resolved);
     return res.status(200).json(assignment satisfies SuccessType);
   }
 ));

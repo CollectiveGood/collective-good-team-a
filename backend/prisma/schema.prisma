@@ -16,9 +16,10 @@ model User {
   password String
   name     String
 
-  role       Role          @default(USER)
-  cases      Case[]
-  Assigments Assignments[]
+  role              Role         @default(USER)
+  cases             Case[]
+  Assignments       Assignment[] @relation(name: "user")
+  ReviewAssignments Assignment[] @relation(name: "reviewer")
 }
 
 enum Role {
@@ -36,26 +37,27 @@ model Case {
   fileName  String   @id
   caseName  String
   createdAt DateTime @default(now())
-  finalJson Json     @default("{}")
-  completed Boolean  @default(false)
 
-  uploader    User          @relation(fields: [authorId], references: [id])
-  authorId    Int
-  Assignments Assignments[]
+  uploader   User        @relation(fields: [authorId], references: [id])
+  authorId   Int
+  Assignment Assignment?
 }
 
-model Assignments {
-  user        User     @relation(fields: [userId], references: [id])
+model Assignment {
+  user        User     @relation(name: "user", fields: [userId], references: [id])
+  reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
   case        Case     @relation(fields: [hash], references: [fileName])
   info        Json?
   completed   Boolean  @default(false)
   reviewed    Accepted @default(PENDING)
   lastUpdated DateTime @updatedAt
 
-  userId Int
-  hash   String
+  userId     Int
+  reviewerId Int
+  hash       String @unique
 
-  @@id([userId, hash])
+  @@id([hash])
   @@index(userId)
+  @@index(reviewerId)
   @@index(hash)
 }

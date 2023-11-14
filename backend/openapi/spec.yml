@@ -268,10 +268,13 @@ paths:
               properties:
                 user:
                   type: string
+                reviewer:
+                  type: string
                 case:
                   type: string
               required:
                 - user
+                - reviewer
                 - case
       responses:
         "200":
@@ -288,6 +291,24 @@ paths:
                 $ref: "#/components/schemas/Response"
 
   /assignedCases:
+    get:
+      summary: gets all the assigned cases to the logged in user
+      responses:
+        "200":
+          description: all the assigned cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /assignedReviewerCases:
     get:
       summary: gets all the assigned cases to the logged in user
       responses:
@@ -533,13 +554,10 @@ components:
           type: string
         authorId:
           type: number
-        finalJson:
-          $ref: "#/components/schemas/AnyValue"
       required:
         - fileName
         - caseName
         - authorId
-        - finalJson
 
     Assignment:
       type: object

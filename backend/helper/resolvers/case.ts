@@ -27,37 +27,28 @@ export async function getCase(hash: string) {
 
 export async function getCases(
   isCompleted: boolean | undefined,
-  hasAssignments: boolean | undefined,
+  hasAssignment: boolean | undefined,
   start: number,
   take: number,
   desc: boolean
 ) {
   const cs = await prisma.case.findMany({
+    select: { Assignment: { select: { completed: true, reviewed: true } } },
     orderBy: { createdAt: desc ? "desc" : "asc" },
     skip: start,
     take: take,
     where: {
       AND: [
-        hasAssignments === undefined
+        hasAssignment === undefined
           ? {}
-          : hasAssignments
-          ? { Assignments: { some: {} } }
-          : { Assignments: { none: {} } },
-        isCompleted === undefined ? {} : { completed: isCompleted },
+          : hasAssignment
+          ? { Assignment: { isNot: null } }
+          : { Assignment: { is: null } },
+        isCompleted === undefined
+          ? {}
+          : { Assignment: { completed: isCompleted } },
       ],
     },
   });
   return cs;
-}
-
-export async function resolveCase(
-  hash: string,
-  shouldResolve: boolean,
-  json: any
-) {
-  const c = await prisma.case.update({
-    where: { fileName: hash },
-    data: { completed: shouldResolve, finalJson: json },
-  });
-  return c;
 }
