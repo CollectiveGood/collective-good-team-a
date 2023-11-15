@@ -251,6 +251,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Assignment"
+        "409":
+          description: assignment already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
         "500":
           description: an error was encountered
           content:

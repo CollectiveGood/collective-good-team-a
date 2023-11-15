@@ -43,11 +43,13 @@ export async function allInfo() {
 export async function updateAssignment(
   info: any,
   caseId: string,
+  userId: number,
   completed: boolean
 ) {
   const c = await prisma.assignment.update({
     where: {
       hash: caseId,
+      userId: userId,
     },
     data: {
       ...{
@@ -60,10 +62,15 @@ export async function updateAssignment(
   return c;
 }
 
-export async function resolveAssignment(caseId: string, resolved: boolean) {
+export async function resolveAssignment(
+  caseId: string,
+  reviewerId: number,
+  resolved: boolean
+) {
   const c = await prisma.assignment.update({
     where: {
       hash: caseId,
+      reviewerId: reviewerId,
     },
     data: { reviewed: resolved ? "ACCEPTED" : "REJECTED" },
   });

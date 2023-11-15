@@ -40,21 +40,24 @@ export async function seedDatabase(prisma: PrismaClient) {
   await updateAssignment(
     { field1: "this is field1", field2: "this is field2" },
     hash1,
+    adam.id,
     false
   );
   await updateAssignment(
     { field1: "this is a submittedCase case" },
     hash2,
+    tyler.id,
     true
   );
   await updateAssignment(
     { field1: "this is the final submission" },
     hash3,
+    adam.id,
     true
   );
 
-  const resolvedAssignment = await resolveAssignment(hash2, true);
-  const rejectAssignment = await resolveAssignment(hash3, false);
+  const resolvedAssignment = await resolveAssignment(hash2, adam.id, true);
+  const rejectAssignment = await resolveAssignment(hash3, admin.id, false);
 
   console.log("Seeding complete!");
 }

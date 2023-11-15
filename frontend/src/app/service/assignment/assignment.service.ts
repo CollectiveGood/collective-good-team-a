@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
@@ -13,7 +13,14 @@ export class AssignmentService {
 
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
-    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, {}, {
+    const request = {
+      "includeReviewed": true,
+      "includeNotCompleted": true,
+      "start": 0,
+      "take": 1000,
+      "desc": false
+    };
+    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
       withCredentials: true,
     });
   }
@@ -78,15 +85,19 @@ export class AssignmentService {
 
   /* Admin-only - assign a case to a user
   *  @param user: the user to assign the case to
-  *  @param caseHash: the hash value of the case to assign
+  *  @param reviewer: the reviewer to assign the case to
+  *  @param caseId: the id or hash value of the case to assign
   */
-  assignCase(user: string, caseHash: string): Observable<Assignment> {
-    const formData = new FormData();
-    formData.append('user', user);
-    formData.append('case', caseHash);
+  assignCase(user: string, reviewer: string, caseId: string): Observable<HttpResponse<Assignment>> {
+    const request = {
+      "user": user,
+      "reviewer": reviewer,
+      "case": caseId,
+    };
 
-    return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, formData, {
+    return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, request, {
       withCredentials: true,
+      observe: 'response',
     });
   }
 
@@ -94,14 +105,14 @@ export class AssignmentService {
   *  @param updateAssignmentRequest: the request body
   */
   updateAssignment(updateAssignmentRequest: UpdateAssignmentRequest): Observable<Assignment> {
-    const reqBody = {
+    const request = {
       json: updateAssignmentRequest.json,
       caseId: updateAssignmentRequest.caseId,
       userId: updateAssignmentRequest.userId,
       completed: updateAssignmentRequest.completed,
     };
   
-    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, reqBody, {
+    return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, request, {
       withCredentials: true,
     });
   }

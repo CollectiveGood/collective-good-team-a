@@ -242,6 +242,12 @@ export interface paths {
             "application/json": components["schemas"]["Assignment"];
           };
         };
+        /** @description assignment already exists */
+        409: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
         /** @description an error was encountered */
         500: {
           content: {

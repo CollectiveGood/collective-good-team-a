@@ -1,0 +1,34 @@
+<form (ngSubmit)="onSubmit()">
+    <h2 mat-dialog-title>Assign Case</h2>
+    <mat-dialog-content>
+        <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        <mat-form-field>
+            <mat-label>Case</mat-label>
+            <mat-select name="selectedCase" [(ngModel)]="selectedCase">
+                <mat-option *ngFor="let case of cases" [value]="case">
+                    {{ case.caseName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Assignee</mat-label>
+            <mat-select name="selectedUser" [(ngModel)]="selectedUser">
+                <mat-option *ngFor="let user of users" [value]="user">
+                    {{ user.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Reviewer</mat-label>
+            <mat-select name="selectedReviewer" [(ngModel)]="selectedReviewer">
+                <mat-option *ngFor="let user of users" [value]="user">
+                    {{ user.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>                
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button type="submit" color="primary">Save</button>
+        <a (click)="onCloseClick()" mat-raised-button color="warn">Cancel</a>
+    </mat-dialog-actions>
+</form>

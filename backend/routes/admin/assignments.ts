@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { localAuthStrategy } from "../../helper/authStrategy";
 import {
@@ -23,6 +23,8 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       paths["/assignCase"]["post"]["requestBody"]["content"]["application/json"];
     type SuccessType =
       paths["/assignCase"]["post"]["responses"]["200"]["content"]["application/json"];
+    type ConflictType =
+      paths["/assignCase"]["post"]["responses"]["409"]["content"]["application/json"];
     type FailureType =
       paths["/assignCase"]["post"]["responses"]["500"]["content"]["application/json"];
 
@@ -50,7 +52,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       const errorResponse = {
         response: "This case has already been assigned to this user!",
       };
-      return res.status(500).json(errorResponse satisfies FailureType);
+      return res.status(409).json(errorResponse satisfies ConflictType);
     }
 
     const resp = await assignCase(assignee, reviewer, hash);
@@ -68,7 +70,13 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
       paths["/resolveAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
 
     const input: InputType = req.body;
-    const assignment = await resolveAssignment(input.caseId, input.resolved);
+    const user = req.user! as User;
+
+    const assignment = await resolveAssignment(
+      input.caseId,
+      user.id,
+      input.resolved
+    );
     return res.status(200).json(assignment satisfies SuccessType);
   }
 ));
