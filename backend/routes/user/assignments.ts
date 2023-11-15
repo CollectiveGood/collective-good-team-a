@@ -72,6 +72,7 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
     const assignment = await updateAssignment(
       input.json,
       input.caseId,
+      userId,
       input.completed ?? false
     );
     return res.status(200).json(assignment satisfies SuccessType);
