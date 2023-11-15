@@ -88,10 +88,10 @@ export class AssignmentService {
   *  @param reviewer: the reviewer to assign the case to
   *  @param caseId: the id or hash value of the case to assign
   */
-  assignCase(user: string, reviewer: string, caseId: string): Observable<HttpResponse<Assignment>> {
+  assignCase(userEmail: string, reviewerEmail: string, caseId: string): Observable<HttpResponse<Assignment>> {
     const request = {
-      "user": user,
-      "reviewer": reviewer,
+      "user": userEmail,
+      "reviewer": reviewerEmail,
       "case": caseId,
     };
 

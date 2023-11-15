@@ -57,11 +57,13 @@ export class CaseAssignmentDialogComponent {
     this.assignmentService.assignCase(this.selectedUser.email, this.selectedReviewer.email, this.selectedCase.fileName).subscribe({
       next: (response) => {
         console.log(response);
-        this.dialogRef.close("This case has been assigned successfully!");
+        this.dialogRef.close("Case has been assigned successfully!");
       },
       error: (e) => {
         if (e.status === 409) {
           this.snackBar.open("This case is already assigned to this user.", "Close", { duration: 3000 });
+        } else {
+          this.snackBar.open("An error occurred while assigning the case.", "Close", { duration: 3000 });
         }
         this.loading = false;
         console.error(e);

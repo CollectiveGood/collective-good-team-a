@@ -50,7 +50,7 @@ export class AuthService {
 
   signUp(email: string, name: string, password: string): Observable<HttpResponse<any>> {
     const body = { email, name, password };
-    return this.http.post(`${environment.apiUrl}/signup`, body, {
+    return this.http.post<HttpResponse<any>>(`${environment.apiUrl}/signup`, body, {
       observe: 'response',
       withCredentials: true,
     });
