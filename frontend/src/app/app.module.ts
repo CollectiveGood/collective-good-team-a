@@ -10,22 +10,24 @@ import { LoginComponent } from './component/login/login.component';
 import { SignupComponent } from './component/signup/signup.component';
 import { HomeComponent } from './component/home/home.component';
 import { AccountComponent } from './component/account/account.component';
+import { HelpComponent } from './component/help/help.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { PdfViewerComponent } from './shared/pdf-viewer/pdf-viewer.component';
 import { CaseFormComponent } from './component/case-form/case-form.component';
 import { FormViewComponent } from './component/case-form/form-view/form-view.component';
-import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
-import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
-import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-case-view.component';
 import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
 import { AdminAssignmentViewComponent } from './component/admin/admin-assignment-view/admin-assignment-view.component';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
+import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
+import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
+import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
 import { SaveChangesDialogComponent } from './component/dialog/save-changes-dialog/save-changes-dialog.component';
 import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-dialog/confirm-submit-dialog.component';
 import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
 import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
+import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,7 +47,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,8 @@ import { CaseAssignmentDialogComponent } from './component/dialog/case-assignmen
     CaseViewDialogComponent,
     ConfirmCaseDeleteDialogComponent,
     AdminAssignmentViewComponent,
-    CaseAssignmentDialogComponent
+    CaseAssignmentDialogComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +98,9 @@ import { CaseAssignmentDialogComponent } from './component/dialog/case-assignmen
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
