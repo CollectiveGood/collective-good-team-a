@@ -41,11 +41,11 @@ export async function getCases(
         hasAssignment === undefined
           ? {}
           : hasAssignment
-          ? { Assignment: { isNot: null } }
-          : { Assignment: { is: null } },
+          ? { Assignment: { some: {} } }
+          : { Assignment: { none: {} } },
         isCompleted === undefined
           ? {}
-          : { Assignment: { completed: isCompleted } },
+          : { Assignment: { some: { completed: true } } },
       ],
     },
   });

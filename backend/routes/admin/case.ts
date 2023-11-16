@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { RequestHandler } from "express";
 import { memoryStorage } from "multer";
-import { localAuthStrategy } from "../../helper/authStrategy";
+import { adminAuthStrategy } from "../../helper/authStrategy";
 import { googleFileStorage } from "../../helper/fileHandler/googleFileStorage";
 import {
   addCase,
@@ -23,7 +23,7 @@ var router = express.Router();
 Uploads a PDF to the server and inserts an entry into the database, with the hash of the path as the key
 Expects file in form-data
  */
-router.post("/addCase", localAuthStrategy, upload.single("file"), <
+router.post("/addCase", adminAuthStrategy, upload.single("file"), <
   RequestHandler
 >async function (req, res, next) {
   type InputType =
@@ -53,7 +53,7 @@ router.post("/addCase", localAuthStrategy, upload.single("file"), <
   res.status(200).json(response satisfies SuccessType);
 });
 
-router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
+router.post("/deleteCase", adminAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/deleteCase"]["post"]["requestBody"]["content"]["application/json"];
@@ -67,7 +67,7 @@ router.post("/deleteCase", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.post("/getCases", localAuthStrategy, <RequestHandler>(
+router.post("/getCases", adminAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/getCases"]["post"]["requestBody"]["content"]["application/json"];

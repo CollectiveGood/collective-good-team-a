@@ -48,8 +48,7 @@ export async function updateAssignment(
 ) {
   const c = await prisma.assignment.update({
     where: {
-      hash: caseId,
-      userId: userId,
+      hash_userId: { hash: caseId, userId: userId },
     },
     data: {
       ...{
@@ -69,8 +68,7 @@ export async function resolveAssignment(
 ) {
   const c = await prisma.assignment.update({
     where: {
-      hash: caseId,
-      reviewerId: reviewerId,
+      hash_reviewerId: { hash: caseId, reviewerId: reviewerId },
     },
     data: { reviewed: resolved ? "ACCEPTED" : "REJECTED" },
   });
@@ -103,6 +101,7 @@ export async function getReviewerCases(reviewer: number) {
   const cs = await prisma.assignment.findMany({
     include: { case: { select: { caseName: true } } },
     where: {
+      completed: true,
       reviewerId: reviewer,
     },
   });
