@@ -59,7 +59,13 @@ export class AssignmentService {
   getCasesToReview(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedReviewerCases`, {
       withCredentials: true, 
-    });
+    }).pipe(
+      map((assignments: Assignment[]) => {
+        return assignments.filter((assignment: Assignment) => {
+          return assignment.reviewed === "PENDING" && assignment.completed;
+        });
+      })
+    );
   }
 
   /* Get all cases that the current user has submitted for review */
