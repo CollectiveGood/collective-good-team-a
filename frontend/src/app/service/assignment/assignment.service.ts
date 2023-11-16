@@ -56,26 +56,10 @@ export class AssignmentService {
   }
 
   /* Get all cases that the current user has been asked to review */
-  getCasesToReview(reviewerId: number): Observable<Assignment[]> {
-    // reviewed: PENDING, completed: true, reviewerID: current user
-    const request = {
-      "includeReviewed": false,
-      "includeNotCompleted": true,
-      "start": 0,
-      "take": 1000,
-      "desc": false
-    };
-
-    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
-      withCredentials: true,
-    }).pipe(
-      map((assignments: Assignment[]) => {
-        return assignments.filter((assignment: Assignment) => {
-          console.log(assignment);
-          return assignment.reviewed === "PENDING" && assignment.completed && assignment.reviewerId === reviewerId;
-        });
-      }
-    ));
+  getCasesToReview(): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedReviewerCases`, {
+      withCredentials: true, 
+    });
   }
 
   /* Get all cases that the current user has submitted for review */

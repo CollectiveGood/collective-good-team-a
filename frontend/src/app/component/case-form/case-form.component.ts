@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Assignment, UpdateAssignmentRequest } from 'src/app/models';
+import { Assignment, UpdateAssignmentRequest, User } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseService } from 'src/app/service/case/case.service';
+import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-case-form',
@@ -14,12 +15,14 @@ export class CaseFormComponent {
   caseHash: string = '';
   caseBlob!: Blob;
   caseAssignment: Assignment | null = null;
-
+  user!: User;
+  
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
     private caseService: CaseService, 
     private assignmentService: AssignmentService,
+    private userService: UserService,
     private snackBar: MatSnackBar) {
     this.route.params.subscribe(params => {
       this.caseHash = params['hash']; // fetch and render the PDF for the selected case
@@ -45,11 +48,36 @@ export class CaseFormComponent {
       }
     });
 
+    // Fetch the current user for the case assignment
+    this.userService.getUser()?.subscribe({
+      next: (response: User) => {
+        this.user = response;
+      },
+      error: (e) => {
+        console.error('Failed to retrieve current user: ', e);
+        this.snackBar.open('An error occurred while retrieving user information', 'Close', { duration: 3000 });
+      },
+      complete: () => {
+        if (this.user === undefined) {
+          this.snackBar.open('Failed to retrieve user information', 'Close', {
+            duration: 3000,
+          });
+        } else {
+          this.getCaseInfo(); // Fetch case info after getting user information
+        }
+      }
+    });
+  }
+
+  private getCaseInfo(): void {
     // Retrieve case information for selected case
     this.assignmentService.getAllAssignments().subscribe({
       next: (response: Assignment[]) => {
         // Find the assignment with the matching hash
-        this.caseAssignment = response.find(assignment => assignment.hash === this.caseHash) || null;
+        this.caseAssignment = response.find(
+          assignment => assignment.hash === this.caseHash 
+          && assignment.userId === this.user.id
+        ) || null;
         console.log(this.caseAssignment);
       },
       error: (e) => {

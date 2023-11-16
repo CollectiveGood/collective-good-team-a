@@ -17,32 +17,18 @@ export class HomeComponent implements OnInit {
   submittedCases: Assignment[] | null = null;
   completedCases: Assignment[] | null = null;
   loading: boolean = false;
-  user!: User;
 
   constructor(
     private router: Router, 
-    private assignmentService: AssignmentService,
-    private userService: UserService
+    private assignmentService: AssignmentService
     ) {
   }
 
   ngOnInit(): void {
-    // Get current user
-    this.userService.getUser()?.subscribe({
-      next: (response) => {
-        this.user = response;
-      },
-      error: (e) => {
-        console.error(e);
-      },
-      complete: () => {
-        // Set up case lists
-        this.getNewAssignedCases();
-        this.getSubmittedCases();
-        this.getCasesToReview(); // Wait until user info is retrieved before getting cases to review
-        // this.getCompletedCases();
-      }
-    });
+    // Retrieve assigned cases
+    this.getNewAssignedCases();
+    this.getSubmittedCases();
+    this.getCasesToReview();
   }
 
   private getNewAssignedCases(): void {
@@ -67,7 +53,7 @@ export class HomeComponent implements OnInit {
   private getCasesToReview(): void {
     // Retrieve list of cases to review
     this.loading = true;
-    this.assignmentService.getCasesToReview(this.user.id).subscribe({
+    this.assignmentService.getCasesToReview().subscribe({
       next: (response) => {
         if (response.length === 0) { // if none to review, set to null
           return;
