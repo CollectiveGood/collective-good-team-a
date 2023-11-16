@@ -54,10 +54,10 @@ export function localAuthStrategy(req: any, res: any, next: any) {
 export function adminAuthStrategy(req: any, res: any, next: any) {
   const user = req.user as User;
   if (!req.isAuthenticated()) {
-    res.redirect("/unAuthorized");
+    return res.redirect("/unAuthorized");
   }
   if (user.role !== "ADMIN") {
-    res.redirect("/Forbidden");
+    return res.redirect("/Forbidden");
   }
   next();
 }

@@ -56,7 +56,6 @@ model Assignment {
   reviewerId Int
   hash       String
 
-  @@id([hash])
   @@unique([hash, userId]) // Never want to assign someone the same case twice
   @@unique([hash, reviewerId]) // Never want anyone to review the same case twice
   @@index(userId)

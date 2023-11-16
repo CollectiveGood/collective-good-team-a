@@ -1,15 +1,12 @@
 import { RequestHandler } from "express";
-import {
-  adminAuthStrategy,
-  localAuthStrategy,
-} from "../../helper/authStrategy";
+import { adminAuthStrategy } from "../../helper/authStrategy";
 import { getUsers } from "../../helper/resolvers/user";
 import { paths } from "../../openapi/api";
 
 var express = require("express");
 var router = express.Router();
 
-router.post("/getUsers", localAuthStrategy, <RequestHandler>(
+router.post("/getUsers", adminAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/getUsers"]["post"]["requestBody"]["content"]["application/json"];

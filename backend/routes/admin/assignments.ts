@@ -13,10 +13,6 @@ const prisma = new PrismaClient();
 
 var router = express.Router();
 
-/*
-Assigns a case to a user, 
-Expects xxx-url-encoded of `user` and `case`
- */
 router.post("/assignCase", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
@@ -48,11 +44,19 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
       where: { hash: hash, userId: assignee },
     });
 
-    if (existingAssignment) {
-      const errorResponse = {
-        response: "This case has already been assigned to this user!",
-      };
-      return res.status(409).json(errorResponse satisfies ConflictType);
+    const existingReview = await prisma.assignment.findFirst({
+      where: { hash: hash, reviewerId: reviewer },
+    });
+
+    if (existingAssignment || existingReview || assignee === reviewer) {
+      const error = existingAssignment
+        ? "This case has already been assigned to this user!"
+        : existingReview
+        ? "This case has already been assigned to this reviewer!"
+        : assignee === reviewer
+        ? "Assignee and reviewer cannot be the same!"
+        : "Unknown error";
+      return res.status(409).json({ response: error } satisfies ConflictType);
     }
 
     const resp = await assignCase(assignee, reviewer, hash);
