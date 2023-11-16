@@ -46,7 +46,7 @@ export class CaseFormComponent {
     });
 
     // Retrieve case information for selected case
-    this.assignmentService.getAssignedCases().subscribe({
+    this.assignmentService.getAllAssignments().subscribe({
       next: (response: Assignment[]) => {
         // Find the assignment with the matching hash
         this.caseAssignment = response.find(assignment => assignment.hash === this.caseHash) || null;

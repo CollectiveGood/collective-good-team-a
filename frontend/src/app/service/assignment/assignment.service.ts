@@ -35,13 +35,13 @@ export class AssignmentService {
   }
 
   /* Get all cases assigned to the current user */
-  getAssignedCases(): Observable<Assignment[]> {
+  getAllAssignedCases(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
     });
   }
 
-  /* Get all cases newly assigned to the current user */
+  /* Get all new cases for user to complete */
   getNewAssignedCases(): Observable<Assignment[]> {
     // reviewed: PENDING or REJECTED, completed: false
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
@@ -55,8 +55,31 @@ export class AssignmentService {
     ));
   }
 
+  /* Get all cases that the current user has been asked to review */
+  getCasesToReview(reviewerId: number): Observable<Assignment[]> {
+    // reviewed: PENDING, completed: true, reviewerID: current user
+    const request = {
+      "includeReviewed": false,
+      "includeNotCompleted": true,
+      "start": 0,
+      "take": 1000,
+      "desc": false
+    };
+
+    return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
+      withCredentials: true,
+    }).pipe(
+      map((assignments: Assignment[]) => {
+        return assignments.filter((assignment: Assignment) => {
+          console.log(assignment);
+          return assignment.reviewed === "PENDING" && assignment.completed && assignment.reviewerId === reviewerId;
+        });
+      }
+    ));
+  }
+
   /* Get all cases that the current user has submitted for review */
-  getPendingCases() {
+  getSubmittedCases() {
     // reviewed: PENDING, completed: true
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,

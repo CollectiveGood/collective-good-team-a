@@ -12,7 +12,7 @@ import { ConfirmSubmitDialogComponent } from '../../dialog/confirm-submit-dialog
   styleUrls: ['./form-view.component.css']
 })
 export class FormViewComponent {
-  @Input() caseAssignment: Assignment | undefined;
+  @Input() caseAssignment!: Assignment;
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
   
   caseInfo: CaseInfo | undefined;
@@ -46,7 +46,7 @@ export class FormViewComponent {
   private initForm(): void {
     const formValues: any = {};
     // Populate the formValues object with the caseInfo properties
-    this.caseInfo = this.caseAssignment?.info;
+    this.caseInfo = this.caseAssignment.info;
     if (this.caseInfo) {
       formValues.patientName = this.caseInfo.patientName || '';
       formValues.patientGender = this.caseInfo.patientGender || '';
