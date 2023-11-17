@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -59,12 +60,8 @@ export class CaseAssignmentDialogComponent {
         console.log(response);
         this.dialogRef.close("Case has been assigned successfully!");
       },
-      error: (e) => {
-        if (e.status === 409) {
-          this.snackBar.open("This case is already assigned to this user.", "Close", { duration: 3000 });
-        } else {
-          this.snackBar.open("An error occurred while assigning the case.", "Close", { duration: 3000 });
-        }
+      error: (e: HttpErrorResponse) => {
+        this.snackBar.open(e.error.response, "Close", { duration: 3000 });
         this.loading = false;
         console.error(e);
       },
