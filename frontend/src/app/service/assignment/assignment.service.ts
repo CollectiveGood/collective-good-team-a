@@ -100,20 +100,9 @@ export class AssignmentService {
     ));
   }
 
-  needsReview(assignment: Assignment): Observable<boolean> | undefined {
-    /* Assignment must be submitted, pending review with the current user as the reviewer */
-    return this.userService.getUser()?.pipe(
-      switchMap((user: User) => {
-        const userIsReviewer = user.id === assignment.reviewerId;
-        console.log(userIsReviewer);
-        if (userIsReviewer) {
-          return of(assignment.completed && assignment.reviewed === 'PENDING');
-        } else {
-          console.error("User is not a reviewer");
-          return of(false);
-        }
-      })
-    );
+  needsReview(assignment: Assignment): boolean {
+    /* Assignment must be submitted, pending review */
+    return assignment.completed && assignment.reviewed === 'PENDING'
   }
 
   /* Admin-only - assign a case to a user

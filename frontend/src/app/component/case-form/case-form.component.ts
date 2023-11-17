@@ -82,23 +82,14 @@ export class CaseFormComponent {
           });
         }
         else {
-          // Check if the user is a reviewer for the case
-          this.assignmentService.needsReview(this.caseAssignment)?.subscribe({
-            next: (needsReview: boolean) => {
-              this.isReviewMode = needsReview;
-            }
-          })
+          // Check whether to render review mode
+          this.isReviewMode = this.assignmentService.needsReview(this.caseAssignment) 
+          && this.caseAssignment.reviewerId === this.user.id;
         }
       },
       error: (e) => {
         console.error('Failed to retrieve case information: ', e);
-      },
-      complete: () => {
-        if (this.caseAssignment === undefined) {
-          this.snackBar.open('Failed to retrieve case information', 'Close', {
-            duration: 3000,
-          });
-        }
+        this.snackBar.open('An error occurred while retrieving case information', 'Close', { duration: 3000 });
       }
     });
   }
