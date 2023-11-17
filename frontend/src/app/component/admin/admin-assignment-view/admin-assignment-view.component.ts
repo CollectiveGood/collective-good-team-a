@@ -23,7 +23,8 @@ export class AdminAssignmentViewComponent {
   dataSource = new MatTableDataSource<Assignment>();
   loading: boolean = false;
   searchText: string = '';
-
+  selectedStatus: string = 'All';
+  
   constructor(
     private assignmentService: AssignmentService,
     private dialog: MatDialog,

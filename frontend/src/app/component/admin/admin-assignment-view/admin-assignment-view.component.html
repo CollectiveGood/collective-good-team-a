@@ -4,6 +4,19 @@
     <h1>Assignments</h1>
   </div>
   <div class="header-right">
+
+    <!-- Filter Status -->
+    <mat-form-field>
+      <mat-label>Filter By</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (change)="applyFilter()">
+        <mat-option value="All">All</mat-option>
+        <mat-option value="New">New</mat-option>
+        <mat-option value="In Progress">In Progress</mat-option>
+        <mat-option value="Completed">Completed</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Search Box -->
     <mat-form-field>
       <mat-label>Search Assignments</mat-label>
       <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
