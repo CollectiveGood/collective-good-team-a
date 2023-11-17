@@ -28,6 +28,7 @@ import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-
 import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
 import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
+import { ReviewerFormViewComponent } from './component/case-form/reviewer-form-view/reviewer-form-view.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -75,7 +76,8 @@ import { MatListModule } from '@angular/material/list';
     ConfirmCaseDeleteDialogComponent,
     AdminAssignmentViewComponent,
     CaseAssignmentDialogComponent,
-    HelpComponent
+    HelpComponent,
+    ReviewerFormViewComponent
   ],
   imports: [
     BrowserModule,

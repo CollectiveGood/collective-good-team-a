@@ -1,0 +1,84 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-subtitle>Leave comments to review this submission.</mat-card-subtitle>
+      </mat-card-header>
+    <mat-card-actions>
+        <button mat-stroked-button>
+            <mat-icon>comment</mat-icon> Add Comment
+        </button>
+    </mat-card-actions>
+    <form [formGroup]="caseInfoForm">
+      <mat-card-content>
+        <div class="form-container">
+            <h2>Demographic Information</h2>
+            <div class="form-row">
+              <mat-form-field class="form-field">
+                <mat-label>Patient Name</mat-label>
+                <input matInput type="text" formControlName="patientName" id="patient-name" readonly>
+              </mat-form-field>
+              <mat-form-field class="form-field">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="patientGender" id="gender">
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="form-field">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" formControlName="patientAge" id="age" readonly>
+              </mat-form-field>
+            </div>
+            <h2>History</h2>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Past Medical History</mat-label>
+                <textarea matInput formControlName="medicalHistory" id="medical-history" readonly></textarea>
+              </mat-form-field>
+              <mat-form-field class="text-area">
+                <mat-label>Family History</mat-label>
+                <textarea matInput formControlName="familyHistory" id="family-history" readonly></textarea>
+              </mat-form-field>
+            </div>
+            <h2>Symptoms & Examination</h2>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Chief Complaint</mat-label>
+                <textarea matInput formControlName="chiefComplaint" id="chief-complaint" readonly></textarea>
+              </mat-form-field>
+              <mat-form-field class="text-area">
+                <mat-label>Symptoms</mat-label>
+                <textarea matInput formControlName="symptoms" id="symptoms" readonly></textarea>
+              </mat-form-field>
+              <mat-form-field class="text-area">
+                <mat-label>HPI</mat-label>
+                <textarea matInput formControlName="hpi" id="hpi" readonly></textarea>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Physical Examination</mat-label>
+                <textarea matInput formControlName="physicalExaminationNotes" id="physical-examination-notes" readonly></textarea>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Labs & Diagnostics</mat-label>
+                <textarea matInput formControlName="labDiagnosticsNotes" id="lab-diagnostics-notes" readonly></textarea>
+              </mat-form-field>
+            </div>
+            <h2>Additional Notes</h2>
+            <div class="form-row">
+              <mat-form-field class="text-area">
+                <mat-label>Additional Notes Here</mat-label>
+                <textarea matInput formControlName="additionalNotes" id="additional-notes" readonly></textarea>
+              </mat-form-field>
+            </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="button-row">
+        <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>
+        <button mat-raised-button type="button" color="accent" (click)="saveDraft()">Save Draft</button>
+        <button mat-raised-button type="button" color="primary" (click)="onSubmit()">Finish Review
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>

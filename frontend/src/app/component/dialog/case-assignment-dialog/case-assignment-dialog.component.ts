@@ -16,7 +16,6 @@ export class CaseAssignmentDialogComponent {
 
   cases: Case[] | null = null;
   users: User[] | null = null;
-  reviewer: User[] | null = null;
   selectedCase: Case | null = null;
   selectedUser: User | null = null;
   selectedReviewer: User | null = null;
@@ -52,6 +51,7 @@ export class CaseAssignmentDialogComponent {
 
   onSubmit(): void {
     if (this.selectedCase === null || this.selectedUser === null || this.selectedReviewer === null) {
+      this.snackBar.open("Please fill out all fields.", "Close", { duration: 3000 });
       return;
     }
     this.loading = true;

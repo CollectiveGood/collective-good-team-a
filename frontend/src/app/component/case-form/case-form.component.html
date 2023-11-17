@@ -6,10 +6,19 @@
     <p *ngIf="!caseBlob">Loading PDF...</p>
   </div>
   <div class="child-container">
-    <app-form-view 
+    <ng-container *ngIf="!isReviewMode; else reviewMode">
+      <app-form-view 
+        *ngIf="caseAssignment"
+        [caseAssignment]="caseAssignment"
+        (formSubmitted)="updateCaseInfo($event)">
+      </app-form-view>
+    </ng-container>
+    <ng-template #reviewMode>
+      <app-reviewer-form-view
       *ngIf="caseAssignment"
       [caseAssignment]="caseAssignment"
-      (formSubmitted)="updateCaseInfo($event)">
-    </app-form-view>
+      (formSubmitted)="submitCaseReview($event)">
+    </app-reviewer-form-view>
+    </ng-template>
   </div>
 </div>

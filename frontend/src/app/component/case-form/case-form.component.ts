@@ -16,6 +16,7 @@ export class CaseFormComponent {
   caseBlob!: Blob;
   caseAssignment: Assignment | null = null;
   user!: User;
+  isReviewMode: boolean = false;
   
   constructor(
     private route: ActivatedRoute, 
@@ -69,16 +70,25 @@ export class CaseFormComponent {
     });
   }
 
+  /* Get the user and case information for the selected case */
   private getCaseInfo(): void {
-    // Retrieve case information for selected case
     this.assignmentService.getAllAssignments().subscribe({
       next: (response: Assignment[]) => {
         // Find the assignment with the matching hash
-        this.caseAssignment = response.find(
-          assignment => assignment.hash === this.caseHash 
-          && assignment.userId === this.user.id
-        ) || null;
-        console.log(this.caseAssignment);
+        this.caseAssignment = response.find(assignment => assignment.hash === this.caseHash ) || null;
+        if (this.caseAssignment === null) {
+          this.snackBar.open('Failed to retrieve case information', 'Close', {
+            duration: 3000,
+          });
+        }
+        else {
+          // Check if the user is a reviewer for the case
+          this.assignmentService.needsReview(this.caseAssignment)?.subscribe({
+            next: (needsReview: boolean) => {
+              this.isReviewMode = needsReview;
+            }
+          })
+        }
       },
       error: (e) => {
         console.error('Failed to retrieve case information: ', e);
@@ -122,4 +132,7 @@ export class CaseFormComponent {
       }
     });
   }
+
+  // TODO - only for reviewers
+  submitCaseReview(data: any) {}
 }

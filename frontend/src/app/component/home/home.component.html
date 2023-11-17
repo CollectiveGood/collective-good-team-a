@@ -16,7 +16,7 @@
                     color="primary"
                     class="custom-button"
                     *ngFor="let caseAssignment of newAssignedCases"
-                    (click)="caseClick(caseAssignment)"
+                    (click)="caseClick(caseAssignment.hash)"
                     >
                     {{ caseAssignment.case.caseName }}
                     </button>
@@ -35,7 +35,7 @@
                     color="primary"
                     class="custom-button"
                     *ngFor="let caseAssignment of casesToReview"
-                    (click)="caseClick(caseAssignment)"
+                    (click)="caseClick(caseAssignment.hash)"
                     >
                     {{ caseAssignment.case.caseName }}
                     </button>
@@ -53,7 +53,7 @@
                 color="primary"
                 class="custom-button"
                 *ngFor="let caseAssignment of submittedCases"
-                (click)="caseClick(caseAssignment)"
+                (click)="caseClick(caseAssignment.hash)"
                 >
                 {{ caseAssignment.case.caseName }}
                 </button>

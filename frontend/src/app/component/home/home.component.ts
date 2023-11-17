@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit {
 
   //Sojin
   // Handle button click
-  caseClick(assignedCase: Assignment) {
-    this.router.navigate([`/case/${assignedCase.hash}`])
+  caseClick(caseHash: string) {
+    this.router.navigate([`/case/${caseHash}`]);
   }
 }

@@ -1,15 +1,19 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
+import { Observable, map, of, switchMap } from 'rxjs';
+import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest, User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+  ) { }
 
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
@@ -94,6 +98,22 @@ export class AssignmentService {
         });
       }
     ));
+  }
+
+  needsReview(assignment: Assignment): Observable<boolean> | undefined {
+    /* Assignment must be submitted, pending review with the current user as the reviewer */
+    return this.userService.getUser()?.pipe(
+      switchMap((user: User) => {
+        const userIsReviewer = user.id === assignment.reviewerId;
+        console.log(userIsReviewer);
+        if (userIsReviewer) {
+          return of(assignment.completed && assignment.reviewed === 'PENDING');
+        } else {
+          console.error("User is not a reviewer");
+          return of(false);
+        }
+      })
+    );
   }
 
   /* Admin-only - assign a case to a user
