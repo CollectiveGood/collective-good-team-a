@@ -1,10 +1,9 @@
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { RequestHandler } from "express";
-import { localAuthStrategy } from "../../helper/authStrategy";
+import { adminAuthStrategy } from "../../helper/authStrategy";
 import {
   assignCase,
   getAssignmentsAdmin,
-  resolveAssignment,
 } from "../../helper/resolvers/assignment";
 import { getIdFromEmail } from "../../helper/resolvers/user";
 import { paths } from "../../openapi/api";
@@ -13,7 +12,7 @@ const prisma = new PrismaClient();
 
 var router = express.Router();
 
-router.post("/assignCase", localAuthStrategy, <RequestHandler>(
+router.post("/assignCase", adminAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/assignCase"]["post"]["requestBody"]["content"]["application/json"];
@@ -64,28 +63,7 @@ router.post("/assignCase", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    type InputType =
-      paths["/resolveAssignment"]["post"]["requestBody"]["content"]["application/json"];
-    type SuccessType =
-      paths["/resolveAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
-    type FailureType =
-      paths["/resolveAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
-
-    const input: InputType = req.body;
-    const user = req.user! as User;
-
-    const assignment = await resolveAssignment(
-      input.caseId,
-      user.id,
-      input.resolved
-    );
-    return res.status(200).json(assignment satisfies SuccessType);
-  }
-));
-
-router.post("/getAssignments", localAuthStrategy, <RequestHandler>(
+router.post("/getAssignments", adminAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type InputType =
       paths["/getAssignments"]["post"]["requestBody"]["content"]["application/json"];

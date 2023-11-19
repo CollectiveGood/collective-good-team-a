@@ -11,6 +11,7 @@ import { adminGuard } from './service/auth/admin.guard';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
 import { AdminAssignmentViewComponent } from './component/admin/admin-assignment-view/admin-assignment-view.component';
+import { HelpComponent } from './component/help/help.component';
 
 const routes: Routes = [
   // Admin routes
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
   { path: 'case/:hash', component: CaseFormComponent, canActivate: [authGuard] },
+  { path: 'help', component: HelpComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home component
 
   // Handle unknown paths

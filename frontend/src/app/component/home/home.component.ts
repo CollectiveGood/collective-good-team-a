@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Assignment, User } from 'src/app/models';
 import { Router } from '@angular/router';
-import { CaseService } from 'src/app/service/case/case.service';
-import { AuthService } from 'src/app/service/auth/auth.service';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
+import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -12,11 +11,12 @@ import { AssignmentService } from 'src/app/service/assignment/assignment.service
 })
 export class HomeComponent implements OnInit {
 
+  // assignedCases: Assignment[] | null = null;
   newAssignedCases: Assignment[] | null = null;
-  pendingCases: Assignment[] | null = null;
+  casesToReview: Assignment[] | null = null;
+  submittedCases: Assignment[] | null = null;
   completedCases: Assignment[] | null = null;
   loading: boolean = false;
-  user: User | null = null;
 
   constructor(
     private router: Router, 
@@ -25,10 +25,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Set case assignment lists
+    // Retrieve assigned cases
     this.getNewAssignedCases();
-    this.getPendingCases();
-    this.getCompletedCases();
+    this.getSubmittedCases();
+    this.getCasesToReview();
   }
 
   private getNewAssignedCases(): void {
@@ -50,15 +50,34 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private getPendingCases(): void {
-    // Retrieve list of pending cases
+  private getCasesToReview(): void {
+    // Retrieve list of cases to review
     this.loading = true;
-    this.assignmentService.getPendingCases().subscribe({
+    this.assignmentService.getCasesToReview().subscribe({
       next: (response) => {
-        if (response.length === 0) { // if none pending, set to null
+        if (response.length === 0) { // if none to review, set to null
           return;
         }
-        this.pendingCases = response;
+        this.casesToReview = response;
+      },
+      error: (e) => {
+        console.log(e);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  private getSubmittedCases(): void {
+    // Retrieve list of submitted cases
+    this.loading = true;
+    this.assignmentService.getSubmittedCases().subscribe({
+      next: (response) => {
+        if (response.length === 0) { // if none submitted, set to null
+          return;
+        }
+        this.submittedCases = response;
       },
       error: (e) => {
         console.log(e);
@@ -91,7 +110,7 @@ export class HomeComponent implements OnInit {
 
   //Sojin
   // Handle button click
-  caseClick(assignedCase: Assignment) {
-    this.router.navigate([`/case/${assignedCase.hash}`])
+  caseClick(caseHash: string) {
+    this.router.navigate([`/case/${caseHash}`]);
   }
 }

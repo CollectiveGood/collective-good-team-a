@@ -6,66 +6,60 @@
 </div>
 <div class="card-container">
     <mat-card>
-        <mat-card-title>Assigned To Me</mat-card-title>
+        <mat-card-title>New Cases</mat-card-title>
         <hr class="line-break">
         <mat-card-content>
-            <ng-container *ngIf="newAssignedCases != null; else noAssignedCases">
+            <ng-container *ngIf="newAssignedCases != null; else noCases">
                 <div class="button-list">
                     <button
                     mat-button
                     color="primary"
                     class="custom-button"
-                    *ngFor="let newAssignedCase of newAssignedCases"
-                    (click)="caseClick(newAssignedCase)"
+                    *ngFor="let caseAssignment of newAssignedCases"
+                    (click)="caseClick(caseAssignment.hash)"
                     >
-                    {{ newAssignedCase.case.caseName }}
+                    {{ caseAssignment.case.caseName }}
                     </button>
                 </div>
-                </ng-container>
-            <ng-template #noAssignedCases>
-                <p>None to display</p>
-            </ng-template>
+            </ng-container>
         </mat-card-content>
     </mat-card>
     <mat-card>
-        <mat-card-title>Pending Review</mat-card-title>
+        <mat-card-title>Cases To Review</mat-card-title>
         <hr class="line-break">
         <mat-card-content>
-            <ng-container *ngIf="pendingCases != null; else noPendingCases">
+            <ng-container *ngIf="casesToReview != null; else noCases">
                 <div class="button-list">
                     <button
                     mat-button
                     color="primary"
                     class="custom-button"
-                    *ngFor="let pendingCase of pendingCases"
-                    (click)="caseClick(pendingCase)"
+                    *ngFor="let caseAssignment of casesToReview"
+                    (click)="caseClick(caseAssignment.hash)"
                     >
-                    {{ pendingCase.case.caseName }}
+                    {{ caseAssignment.case.caseName }}
                     </button>
                 </div>
-                </ng-container>
-            <ng-template #noPendingCases>
-                <p>None to display</p>
-            </ng-template>
+            </ng-container>
         </mat-card-content>
     </mat-card>
     <mat-card>
-        <mat-card-title>Completed Cases</mat-card-title>
+        <mat-card-title>Submitted Cases</mat-card-title>
         <hr class="line-break">
-        <ng-container *ngIf="completedCases != null; else noCompletedCases">
+        <ng-container *ngIf="submittedCases != null; else noCases">
             <div class="button-list">
                 <button
                 mat-button
                 color="primary"
                 class="custom-button"
-                *ngFor="let completedCase of completedCases"
-                (click)="caseClick(completedCase)"
+                *ngFor="let caseAssignment of submittedCases"
+                (click)="caseClick(caseAssignment.hash)"
                 >
-                {{ completedCase.case.caseName }}
+                {{ caseAssignment.case.caseName }}
                 </button>
             </div>
-            </ng-container>
-        <ng-template #noCompletedCases>
+        </ng-container>
+        <ng-template #noCases>
             <p>None to display</p>
         </ng-template>
     </mat-card>

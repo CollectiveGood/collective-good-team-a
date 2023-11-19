@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +16,6 @@ export class CaseAssignmentDialogComponent {
 
   cases: Case[] | null = null;
   users: User[] | null = null;
-  reviewer: User[] | null = null;
   selectedCase: Case | null = null;
   selectedUser: User | null = null;
   selectedReviewer: User | null = null;
@@ -51,18 +51,17 @@ export class CaseAssignmentDialogComponent {
 
   onSubmit(): void {
     if (this.selectedCase === null || this.selectedUser === null || this.selectedReviewer === null) {
+      this.snackBar.open("Please fill out all fields.", "Close", { duration: 3000 });
       return;
     }
     this.loading = true;
     this.assignmentService.assignCase(this.selectedUser.email, this.selectedReviewer.email, this.selectedCase.fileName).subscribe({
       next: (response) => {
         console.log(response);
-        this.dialogRef.close("This case has been assigned successfully!");
+        this.dialogRef.close("Case has been assigned successfully!");
       },
-      error: (e) => {
-        if (e.status === 409) {
-          this.snackBar.open("This case is already assigned to this user.", "Close", { duration: 3000 });
-        }
+      error: (e: HttpErrorResponse) => {
+        this.snackBar.open(e.error.response, "Close", { duration: 3000 });
         this.loading = false;
         console.error(e);
       },

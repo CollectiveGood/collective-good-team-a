@@ -44,10 +44,12 @@ model Case {
 }
 
 model Assignment {
+  id          Int      @id @default(autoincrement())
   user        User     @relation(name: "user", fields: [userId], references: [id])
   reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
   case        Case     @relation(fields: [hash], references: [fileName])
   info        Json?
+  review      Json?
   completed   Boolean  @default(false)
   reviewed    Accepted @default(PENDING)
   lastUpdated DateTime @updatedAt

@@ -19,11 +19,12 @@ export class AdminAssignmentViewComponent {
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   datePipe = new DatePipe('en-US');
-  displayedColumns: string[] = ['caseName', 'status', 'lastUpdated', 'actions'];
+  displayedColumns: string[] = ['caseName', 'lastUpdated', 'actions'];
   dataSource = new MatTableDataSource<Assignment>();
   loading: boolean = false;
   searchText: string = '';
-
+  selectedStatus: string = 'All';
+  
   constructor(
     private assignmentService: AssignmentService,
     private dialog: MatDialog,
@@ -32,12 +33,28 @@ export class AdminAssignmentViewComponent {
 
   ngOnInit(): void {
     this.loadAssignmentList();
-
-    // Set filter predicate - TODO
+  
+    // Set filter predicates for search and status filter
     this.dataSource.filterPredicate = (data: Assignment, filter: string) => {
-      return data.case.caseName.toLowerCase().includes(filter);
+      const { searchText, selectedStatus } = JSON.parse(filter);
+      
+      const caseNameMatches = data.case.caseName.toLowerCase().includes(searchText);
+  
+      switch (selectedStatus) {
+        case 'All':
+          return caseNameMatches;
+        case 'Awaiting Review':
+          return caseNameMatches && data.completed && data.reviewed === 'PENDING';
+        case 'New':
+          return caseNameMatches && !data.completed && data.reviewed === 'PENDING';
+        case 'Completed':
+          return caseNameMatches && data.completed && data.reviewed !== 'PENDING';
+        default:
+          return false; // Unknown status, no match
+      }
     };
   }
+  
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -64,7 +81,8 @@ export class AdminAssignmentViewComponent {
   }
 
   applyFilter(): void {
-    this.dataSource.filter = this.searchText.trim().toLowerCase();
+    const filterValue = this.searchText.trim().toLowerCase();
+    this.dataSource.filter = JSON.stringify({ searchText: filterValue, selectedStatus: this.selectedStatus });
   }
 
   openCaseAssignmentDialog(): void {

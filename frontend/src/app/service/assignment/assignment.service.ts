@@ -1,15 +1,19 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
+import { Observable, map, of, switchMap } from 'rxjs';
+import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest, User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+  ) { }
 
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
@@ -35,13 +39,13 @@ export class AssignmentService {
   }
 
   /* Get all cases assigned to the current user */
-  getAssignedCases(): Observable<Assignment[]> {
+  getAllAssignedCases(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
     });
   }
 
-  /* Get all cases newly assigned to the current user */
+  /* Get all new cases for user to complete */
   getNewAssignedCases(): Observable<Assignment[]> {
     // reviewed: PENDING or REJECTED, completed: false
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
@@ -55,8 +59,21 @@ export class AssignmentService {
     ));
   }
 
+  /* Get all cases that the current user has been asked to review */
+  getCasesToReview(): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedReviewerCases`, {
+      withCredentials: true, 
+    }).pipe(
+      map((assignments: Assignment[]) => {
+        return assignments.filter((assignment: Assignment) => {
+          return assignment.reviewed === "PENDING" && assignment.completed;
+        });
+      })
+    );
+  }
+
   /* Get all cases that the current user has submitted for review */
-  getPendingCases() {
+  getSubmittedCases() {
     // reviewed: PENDING, completed: true
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
@@ -83,15 +100,20 @@ export class AssignmentService {
     ));
   }
 
+  needsReview(assignment: Assignment): boolean {
+    /* Assignment must be submitted, pending review */
+    return assignment.completed && assignment.reviewed === 'PENDING'
+  }
+
   /* Admin-only - assign a case to a user
   *  @param user: the user to assign the case to
   *  @param reviewer: the reviewer to assign the case to
   *  @param caseId: the id or hash value of the case to assign
   */
-  assignCase(user: string, reviewer: string, caseId: string): Observable<HttpResponse<Assignment>> {
+  assignCase(userEmail: string, reviewerEmail: string, caseId: string): Observable<HttpResponse<Assignment>> {
     const request = {
-      "user": user,
-      "reviewer": reviewer,
+      "user": userEmail,
+      "reviewer": reviewerEmail,
       "case": caseId,
     };
 

@@ -16,6 +16,7 @@ export interface Case {
 
 export interface Assignment {
     userId: number;
+    reviewerId: number;
     hash: string;
     case: Case;
     info: CaseInfo;

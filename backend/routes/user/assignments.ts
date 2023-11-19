@@ -4,6 +4,7 @@ import { localAuthStrategy } from "../../helper/authStrategy";
 import {
   getAssignedCases,
   getReviewerCases,
+  resolveAssignment,
   updateAssignment,
 } from "../../helper/resolvers/assignment";
 import { paths } from "../../openapi/api";
@@ -74,6 +75,27 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
       input.caseId,
       userId,
       input.completed ?? false
+    );
+    return res.status(200).json(assignment satisfies SuccessType);
+  }
+));
+
+router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/resolveAssignment"]["post"]["requestBody"]["content"]["application/json"];
+    type SuccessType =
+      paths["/resolveAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/resolveAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
+
+    const input: InputType = req.body;
+    const user = req.user! as User;
+
+    const assignment = await resolveAssignment(
+      input.caseId,
+      user.id,
+      input.resolved
     );
     return res.status(200).json(assignment satisfies SuccessType);
   }
