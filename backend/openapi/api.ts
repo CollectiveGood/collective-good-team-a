@@ -303,7 +303,6 @@ export interface paths {
           "application/json": {
             json: components["schemas"]["AnyValue"];
             caseId: string;
-            userId: number;
             completed?: boolean;
           };
         };
@@ -332,7 +331,8 @@ export interface paths {
           "application/json": {
             caseId: string;
             userId: number;
-            resolved: boolean;
+            resolved?: boolean;
+            json: components["schemas"]["AnyValue"];
           };
         };
       };

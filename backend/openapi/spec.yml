@@ -314,14 +314,11 @@ paths:
                   $ref: "#/components/schemas/AnyValue"
                 caseId:
                   type: string
-                userId:
-                  type: number
                 completed:
                   type: boolean
               required:
                 - json
                 - caseId
-                - userId
       responses:
         "200":
           description: successfully updated the information of the case
@@ -351,10 +348,13 @@ paths:
                   type: number
                 resolved:
                   type: boolean
+                json:
+                  $ref: "#/components/schemas/AnyValue"
               required:
                 - caseId
                 - userId
-                - resolved
+                - json
+
       responses:
         "200":
           description: successfully resolved the assignment
