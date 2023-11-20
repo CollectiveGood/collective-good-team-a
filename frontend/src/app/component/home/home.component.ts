@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Assignment, User } from 'src/app/models';
 import { Router } from '@angular/router';
+import { Assignment } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
-import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -112,5 +111,8 @@ export class HomeComponent implements OnInit {
   // Handle button click
   caseClick(caseHash: string) {
     this.router.navigate([`/case/${caseHash}`]);
+  }
+  reviewClick(caseHash: string) {
+    this.router.navigate([`/review/${caseHash}`]);
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest, User } from 'src/app/models';
+import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,6 +32,18 @@ export class AssignmentService {
   */
   getAssignments(request: GetAssignmentsRequest): Observable<Assignment[]> {
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
+      withCredentials: true,
+    });
+  }
+
+  getAssignment(caseId: string): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment.apiUrl}/getAssignment/${caseId}`, {
+      withCredentials: true,
+    });
+  }
+
+  getReview(caseId: string): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment.apiUrl}/getReview/${caseId}`, {
       withCredentials: true,
     });
   }

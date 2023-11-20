@@ -31,6 +31,8 @@ export class CaseFormComponent {
   }
 
   ngOnInit(): void {
+    if (this.router.url.split('/')[1] === "review") {this.isReviewMode = true}
+    else {this.isReviewMode = false}
     // Use caseHash to fetch and render the PDF for the selected case
     this.caseService.getCaseAsPDF(this.caseHash).subscribe({
       next: (response: Blob) => {
@@ -72,19 +74,15 @@ export class CaseFormComponent {
 
   /* Get the user and case information for the selected case */
   private getCaseInfo(): void {
-    this.assignmentService.getAllAssignments().subscribe({
-      next: (response: Assignment[]) => {
+    const handler = this.isReviewMode ? this.assignmentService.getReview(this.caseHash) : this.assignmentService.getAssignment(this.caseHash);
+    handler.subscribe({
+      next: (response: Assignment) => {
         // Find the assignment with the matching hash
-        this.caseAssignment = response.find(assignment => assignment.hash === this.caseHash ) || null;
+        this.caseAssignment = response;
         if (this.caseAssignment === null) {
           this.snackBar.open('Failed to retrieve case information', 'Close', {
             duration: 3000,
           });
-        }
-        else {
-          // Check whether to render review mode
-          this.isReviewMode = this.assignmentService.needsReview(this.caseAssignment) 
-          && this.caseAssignment.reviewerId === this.user.id;
         }
       },
       error: (e) => {

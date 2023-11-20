@@ -35,7 +35,7 @@
                     color="primary"
                     class="custom-button"
                     *ngFor="let caseAssignment of casesToReview"
-                    (click)="caseClick(caseAssignment.hash)"
+                    (click)="reviewClick(caseAssignment.hash)"
                     >
                     {{ caseAssignment.case.caseName }}
                     </button>
