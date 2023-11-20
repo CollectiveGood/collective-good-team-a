@@ -93,6 +93,26 @@ export async function assignCase(user: number, reviewer: number, hash: string) {
   return c;
 }
 
+export async function getAssignment(hash: string, userId: number) {
+  const c = await prisma.assignment.findUnique({
+    include: { case: { select: { caseName: true } } },
+    where: {
+      hash_userId: { hash: hash, userId: userId },
+    },
+  });
+  return c;
+}
+
+export async function getReview(hash: string, reviewerId: number) {
+  const c = await prisma.assignment.findUnique({
+    include: { case: { select: { caseName: true } } },
+    where: {
+      hash_reviewerId: { hash: hash, reviewerId: reviewerId },
+    },
+  });
+  return c;
+}
+
 export async function getAssignedCases(user: number) {
   const cs = await prisma.assignment.findMany({
     include: { case: { select: { caseName: true } } },

@@ -295,6 +295,44 @@ export interface paths {
       };
     };
   };
+  "/getAssignment/{caseId}": {
+    /** gets an assignment from the caseId */
+    get: {
+      responses: {
+        /** @description returns the assignment details */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description the server encountered an error */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/getReview/{caseId}": {
+    /** gets an assignment from the caseId */
+    get: {
+      responses: {
+        /** @description returns the assignment details */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description the server encountered an error */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
   "/updateAssignment": {
     /** Updates the information attached to an assignment */
     post: {
