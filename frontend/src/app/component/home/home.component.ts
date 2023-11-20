@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit {
   caseClick(caseHash: string) {
     this.router.navigate([`/case/${caseHash}`]);
   }
+  
   reviewClick(caseHash: string) {
     this.router.navigate([`/review/${caseHash}`]);
   }

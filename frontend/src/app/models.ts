@@ -34,6 +34,13 @@ export interface UpdateAssignmentRequest {
     completed: boolean;
 }
 
+export interface ReviewAssignmentRequest {
+    caseId: string;
+    userId: number;
+    resolved: boolean;
+    json: any;
+}
+
 export interface GetAssignmentsRequest {
     includeNotCompleted: boolean;
     includeReviewed: boolean;
