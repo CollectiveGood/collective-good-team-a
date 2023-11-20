@@ -16,7 +16,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AdminAssignmentViewComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort) set MatSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   datePipe = new DatePipe('en-US');
   displayedColumns: string[] = ['caseName', 'lastUpdated', 'actions'];
@@ -54,7 +56,6 @@ export class AdminAssignmentViewComponent {
       }
     };
   }
-  
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -84,7 +85,7 @@ export class AdminAssignmentViewComponent {
     const filterValue = this.searchText.trim().toLowerCase();
     this.dataSource.filter = JSON.stringify({ searchText: filterValue, selectedStatus: this.selectedStatus });
   }
-
+  
   openCaseAssignmentDialog(): void {
     const dialogRef = this.dialog.open(CaseAssignmentDialogComponent, {
       width: '400px',

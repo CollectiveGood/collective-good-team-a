@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest, User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
-import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,6 @@ export class AssignmentService {
 
   constructor(
     private http: HttpClient,
-    private userService: UserService,
   ) { }
 
   /* Admin-only - retrieve all case assignments and their status */

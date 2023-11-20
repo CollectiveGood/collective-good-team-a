@@ -9,7 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { CaseViewDialogComponent } from '../../dialog/case-view-dialog/case-view-dialog.component';
 import { ConfirmCaseDeleteDialogComponent } from '../../dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-case-view',
@@ -18,7 +17,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AdminCaseViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort) set MatSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   datePipe = new DatePipe('en-US');
   displayedColumns: string[] = ['caseName', 'createdAt', 'actions'];
