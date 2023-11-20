@@ -55,22 +55,28 @@ export async function updateAssignment(
         info: info,
         completed: completed,
       },
-      ...(completed ? { reviewed: "PENDING" } : {}),
+      ...(completed ? { reviewed: "PENDING", review: undefined } : {}),
     },
   });
   return c;
 }
 
 export async function resolveAssignment(
+  json: any,
   caseId: string,
   reviewerId: number,
-  resolved: boolean
+  resolved: boolean | undefined
 ) {
   const c = await prisma.assignment.update({
     where: {
       hash_reviewerId: { hash: caseId, reviewerId: reviewerId },
     },
-    data: { reviewed: resolved ? "ACCEPTED" : "REJECTED" },
+    data: {
+      ...{ review: json },
+      ...(resolved !== undefined
+        ? { reviewed: resolved ? "ACCEPTED" : "REJECTED" }
+        : {}),
+    },
   });
   return c;
 }

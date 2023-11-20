@@ -36,28 +36,54 @@ export async function seedDatabase(prisma: PrismaClient) {
   await assignCase(adam.id, tyler.id, hash1);
   await assignCase(tyler.id, adam.id, hash2);
   await assignCase(adam.id, admin.id, hash3);
+  await assignCase(tyler.id, admin.id, hash1);
 
-  await updateAssignment(
+  const unsubmittedCase = await updateAssignment(
     { field1: "this is field1", field2: "this is field2" },
     hash1,
     adam.id,
     false
   );
-  await updateAssignment(
+  const submittedCase = await updateAssignment(
     { field1: "this is a submittedCase case" },
     hash2,
     tyler.id,
     true
   );
-  await updateAssignment(
+  const submittedCase2 = await updateAssignment(
     { field1: "this is the final submission" },
     hash3,
     adam.id,
     true
   );
 
-  const resolvedAssignment = await resolveAssignment(hash2, adam.id, true);
-  const rejectAssignment = await resolveAssignment(hash3, admin.id, false);
+  const submittedCase3 = await updateAssignment(
+    { field1: "this is assigned to admin" },
+    hash1,
+    tyler.id,
+    true
+  );
+
+  const resolvedAssignment = await resolveAssignment(
+    { field1: "this is an edit to field1" },
+    hash2,
+    adam.id,
+    true
+  );
+
+  const rejectAssignment = await resolveAssignment(
+    { field1: "this is an edit " },
+    hash3,
+    admin.id,
+    false
+  );
+
+  const pendingAssignment = await resolveAssignment(
+    { field1: "this is an edit " },
+    hash1,
+    admin.id,
+    undefined
+  );
 
   console.log("Seeding complete!");
 }

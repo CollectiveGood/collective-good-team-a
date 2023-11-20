@@ -4,6 +4,7 @@ import { localAuthStrategy } from "../../helper/authStrategy";
 import {
   getAssignedCases,
   getReviewerCases,
+  resolveAssignment,
   updateAssignment,
 } from "../../helper/resolvers/assignment";
 import { paths } from "../../openapi/api";
@@ -60,20 +61,35 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
       paths["/updateAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
 
     const input: InputType = req.body;
-    const userId = (req.user! as User).id;
-
-    if (input.userId !== userId) {
-      const errorMessage = {
-        response: "You can't submit for a different user!",
-      };
-      return res.status(500).json(errorMessage satisfies FailureType);
-    }
+    const user = req.user! as User;
 
     const assignment = await updateAssignment(
       input.json,
       input.caseId,
-      userId,
+      user.id,
       input.completed ?? false
+    );
+    return res.status(200).json(assignment satisfies SuccessType);
+  }
+));
+
+router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/resolveAssignment"]["post"]["requestBody"]["content"]["application/json"];
+    type SuccessType =
+      paths["/resolveAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/resolveAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
+
+    const input: InputType = req.body;
+    const user = req.user! as User;
+
+    const assignment = await resolveAssignment(
+      input.json,
+      input.caseId,
+      user.id,
+      input.resolved
     );
     return res.status(200).json(assignment satisfies SuccessType);
   }
