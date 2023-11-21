@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -38,7 +38,7 @@ export class LoginComponent {
         console.log('Login successful: ', response);
         this.router.navigate(['/home']);
       },
-      error: (e) => {
+      error: (e: HttpErrorResponse) => {
         this.loading = false;
         if (e.status === 401) {
           this.snackBar.open("The username or password is incorrect.", "Close", { duration: 3000 });

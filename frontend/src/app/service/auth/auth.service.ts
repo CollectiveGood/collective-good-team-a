@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
+import { EMAIL_REGEX } from 'src/app/constants';
 import { User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
@@ -57,8 +58,7 @@ export class AuthService {
   }
 
   isEmailValid(email: string): boolean {
-    // Regular expression for basic email validation
-    const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
+    // Validate email address using regex (see constants.ts)
+    return EMAIL_REGEX.test(email);
   }
 }
