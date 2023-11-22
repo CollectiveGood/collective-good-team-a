@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class PdfViewerComponent implements OnChanges {
   @Input() pdfData!: Blob;
+  @Input() title: string | undefined;
   pdfDataUrl: SafeResourceUrl = '';
 
   constructor(private sanitizer: DomSanitizer) {}

@@ -2,7 +2,11 @@
 <app-toolbar></app-toolbar>
 <div class="parent-container">
   <div class="child-container">
-    <app-pdf-viewer *ngIf="caseBlob" [pdfData]="caseBlob"></app-pdf-viewer>
+    <app-pdf-viewer
+      *ngIf="caseBlob" 
+      [pdfData]="caseBlob" 
+      [title]="this.caseAssignment?.case?.caseName">
+    </app-pdf-viewer>
     <p *ngIf="!caseBlob">Loading PDF...</p>
   </div>
   <div class="child-container">
