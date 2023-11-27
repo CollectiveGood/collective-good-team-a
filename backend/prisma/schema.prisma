@@ -48,8 +48,8 @@ model Assignment {
   user        User     @relation(name: "user", fields: [userId], references: [id])
   reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
   case        Case     @relation(fields: [hash], references: [fileName])
-  info        String   @default("") 
-  review      String   @default("")
+  info        String   @default("{}") 
+  review      String   @default("{}")
   completed   Boolean  @default(false)
   reviewed    Accepted @default(PENDING)
   lastUpdated DateTime @updatedAt

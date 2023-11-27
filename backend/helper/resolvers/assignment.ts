@@ -116,7 +116,9 @@ export async function getAssignment(hash: string, userId: number) {
       hash_userId: { hash: hash, userId: userId },
     },
   });
-  return c;
+  const assignment = {...c!, info: JSON.parse(c!.info), review: JSON.parse(c!.review)};
+
+  return assignment;
 }
 
 export async function getReview(hash: string, reviewerId: number) {
@@ -126,7 +128,8 @@ export async function getReview(hash: string, reviewerId: number) {
       hash_reviewerId: { hash: hash, reviewerId: reviewerId },
     },
   });
-  return c;
+  const assignment = {...c!, info: JSON.parse(c!.info), review: JSON.parse(c!.review)};
+  return assignment;
 }
 
 export async function getAssignedCases(user: number) {
@@ -136,7 +139,10 @@ export async function getAssignedCases(user: number) {
       userId: user,
     },
   });
-  return cs;
+  const assignments = cs.map((c) => {
+    return {...c, info: JSON.parse(c.info), review: JSON.parse(c.review)};
+  });
+  return assignments;
 }
 
 export async function getReviewerCases(reviewer: number) {
@@ -147,5 +153,8 @@ export async function getReviewerCases(reviewer: number) {
       reviewerId: reviewer,
     },
   });
-  return cs;
+  const assignments = cs.map((c) => {
+    return {...c, info: JSON.parse(c.info), review: JSON.parse(c.review)};
+  });
+  return assignments;
 }
