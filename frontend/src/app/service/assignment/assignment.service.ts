@@ -17,11 +17,11 @@ export class AssignmentService {
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
     const request = {
-      "includeReviewed": true,
-      "includeNotCompleted": true,
-      "start": 0,
-      "take": 1000, // MAX set to 1000 for now
-      "desc": false
+      includeReviewed: true,
+      includeNotCompleted: true,
+      start: 0,
+      take: 1000, // MAX set to 1000 for now
+      desc: false
     };
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
       withCredentials: true,
@@ -129,9 +129,9 @@ export class AssignmentService {
   */
   assignCase(userEmail: string, reviewerEmail: string, caseId: string): Observable<HttpResponse<Assignment>> {
     const request = {
-      "user": userEmail,
-      "reviewer": reviewerEmail,
-      "case": caseId,
+      user: userEmail,
+      reviewer: reviewerEmail,
+      case: caseId,
     };
 
     return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, request, {
