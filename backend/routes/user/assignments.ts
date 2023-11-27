@@ -9,6 +9,7 @@ import {
   resolveAssignment,
   updateAssignment,
 } from "../../helper/resolvers/assignment";
+import { saveToDB } from "../../helper/resolvers/final";
 import { paths } from "../../openapi/api";
 
 var express = require("express");
@@ -104,6 +105,7 @@ router.post("/updateAssignment", localAuthStrategy, <RequestHandler>(
     const input: InputType = req.body;
     const user = req.user! as User;
 
+
     const assignment = await updateAssignment(
       input.json,
       input.caseId,
@@ -132,6 +134,9 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
       user.id,
       input.resolved
     );
+    if (input.resolved !== undefined) {
+      saveToDB(user.id, input.caseId);
+    }
     return res.status(200).json(assignment satisfies SuccessType);
   }
 ));
