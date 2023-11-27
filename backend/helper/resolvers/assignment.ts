@@ -46,13 +46,21 @@ export async function updateAssignment(
   userId: number,
   completed: boolean
 ) {
+
+  let json: string;
+  if (typeof info === "string" ) {
+    json = info;
+  } else {
+    json = JSON.stringify(info);
+  }
+
   const c = await prisma.assignment.update({
     where: {
       hash_userId: { hash: caseId, userId: userId },
     },
     data: {
       ...{
-        info: info,
+        info: json,
         completed: completed,
       },
       ...(completed ? { reviewed: "PENDING", review: undefined } : {}),
@@ -62,11 +70,19 @@ export async function updateAssignment(
 }
 
 export async function resolveAssignment(
-  json: any,
+  review: any,
   caseId: string,
   reviewerId: number,
   resolved: boolean | undefined
 ) {
+
+  let json: string;
+  if (typeof review === "string" ) {
+    json = review;
+  } else {
+    json = JSON.stringify(review);
+  }
+
   const c = await prisma.assignment.update({
     where: {
       hash_reviewerId: { hash: caseId, reviewerId: reviewerId },
@@ -115,7 +131,7 @@ export async function getReview(hash: string, reviewerId: number) {
 
 export async function getAssignedCases(user: number) {
   const cs = await prisma.assignment.findMany({
-    include: { case: { select: { caseName: true } } },
+    include: { case: { select: { caseName: true, } } },
     where: {
       userId: user,
     },
