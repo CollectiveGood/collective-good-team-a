@@ -78,7 +78,7 @@ router.post("/getCases", adminAuthStrategy, <RequestHandler>(
 
     const input = req.body as InputType;
     const cases = await getCases(
-      input.isCompleted,
+      input.isResolved,
       input.hasAssignments,
       input.start,
       input.take,

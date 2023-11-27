@@ -15,7 +15,7 @@ import { makeAdminUser, makeUser } from "../helper/resolvers/user";
 const fileHandler = new googleFileStorage();
 
 export async function seedDatabase(prisma: PrismaClient) {
-  await fileHandler.deleteAll();
+  // await fileHandler.deleteAll();
   const file1 = "./files/BudFraWat2_fin-1.pdf";
   const hash1 = await fileHandler.uploadFile(readFileSync(file1));
   const file2 = "./files/STAT303-1_Fall2023_Syllabus.pdf";

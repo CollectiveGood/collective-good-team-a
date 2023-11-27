@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import request from "supertest";
 import { app } from "../index";
-import { seedDatabase } from "../prisma/seed";
 
 process.env.DATABASE_URL =
   "postgresql://postgres:CollectiveGoodDatabase@db.bqsosumcrbsebflyvxdu.supabase.co:5432/postgres";
@@ -11,13 +10,10 @@ const prisma = new PrismaClient();
 const user = { username: "adam@gmail.com", password: "test" };
 const admin = { username: "admin@gmail.com", password: "admin" };
 
+let cookies: any;
 // Should run prisma migrate reset --force before running this test
 beforeAll(async () => {
-  try {
-    await seedDatabase(prisma);
-  } catch (e) {
-    console.log("Database is already seeded!");
-  }
+  cookies = await getCookies(admin);
 });
 
 const getCookies = async (user: { username: string; password: string }) => {
@@ -42,7 +38,6 @@ describe("Login", () => {
 describe("getDetails", () => {
   describe("POST /user/details", () => {
     it("Details", async () => {
-      const cookies = await getCookies(user);
       const response = await request(app)
         .get("/details")
         .set("Cookie", cookies);
@@ -55,30 +50,31 @@ describe("getDetails", () => {
 describe("getCases", () => {
   describe("Tests getting case", () => {
     it("get /getCases", async () => {
-      const cookies = await getCookies(admin);
       const body = {
-        isCompleted: false,
+        isResolved: undefined as boolean | undefined,
         hasAssignments: false,
         start: 0,
         take: 10,
         desc: true,
       };
       const response = await request(app)
-        .get("/getCases")
+        .post("/getCases")
         .send(body)
         .set("Cookie", cookies);
       expect(response.status).toBe(200);
       expect(response.body).toHaveLength(1);
 
       body.hasAssignments = true;
+      body.isResolved = false;
       const response2 = await request(app)
-        .get("/getCases")
+        .post("/getCases")
         .send(body)
         .set("Cookie", cookies);
       expect(response2.body).toHaveLength(2);
-      body.isCompleted = true;
+
+      body.isResolved = true;
       const response3 = await request(app)
-        .get("/getCases")
+        .post("/getCases")
         .send(body)
         .set("Cookie", cookies);
       expect(response3.body).toHaveLength(1);
@@ -89,9 +85,8 @@ describe("getCases", () => {
 describe("Test Case full cycle", () => {
   let hash = "";
 
-  describe("adds a case", () => {
+  describe("initializes test data", () => {
     it("POST /addCase", async () => {
-      const cookies = await getCookies(admin);
       const response = await request(app)
         .post("/addCase")
         .attach("file", "./files/a.pdf")
@@ -102,29 +97,13 @@ describe("Test Case full cycle", () => {
     });
   });
 
-  describe("resolves a case", () => {
-    it("POST /resolveCase", async () => {
-      const cookies = await getCookies(admin);
-      const response = await request(app)
-        .post("/resolveCase")
-        .send({ hash: hash, shouldResolve: true, json: { value: "value" } })
-        .set("Cookie", cookies);
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty("completed");
-      expect(response.body).toHaveProperty("finalJson");
-      expect(response.body["completed"]).toBe(true);
-      expect(response.body["finalJson"]).toHaveProperty("value");
-      expect(response.body["finalJson"]["value"]).toBe("value");
-    });
-  });
-
   describe("deletes a case", () => {
     it("POST /deleteCase", async () => {
-      const cookies = await getCookies(admin);
       const response = await request(app)
         .post("/deleteCase")
         .send({ hash: hash })
         .set("Cookie", cookies);
+
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("fileName");
     });

@@ -457,7 +457,7 @@ export interface paths {
       requestBody: {
         content: {
           "application/json": {
-            isCompleted?: boolean;
+            isResolved?: boolean;
             hasAssignments?: boolean;
             start: number;
             take: number;

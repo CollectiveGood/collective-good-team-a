@@ -507,7 +507,7 @@ paths:
             schema:
               type: object
               properties:
-                isCompleted:
+                isResolved:
                   type: boolean
                 hasAssignments:
                   type: boolean

@@ -45,7 +45,8 @@ export async function getCases(
           : { Assignment: { none: {} } },
         isCompleted === undefined
           ? {}
-          : { Assignment: { some: { completed: true } } },
+          : isCompleted ? { Assignment: { some: { reviewed: "ACCEPTED" } } }
+          : { Assignment: { none: { reviewed: "ACCEPTED" } } },
       ],
     },
   });
