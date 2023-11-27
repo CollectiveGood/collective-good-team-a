@@ -1,83 +1,117 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-subtitle>This form is read only. Leave comments to review this submission.</mat-card-subtitle>
-      </mat-card-header>
-    <mat-card-actions>
-        <button mat-stroked-button>
-            <mat-icon>comment</mat-icon> Add Comment
-        </button>
-    </mat-card-actions>
+<mat-card class="card-container">
+  <mat-card-header>
+    <mat-card-title>Review Case Submission</mat-card-title>
+    <mat-card-subtitle>You have been assigned as a reviewer for this case. Review the fields for each section and add comments.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="card-content-container">
     <form [formGroup]="caseInfoForm">
-      <mat-card-content>
-        <div class="form-container">
-            <h2>Demographic Information</h2>
-            <div class="form-row">
-              <mat-form-field class="form-field">
-                <mat-label>Patient Name</mat-label>
-                <input matInput type="text" formControlName="patientName" id="patient-name" readonly>
-              </mat-form-field>
-              <mat-form-field class="form-field">
-                <mat-label>Gender</mat-label>
-                <input matInput type="text" formControlName="patientGender" id="gender" readonly>
-              </mat-form-field>
-              <mat-form-field class="form-field">
-                <mat-label>Age</mat-label>
-                <input matInput type="number" formControlName="patientAge" id="age" readonly>
-              </mat-form-field>
-            </div>
-            <h2>History</h2>
-            <div class="form-row">
-              <mat-form-field class="text-area">
-                <mat-label>Past Medical History</mat-label>
-                <textarea matInput formControlName="medicalHistory" id="medical-history" readonly></textarea>
-              </mat-form-field>
-              <mat-form-field class="text-area">
-                <mat-label>Family History</mat-label>
-                <textarea matInput formControlName="familyHistory" id="family-history" readonly></textarea>
-              </mat-form-field>
-            </div>
-            <h2>Symptoms & Examination</h2>
-            <div class="form-row">
-              <mat-form-field class="text-area">
-                <mat-label>Chief Complaint</mat-label>
-                <textarea matInput formControlName="chiefComplaint" id="chief-complaint" readonly></textarea>
-              </mat-form-field>
-              <mat-form-field class="text-area">
-                <mat-label>Symptoms</mat-label>
-                <textarea matInput formControlName="symptoms" id="symptoms" readonly></textarea>
-              </mat-form-field>
-              <mat-form-field class="text-area">
-                <mat-label>HPI</mat-label>
-                <textarea matInput formControlName="hpi" id="hpi" readonly></textarea>
-              </mat-form-field>
-            </div>
-            <div class="form-row">
-              <mat-form-field class="text-area">
-                <mat-label>Physical Examination</mat-label>
-                <textarea matInput formControlName="physicalExaminationNotes" id="physical-examination-notes" readonly></textarea>
-              </mat-form-field>
-            </div>
-            <div class="form-row">
-              <mat-form-field class="text-area">
-                <mat-label>Labs & Diagnostics</mat-label>
-                <textarea matInput formControlName="labDiagnosticsNotes" id="lab-diagnostics-notes" readonly></textarea>
-              </mat-form-field>
-            </div>
-            <h2>Additional Notes</h2>
-            <div class="form-row">
-              <mat-form-field class="text-area">
-                <mat-label>Additional Notes Here</mat-label>
-                <textarea matInput formControlName="additionalNotes" id="additional-notes" readonly></textarea>
-              </mat-form-field>
-            </div>
-        </div>
-      </mat-card-content>
-      <mat-card-actions class="button-row">
-        <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>
-        <button mat-raised-button type="button" color="accent" (click)="saveDraft()">Save Draft</button>
-        <button mat-raised-button type="button" color="primary" (click)="onSubmit()">Finish Review
-          <mat-icon>check</mat-icon>
-        </button>
-      </mat-card-actions>
+      <mat-accordion class="expansion-panel-container">
+        <!-- Demographic information section -->
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Demographic Information</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="form-row">
+            <mat-form-field class="form-field">
+              <mat-label>Patient Name</mat-label>
+              <input matInput type="text" formControlName="patientName" id="patient-name" readonly>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <mat-label>Gender</mat-label>
+              <input matInput type="text" formControlName="patientGender" id="gender" readonly>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <mat-label>Age</mat-label>
+              <input matInput type="number" formControlName="patientAge" id="age" readonly>
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field  class="form-field">
+              <mat-label>Reviewer Comments</mat-label>
+              <textarea matInput type="text" id="demographicComments"></textarea>
+            </mat-form-field>
+          </div>
+          <mat-action-row>
+            <button mat-button color="primary" (click)="nextStep()">Next</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      
+        <!-- Medical history section -->
+        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>History</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="form-row">
+            <mat-form-field class="text-area">
+              <mat-label>Past Medical History</mat-label>
+              <textarea matInput id="medical-history" readonly></textarea>
+            </mat-form-field>
+            <mat-form-field class="text-area">
+              <mat-label>Family History</mat-label>
+              <textarea matInput formControlName="familyHistory" id="family-history" readonly></textarea>
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field  class="form-field">
+              <mat-label>Reviewer Comments</mat-label>
+              <textarea matInput type="text" id="historyComments"></textarea>
+            </mat-form-field>
+          </div>
+          <mat-action-row>
+            <button mat-button (click)="prevStep()">Previous</button>
+            <button mat-button color="primary" (click)="nextStep()">Next</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+        
+        <!-- Symptoms and examination section -->
+        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Symptoms & Examination</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="form-row">
+            <mat-form-field class="text-area">
+              <mat-label>Chief Complaint</mat-label>
+              <textarea matInput formControlName="chiefComplaint" id="chief-complaint" readonly></textarea>
+            </mat-form-field>
+            <mat-form-field class="text-area">
+              <mat-label>Symptoms</mat-label>
+              <textarea matInput formControlName="symptoms" id="symptoms" readonly></textarea>
+            </mat-form-field>
+            <mat-form-field class="text-area">
+              <mat-label>HPI</mat-label>
+              <textarea matInput formControlName="hpi" id="hpi" readonly></textarea>
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field class="text-area">
+              <mat-label>Physical Examination</mat-label>
+              <textarea matInput formControlName="physicalExaminationNotes" id="physical-examination-notes" readonly></textarea>
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field class="text-area">
+              <mat-label>Labs & Diagnostics</mat-label>
+              <textarea matInput formControlName="labDiagnosticsNotes" id="lab-diagnostics-notes" readonly></textarea>
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field  class="form-field">
+              <mat-label>Reviewer Comments</mat-label>
+              <textarea matInput type="text" id="symptomsComments"></textarea>
+            </mat-form-field>
+          </div>
+          <mat-action-row>
+            <button mat-button color="primary" (click)="prevStep()">Previous</button>
+          </mat-action-row>
+        </mat-expansion-panel>      
+      </mat-accordion>
     </form>
-  </mat-card>
+  </mat-card-content>
+  <mat-card-actions class="button-row">
+    <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>
+    <button mat-raised-button type="button" color="accent" (click)="saveDraft()">Save Draft</button>
+    <button mat-raised-button type="button" color="primary" (click)="onSubmit()">Finish Review
+      <mat-icon>check</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

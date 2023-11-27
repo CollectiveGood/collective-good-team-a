@@ -15,11 +15,13 @@ export interface Case {
 }
 
 export interface Assignment {
+    id: number;
     userId: number;
     reviewerId: number;
     hash: string;
     case: Case;
     info: CaseInfo;
+    review: any;
     reviewed: string;
     completed: boolean;
     lastUpdated: Date
@@ -30,6 +32,13 @@ export interface UpdateAssignmentRequest {
     caseId: string;
     userId: number;
     completed: boolean;
+}
+
+export interface ReviewAssignmentRequest {
+    caseId: string;
+    userId: number;
+    resolved: boolean;
+    json: any;
 }
 
 export interface GetAssignmentsRequest {

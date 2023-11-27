@@ -14,8 +14,11 @@ export class ReviewerFormViewComponent {
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
 
   caseInfo: CaseInfo | undefined;
+  reviewerInfo: any = {}; // for storing reviewer comments
   reviewed: boolean = false; // for marking case as complete after form submission
-  formValues: any = {}; // for checking if changes have been made
+  caseFormValues: any = {};
+  reviewerFormValues: any = {};
+
   caseInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
@@ -28,6 +31,11 @@ export class ReviewerFormViewComponent {
     physicalExaminationNotes: '',
     labDiagnosticsNotes: '',
     additionalNotes: '',
+  });
+
+  reviewerInfoForm = this.formBuilder.group({
+    demographicComments: '',
+    historyComments: '',
   });
 
   constructor(
@@ -44,9 +52,16 @@ export class ReviewerFormViewComponent {
     this.caseInfo = this.caseAssignment.info;
     // Populate the formValues object with the caseInfo properties
     if (this.caseInfo) {
-      this.formValues = this.caseInfo;
+      this.caseFormValues = this.caseInfo;
     }
-    this.caseInfoForm.setValue(this.formValues);
+    this.caseInfoForm.setValue(this.caseFormValues);
+
+    this.reviewerInfo = this.caseAssignment.review;
+    // Populate the formValues object with the reviewerInfo properties
+    if (this.reviewerInfo) {
+      this.caseFormValues = this.reviewerInfo;
+    }
+    this.reviewerInfoForm.setValue(this.reviewerFormValues);
   }
 
   onClose(): void {
@@ -57,4 +72,19 @@ export class ReviewerFormViewComponent {
   saveDraft(): void {}
 
   onSubmit(): void {}
+
+  // For expanding/collapsing the form sections
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
 }

@@ -12,7 +12,9 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class AdminUserViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort) set MatSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   displayedColumns: string[] = ['name', 'email', 'role'];
   dataSource = new MatTableDataSource<User>();

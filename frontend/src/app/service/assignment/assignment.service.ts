@@ -1,18 +1,17 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, of, switchMap } from 'rxjs';
-import { Assignment, GetAssignmentsRequest, UpdateAssignmentRequest, User } from 'src/app/models';
+import { Observable, map } from 'rxjs';
+import { Assignment, GetAssignmentsRequest, ReviewAssignmentRequest, UpdateAssignmentRequest } from 'src/app/models';
 import { environment } from 'src/environments/environment';
-import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentService {
+  /* This service handles all HTTP requests related to creating, retrieving, and updating cases that are assigned to users. */
 
   constructor(
     private http: HttpClient,
-    private userService: UserService,
   ) { }
 
   /* Admin-only - retrieve all case assignments and their status */
@@ -21,7 +20,7 @@ export class AssignmentService {
       "includeReviewed": true,
       "includeNotCompleted": true,
       "start": 0,
-      "take": 1000,
+      "take": 1000, // MAX set to 1000 for now
       "desc": false
     };
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
@@ -34,6 +33,24 @@ export class AssignmentService {
   */
   getAssignments(request: GetAssignmentsRequest): Observable<Assignment[]> {
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
+      withCredentials: true,
+    });
+  }
+
+  /* Get case assignment for the current user 
+  *  @param caseId: the ID of the case
+  */
+  getAssignment(caseId: string): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment.apiUrl}/getAssignment/${caseId}`, {
+      withCredentials: true,
+    });
+  }
+
+  /* Get the reviewed version of a case assignment
+  *  @param caseId: the ID of the case
+  */
+  getReview(caseId: string): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment.apiUrl}/getReview/${caseId}`, {
       withCredentials: true,
     });
   }
@@ -73,7 +90,7 @@ export class AssignmentService {
   }
 
   /* Get all cases that the current user has submitted for review */
-  getSubmittedCases() {
+  getSubmittedCases(): Observable<Assignment[]> {
     // reviewed: PENDING, completed: true
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
@@ -87,7 +104,7 @@ export class AssignmentService {
   }
 
   /* Get all cases that the current user has submitted and been approved */
-  getCompletedCases() {
+  getCompletedCases(): Observable<Assignment[]> {
     // reviewed: ACCEPTED, completed: true
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {
       withCredentials: true,
@@ -123,8 +140,8 @@ export class AssignmentService {
     });
   }
 
-  /* Update an assignment using form data
-  *  @param updateAssignmentRequest: the request body
+  /* Submit a case assignment for review
+  *  @param updateAssignmentRequest: the request body (see models.ts)
   */
   updateAssignment(updateAssignmentRequest: UpdateAssignmentRequest): Observable<Assignment> {
     const request = {
@@ -135,6 +152,22 @@ export class AssignmentService {
     };
   
     return this.http.post<Assignment>(`${environment.apiUrl}/updateAssignment`, request, {
+      withCredentials: true,
+    });
+  }
+
+  /* Review a submitted case assignment
+  *  @param reviewAssignmentRequest: the request body (see models.ts)
+  */
+  submitReview(reviewAssignmentRequest: ReviewAssignmentRequest): Observable<Assignment> {
+    const request = {
+      caseId: reviewAssignmentRequest.caseId,
+      userId: reviewAssignmentRequest.userId,
+      resolved: reviewAssignmentRequest.resolved,
+      json: reviewAssignmentRequest.json,
+    }
+  
+    return this.http.post<Assignment>(`${environment.apiUrl}/resolveAssignment`, request, {
       withCredentials: true,
     });
   }

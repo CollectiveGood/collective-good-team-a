@@ -1,8 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Assignment, User } from 'src/app/models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Assignment } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
-import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router, 
-    private assignmentService: AssignmentService
+    private assignmentService: AssignmentService,
+    private snackBar: MatSnackBar
     ) {
   }
 
@@ -35,14 +37,15 @@ export class HomeComponent implements OnInit {
     // Retrieve list of assigned cases
     this.loading = true;
     this.assignmentService.getNewAssignedCases().subscribe({
-      next: (response) => {
+      next: (response: Assignment[]) => {
         if (response.length === 0) { // if none assigned, set to null
           return;
         }
         this.newAssignedCases = response;
       },
-      error: (e) => {
+      error: (e: HttpErrorResponse) => {
         console.log(e);
+        this.snackBar.open(e.error.message, 'Close');
       },
       complete: () => {
         this.loading = false;
@@ -54,14 +57,15 @@ export class HomeComponent implements OnInit {
     // Retrieve list of cases to review
     this.loading = true;
     this.assignmentService.getCasesToReview().subscribe({
-      next: (response) => {
+      next: (response: Assignment[]) => {
         if (response.length === 0) { // if none to review, set to null
           return;
         }
         this.casesToReview = response;
       },
-      error: (e) => {
+      error: (e: HttpErrorResponse) => {
         console.log(e);
+        this.snackBar.open(e.error.message, 'Close');
       },
       complete: () => {
         this.loading = false;
@@ -73,14 +77,15 @@ export class HomeComponent implements OnInit {
     // Retrieve list of submitted cases
     this.loading = true;
     this.assignmentService.getSubmittedCases().subscribe({
-      next: (response) => {
+      next: (response: Assignment[]) => {
         if (response.length === 0) { // if none submitted, set to null
           return;
         }
         this.submittedCases = response;
       },
-      error: (e) => {
+      error: (e: HttpErrorResponse) => {
         console.log(e);
+        this.snackBar.open(e.error.message, 'Close');
       },
       complete: () => {
         this.loading = false;
@@ -112,5 +117,9 @@ export class HomeComponent implements OnInit {
   // Handle button click
   caseClick(caseHash: string) {
     this.router.navigate([`/case/${caseHash}`]);
+  }
+  
+  reviewClick(caseHash: string) {
+    this.router.navigate([`/review/${caseHash}`]);
   }
 }
