@@ -59,7 +59,7 @@ router.get("/getAssignment/:caseId", localAuthStrategy, <RequestHandler>(
     const userId = (req.user! as User).id;
     const caseId = req.params.caseId;
 
-    const assignment = await getAssignment(caseId, userId);
+    let assignment = await getAssignment(caseId, userId);
     if (assignment === null) {
       return res
         .status(500)
