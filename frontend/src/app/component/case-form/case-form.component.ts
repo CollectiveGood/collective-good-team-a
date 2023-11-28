@@ -100,15 +100,17 @@ export class CaseFormComponent {
     });
   }
 
-  // TODO - only for reviewers
-  submitCaseReview(data: any) {
+  /* Save or submit case review (based on resolved flag) */
+  submitCaseReview(data: { comments: [string, string][], resolved: boolean }) {
+    const jsonFormatted = Object.fromEntries(data.comments);
+  
     const reviewAssignmentRequest: ReviewAssignmentRequest = {
       caseId: this.caseHash,
       userId: this.caseAssignment?.userId || 0,
       resolved: data.resolved,
-      json: data.formData,
+      json: jsonFormatted,
     };
-
+  
     this.assignmentService.submitReview(reviewAssignmentRequest).subscribe({
       next: (response: Assignment) => {
         console.log(response);
@@ -123,4 +125,6 @@ export class CaseFormComponent {
       }
     });
   }
+  
+  
 }

@@ -59,11 +59,14 @@
           </div>
         </div>
         <!-- Comment box -->
-        <div class="form-row" *ngIf="commentActive !== ''">
-          <mat-form-field class="form-field" formControlName="{{ commentActive }}">
+        <div class="comment-box-container" *ngIf="commentActive !== ''">
+          <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
           </mat-form-field>
+          <div class="button-container">
+            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+          </div>
         </div>
         <mat-action-row>
           <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -110,11 +113,14 @@
           </div>
         </div>
         <!-- Comment box -->
-        <div class="form-row" *ngIf="commentActive !== ''">
+        <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
           </mat-form-field>
+          <div class="button-container">
+            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+          </div>
         </div>
         <mat-action-row>
           <button mat-button (click)="prevStep()">Previous</button>
@@ -176,14 +182,17 @@
           </div>
         </div>
         <!-- Comment box -->
-        <div class="form-row" *ngIf="commentActive !== ''">
+        <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
           </mat-form-field>
+          <div class="button-container">
+            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+          </div>
         </div>
         <mat-action-row>
-          <button mat-button color="primary" (click)="prevStep()">Previous</button>
+          <button mat-button (click)="prevStep()">Previous</button>
           <button mat-button color="primary" (click)="nextStep()">Next</button>
         </mat-action-row>
       </mat-expansion-panel>
@@ -231,16 +240,55 @@
         <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
           </mat-form-field>
           <div class="button-container">
-            <button mat-raised-button color="primary">Save</button>
+            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
           </div>
         </div>
         <mat-action-row>
-          <button mat-button color="primary" (click)="prevStep()">Previous</button>
+          <button mat-button (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
         </mat-action-row>
       </mat-expansion-panel>
+        <!-- Additional Notes section -->
+        <mat-expansion-panel 
+          [expanded]="step === 4" 
+          (opened)="setStep(4)" 
+          (closed)="resetCommentActive(4)"
+          hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Additional Notes</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="form-row">  
+            <!-- Additional Notes -->
+            <div class="form-field" [class.selected]="commentActive === 'additionalNotes'">
+              <h3>Additional Notes
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('additionalNotes')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="addtionalNotes">{{ caseInfo?.additionalNotes || 'None' }}</span>
+            </div>
+          </div>
+          <!-- Comment box -->
+          <div class="comment-box-container" *ngIf="commentActive !== ''">
+            <mat-form-field class="form-field">
+              <mat-label>Add comment here</mat-label>
+              <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
+            </mat-form-field>
+            <div class="button-container">
+              <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+            </div>
+          </div>
+          <mat-action-row>
+            <button mat-button (click)="prevStep()">Previous</button>
+          </mat-action-row>
+        </mat-expansion-panel>
       </form>
     </mat-accordion>
   </mat-card-content>

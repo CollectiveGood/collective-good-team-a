@@ -14,14 +14,14 @@ export class ReviewerFormViewComponent {
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
 
   caseInfo: CaseInfo | undefined;
-  reviewerComments: ReviewComment[] = []; // for storing reviewer comments
+  reviewerComments: Map<string, string> = new Map();
   reviewed: boolean = false; // for marking case as complete after form submission
   commentActive: string = ''; // for toggling comment section
   
   // Form values
-  caseFormValues: any = {};
   reviewerFormValues: any = {};
 
+  // For adding comments
   reviewerInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
@@ -47,12 +47,7 @@ export class ReviewerFormViewComponent {
   }
 
   private initForm(): void {
-    // this.reviewerInfo = this.caseAssignment.review;
-    // // Populate the formValues object with the reviewerInfo properties
-    // if (this.reviewerInfo) {
-    //   this.caseFormValues = this.reviewerInfo;
-    // }
-    // this.reviewerInfoForm.setValue(this.reviewerFormValues);
+    this.caseInfo = this.caseAssignment.info;
   }
 
   onClose(): void {
@@ -64,7 +59,11 @@ export class ReviewerFormViewComponent {
 
   onSubmit(): void {
     this.reviewed = true;
-    this.formSubmitted.emit();
+    const dataToSubmit = {
+      comments: Array.from(this.reviewerComments.entries()),
+      resolved: this.reviewed,
+    }
+    this.formSubmitted.emit(dataToSubmit);
   }
 
   // For expanding/collapsing the form sections
@@ -82,11 +81,20 @@ export class ReviewerFormViewComponent {
     this.step--;
   }
 
+  /* Comment handling logic */
+
   toggleComment(field: string) {
-    if (this.commentActive === field) {
+    const isOpeningNewComment = this.commentActive !== field;
+  
+    if (isOpeningNewComment) {
+      // Close the current comment box if it's open
       this.commentActive = '';
+      setTimeout(() => {
+        this.commentActive = field;
+      });
     } else {
-      this.commentActive = field;
+      // Close the current comment box
+      this.commentActive = '';
     }
   }
 
@@ -98,7 +106,8 @@ export class ReviewerFormViewComponent {
   }
 
   postComment(fieldId: string, commentText: string) {
-    this.reviewerComments.push({ fieldId, commentText });
+    // Set or overwrite the comment if it already exists
+    this.reviewerComments.set(fieldId, commentText);
     console.log(this.reviewerComments);
   }
 }
