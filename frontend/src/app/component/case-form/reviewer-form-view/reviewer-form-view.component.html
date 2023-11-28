@@ -7,7 +7,11 @@
     <form [formGroup]="caseInfoForm">
       <mat-accordion class="expansion-panel-container">
         <!-- Demographic information section -->
-        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+        <mat-expansion-panel 
+          [expanded]="step === 0" 
+          (opened)="setStep(0)" 
+          (closed)="resetCommentActive(0)"
+          hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>Demographic Information</mat-panel-title>
           </mat-expansion-panel-header>
@@ -68,7 +72,11 @@
         </mat-expansion-panel>
       
         <!-- Medical history section -->
-        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+        <mat-expansion-panel 
+          [expanded]="step === 1" 
+          (opened)="setStep(1)" 
+          (closed)="resetCommentActive(1)"
+          hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>History</mat-panel-title>
           </mat-expansion-panel-header>
@@ -101,7 +109,13 @@
               </h3>
               <span class="body-1" id="familyHistory">{{ caseInfo?.familyHistory || 'None' }}</span>
             </div>
-
+          </div>
+          <!-- Comment box -->
+          <div class="form-row" *ngIf="commentActive !== ''">
+            <mat-form-field class="form-field">
+              <mat-label>Add comment here</mat-label>
+              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            </mat-form-field>
           </div>
           <mat-action-row>
             <button mat-button (click)="prevStep()">Previous</button>
@@ -110,7 +124,11 @@
         </mat-expansion-panel>
         
         <!-- Symptoms  section -->
-        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+        <mat-expansion-panel 
+          [expanded]="step === 2" 
+          (opened)="setStep(2)" 
+          (closed)="resetCommentActive(2)"
+          hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>Symptoms</mat-panel-title>
           </mat-expansion-panel-header>
@@ -157,7 +175,13 @@
               </h3>
               <span class="body-1" id="hpi">{{ caseInfo?.hpi || 'None' }}</span>
             </div>
-
+          </div>
+          <!-- Comment box -->
+          <div class="form-row" *ngIf="commentActive !== ''">
+            <mat-form-field class="form-field">
+              <mat-label>Add comment here</mat-label>
+              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            </mat-form-field>
           </div>
           <mat-action-row>
             <button mat-button color="primary" (click)="prevStep()">Previous</button>
@@ -166,7 +190,11 @@
         </mat-expansion-panel>
         
         <!-- Examination & Diagnosis section -->
-        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+        <mat-expansion-panel 
+          [expanded]="step === 3" 
+          (opened)="setStep(3)" 
+          (closed)="resetCommentActive(3)"
+          hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>Examination & Diagnosis</mat-panel-title>
           </mat-expansion-panel-header>
@@ -199,7 +227,16 @@
               </h3>
               <span class="body-1" id="labDiagnostics">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
             </div>
-
+          </div>
+          <!-- Comment box -->
+          <div class="comment-box-container" *ngIf="commentActive !== ''">
+            <mat-form-field class="form-field">
+              <mat-label>Add comment here</mat-label>
+              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+            </mat-form-field>
+            <div class="button-container">
+              <button mat-raised-button color="primary">Save</button>
+            </div>
           </div>
           <mat-action-row>
             <button mat-button color="primary" (click)="prevStep()">Previous</button>

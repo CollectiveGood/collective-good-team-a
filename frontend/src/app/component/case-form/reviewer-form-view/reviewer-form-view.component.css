@@ -36,3 +36,14 @@ h3 {
     line-height: 1.46429em;
     letter-spacing: 0.01071em;
 }
+
+.comment-box-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}

@@ -98,4 +98,16 @@ export class ReviewerFormViewComponent {
       this.commentActive = field;
     }
   }
+
+  resetCommentActive(panelIndex: number) {
+    // Reset the commentActive variable when a panel is closed
+    if (this.step !== panelIndex) {
+      this.commentActive = '';
+    }
+  }
+
+  postComment(comment: string, id: string) {
+    // Placeholder - handle posting comments logic later
+    console.log(comment, id);
+  }
 }
