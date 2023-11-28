@@ -16,6 +16,9 @@ export class ReviewerFormViewComponent {
   caseInfo: CaseInfo | undefined;
   reviewerInfo: any = {}; // for storing reviewer comments
   reviewed: boolean = false; // for marking case as complete after form submission
+  commentActive: string = ''; // for toggling comment section
+
+  // Form values
   caseFormValues: any = {};
   reviewerFormValues: any = {};
 
@@ -86,5 +89,13 @@ export class ReviewerFormViewComponent {
 
   prevStep() {
     this.step--;
+  }
+
+  toggleComment(field: string) {
+    if (this.commentActive === field) {
+      this.commentActive = '';
+    } else {
+      this.commentActive = field;
+    }
   }
 }

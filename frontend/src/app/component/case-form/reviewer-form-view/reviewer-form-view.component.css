@@ -16,3 +16,23 @@ mat-card {
     flex: 1;
     overflow-y: auto;
 }
+
+h3 {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form-field.selected {
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    padding-left: 8px;
+    padding-bottom: 5px;
+  }
+
+.body-1 {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #5e5e5e;
+    line-height: 1.46429em;
+    letter-spacing: 0.01071em;
+}

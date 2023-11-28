@@ -12,23 +12,54 @@
             <mat-panel-title>Demographic Information</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="form-row">
-            <mat-form-field class="form-field">
-              <mat-label>Patient Name</mat-label>
-              <input matInput type="text" formControlName="patientName" id="patient-name" readonly>
-            </mat-form-field>
-            <mat-form-field class="form-field">
-              <mat-label>Gender</mat-label>
-              <input matInput type="text" formControlName="patientGender" id="gender" readonly>
-            </mat-form-field>
-            <mat-form-field class="form-field">
-              <mat-label>Age</mat-label>
-              <input matInput type="number" formControlName="patientAge" id="age" readonly>
-            </mat-form-field>
+            
+            <!-- Patient Name -->
+            <div class="form-field" [class.selected]="commentActive === 'patientName'">
+              <h3>Patient Name
+                <button 
+                mat-button 
+                matTooltip="Add comment"  
+                (click)="toggleComment('patientName')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="patientName">{{ caseInfo?.patientName || 'None' }}</span>
+            </div>
+
+            <!-- Patient Gender -->
+            <div class="form-field" [class.selected]="commentActive === 'patientGender'">
+              <h3>Patient Gender
+                <button 
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('patientGender')"     
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="patientGender">{{ caseInfo?.patientGender || 'None' }}</span>
+            </div>
+
+            <!-- Patient Age -->
+            <div class="form-field" [class.selected]="commentActive === 'patientAge'">
+              <h3>Patient Age
+                <button 
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('patientAge')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="patientAge">{{ caseInfo?.patientAge || 'None' }}</span>
+            </div>
           </div>
-          <div class="form-row">
-            <mat-form-field  class="form-field">
-              <mat-label>Reviewer Comments</mat-label>
-              <textarea matInput type="text" id="demographicComments"></textarea>
+          <!-- Comment box -->
+          <div class="form-row" *ngIf="commentActive !== ''">
+            <mat-form-field class="form-field">
+              <mat-label>Add comment here</mat-label>
+              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
             </mat-form-field>
           </div>
           <mat-action-row>
@@ -41,21 +72,36 @@
           <mat-expansion-panel-header>
             <mat-panel-title>History</mat-panel-title>
           </mat-expansion-panel-header>
+          
+          <!-- Past Medical History -->
           <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Past Medical History</mat-label>
-              <textarea matInput id="medical-history" readonly></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-              <mat-label>Family History</mat-label>
-              <textarea matInput formControlName="familyHistory" id="family-history" readonly></textarea>
-            </mat-form-field>
-          </div>
-          <div class="form-row">
-            <mat-form-field  class="form-field">
-              <mat-label>Reviewer Comments</mat-label>
-              <textarea matInput type="text" id="historyComments"></textarea>
-            </mat-form-field>
+            <div class="form-field" [class.selected]="commentActive === 'medicalHistory'">
+              <h3>Past Medical History
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('medicalHistory')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="medicalHistory">{{ caseInfo?.medicalHistory || 'None' }}</span>
+            </div>
+
+            <!-- Family History -->
+            <div class="form-field" [class.selected]="commentActive === 'familyHistory'">
+              <h3>Family History
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('familyHistory')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="familyHistory">{{ caseInfo?.familyHistory || 'None' }}</span>
+            </div>
+
           </div>
           <mat-action-row>
             <button mat-button (click)="prevStep()">Previous</button>
@@ -63,47 +109,102 @@
           </mat-action-row>
         </mat-expansion-panel>
         
-        <!-- Symptoms and examination section -->
+        <!-- Symptoms  section -->
         <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
           <mat-expansion-panel-header>
-            <mat-panel-title>Symptoms & Examination</mat-panel-title>
+            <mat-panel-title>Symptoms</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Chief Complaint</mat-label>
-              <textarea matInput formControlName="chiefComplaint" id="chief-complaint" readonly></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-              <mat-label>Symptoms</mat-label>
-              <textarea matInput formControlName="symptoms" id="symptoms" readonly></textarea>
-            </mat-form-field>
-            <mat-form-field class="text-area">
-              <mat-label>HPI</mat-label>
-              <textarea matInput formControlName="hpi" id="hpi" readonly></textarea>
-            </mat-form-field>
+
+            <!-- Chief Complaint -->
+            <div class="form-field" [class.selected]="commentActive === 'chiefComplaint'">
+              <h3>Chief Complaint
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('chiefComplaint')"
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="chiefComplaint">{{ caseInfo?.chiefComplaint || 'None' }}</span>
+            </div>
+
+            <!-- Symptoms -->
+            <div class="form-field" [class.selected]="commentActive === 'symptoms'">
+              <h3>Symptoms
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('symptoms')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="symptoms">{{ caseInfo?.symptoms || 'None' }}</span>
+            </div>
+
+            <!-- HPI -->
+            <div class="form-field" [class.selected]="commentActive === 'hpi'">
+              <h3>HPI
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('hpi')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="hpi">{{ caseInfo?.hpi || 'None' }}</span>
+            </div>
+
           </div>
+          <mat-action-row>
+            <button mat-button color="primary" (click)="prevStep()">Previous</button>
+            <button mat-button color="primary" (click)="nextStep()">Next</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+        
+        <!-- Examination & Diagnosis section -->
+        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Examination & Diagnosis</mat-panel-title>
+          </mat-expansion-panel-header>
           <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Physical Examination</mat-label>
-              <textarea matInput formControlName="physicalExaminationNotes" id="physical-examination-notes" readonly></textarea>
-            </mat-form-field>
-          </div>
-          <div class="form-row">
-            <mat-form-field class="text-area">
-              <mat-label>Labs & Diagnostics</mat-label>
-              <textarea matInput formControlName="labDiagnosticsNotes" id="lab-diagnostics-notes" readonly></textarea>
-            </mat-form-field>
-          </div>
-          <div class="form-row">
-            <mat-form-field  class="form-field">
-              <mat-label>Reviewer Comments</mat-label>
-              <textarea matInput type="text" id="symptomsComments"></textarea>
-            </mat-form-field>
+
+            <!-- Physical Examination -->
+            <div class="form-field" [class.selected]="commentActive === 'physicalExamination'">
+              <h3>Physical Examination
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('physicalExamination')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="physicalExamination">{{ caseInfo?.physicalExaminationNotes || 'None' }}</span>
+            </div>
+
+            <!-- Labs & Diagnostics -->
+            <div class="form-field" [class.selected]="commentActive === 'labDiagnostics'">
+              <h3>Labs & Diagnostics
+                <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('labDiagnostics')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
+                </button>
+              </h3>
+              <span class="body-1" id="labDiagnostics">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
+            </div>
+
           </div>
           <mat-action-row>
             <button mat-button color="primary" (click)="prevStep()">Previous</button>
           </mat-action-row>
-        </mat-expansion-panel>      
+        </mat-expansion-panel>
       </mat-accordion>
     </form>
   </mat-card-content>
