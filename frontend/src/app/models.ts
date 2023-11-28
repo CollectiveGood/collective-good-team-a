@@ -27,6 +27,12 @@ export interface Assignment {
     lastUpdated: Date
 }
 
+/* Represents a comment on a case */
+export interface ReviewComment {
+    fieldId: string; // the field that is being commented on
+    commentText: string;
+}
+
 /* Represents a case assignment in completed reviewed form */
 export interface FinalReview {
     id: number;

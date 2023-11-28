@@ -4,246 +4,245 @@
     <mat-card-subtitle>You have been assigned as a reviewer for this case. Review the fields for each section and add comments.</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="card-content-container">
-    <form [formGroup]="caseInfoForm">
-      <mat-accordion class="expansion-panel-container">
-        <!-- Demographic information section -->
-        <mat-expansion-panel 
-          [expanded]="step === 0" 
-          (opened)="setStep(0)" 
-          (closed)="resetCommentActive(0)"
-          hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Demographic Information</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="form-row">
-            
-            <!-- Patient Name -->
-            <div class="form-field" [class.selected]="commentActive === 'patientName'">
-              <h3>Patient Name
-                <button 
-                mat-button 
-                matTooltip="Add comment"  
-                (click)="toggleComment('patientName')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="patientName">{{ caseInfo?.patientName || 'None' }}</span>
-            </div>
-
-            <!-- Patient Gender -->
-            <div class="form-field" [class.selected]="commentActive === 'patientGender'">
-              <h3>Patient Gender
-                <button 
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('patientGender')"     
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="patientGender">{{ caseInfo?.patientGender || 'None' }}</span>
-            </div>
-
-            <!-- Patient Age -->
-            <div class="form-field" [class.selected]="commentActive === 'patientAge'">
-              <h3>Patient Age
-                <button 
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('patientAge')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="patientAge">{{ caseInfo?.patientAge || 'None' }}</span>
-            </div>
+    <mat-accordion class="expansion-panel-container">
+      <form [formGroup]="reviewerInfoForm">
+      <!-- Demographic information section -->
+      <mat-expansion-panel 
+        [expanded]="step === 0" 
+        (opened)="setStep(0)" 
+        (closed)="resetCommentActive(0)"
+        hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Demographic Information</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-row">
+          <!-- Patient Name -->
+          <div class="form-field" [class.selected]="commentActive === 'patientName'">
+            <h3>Patient Name
+              <button 
+              mat-button 
+              matTooltip="Add comment"  
+              (click)="toggleComment('patientName')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="patientName">{{ caseInfo?.patientName || 'None' }}</span>
           </div>
-          <!-- Comment box -->
-          <div class="form-row" *ngIf="commentActive !== ''">
-            <mat-form-field class="form-field">
-              <mat-label>Add comment here</mat-label>
-              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
-            </mat-form-field>
+
+          <!-- Patient Gender -->
+          <div class="form-field" [class.selected]="commentActive === 'patientGender'">
+            <h3>Patient Gender
+              <button 
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('patientGender')"     
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="patientGender">{{ caseInfo?.patientGender || 'None' }}</span>
           </div>
-          <mat-action-row>
-            <button mat-button color="primary" (click)="nextStep()">Next</button>
-          </mat-action-row>
-        </mat-expansion-panel>
+
+          <!-- Patient Age -->
+          <div class="form-field" [class.selected]="commentActive === 'patientAge'">
+            <h3>Patient Age
+              <button 
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('patientAge')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="patientAge">{{ caseInfo?.patientAge || 'None' }}</span>
+          </div>
+        </div>
+        <!-- Comment box -->
+        <div class="form-row" *ngIf="commentActive !== ''">
+          <mat-form-field class="form-field" formControlName="{{ commentActive }}">
+            <mat-label>Add comment here</mat-label>
+            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+          </mat-form-field>
+        </div>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    
+      <!-- Medical history section -->
+      <mat-expansion-panel 
+        [expanded]="step === 1" 
+        (opened)="setStep(1)" 
+        (closed)="resetCommentActive(1)"
+        hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>History</mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <!-- Past Medical History -->
+        <div class="form-row">
+          <div class="form-field" [class.selected]="commentActive === 'medicalHistory'">
+            <h3>Past Medical History
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('medicalHistory')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="medicalHistory">{{ caseInfo?.medicalHistory || 'None' }}</span>
+          </div>
+
+          <!-- Family History -->
+          <div class="form-field" [class.selected]="commentActive === 'familyHistory'">
+            <h3>Family History
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('familyHistory')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="familyHistory">{{ caseInfo?.familyHistory || 'None' }}</span>
+          </div>
+        </div>
+        <!-- Comment box -->
+        <div class="form-row" *ngIf="commentActive !== ''">
+          <mat-form-field class="form-field">
+            <mat-label>Add comment here</mat-label>
+            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+          </mat-form-field>
+        </div>
+        <mat-action-row>
+          <button mat-button (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
       
-        <!-- Medical history section -->
-        <mat-expansion-panel 
-          [expanded]="step === 1" 
-          (opened)="setStep(1)" 
-          (closed)="resetCommentActive(1)"
-          hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>History</mat-panel-title>
-          </mat-expansion-panel-header>
-          
-          <!-- Past Medical History -->
-          <div class="form-row">
-            <div class="form-field" [class.selected]="commentActive === 'medicalHistory'">
-              <h3>Past Medical History
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('medicalHistory')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="medicalHistory">{{ caseInfo?.medicalHistory || 'None' }}</span>
-            </div>
+      <!-- Symptoms  section -->
+      <mat-expansion-panel 
+        [expanded]="step === 2" 
+        (opened)="setStep(2)" 
+        (closed)="resetCommentActive(2)"
+        hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Symptoms</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-row">
 
-            <!-- Family History -->
-            <div class="form-field" [class.selected]="commentActive === 'familyHistory'">
-              <h3>Family History
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('familyHistory')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="familyHistory">{{ caseInfo?.familyHistory || 'None' }}</span>
-            </div>
+          <!-- Chief Complaint -->
+          <div class="form-field" [class.selected]="commentActive === 'chiefComplaint'">
+            <h3>Chief Complaint
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('chiefComplaint')"
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="chiefComplaint">{{ caseInfo?.chiefComplaint || 'None' }}</span>
           </div>
-          <!-- Comment box -->
-          <div class="form-row" *ngIf="commentActive !== ''">
-            <mat-form-field class="form-field">
-              <mat-label>Add comment here</mat-label>
-              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
-            </mat-form-field>
-          </div>
-          <mat-action-row>
-            <button mat-button (click)="prevStep()">Previous</button>
-            <button mat-button color="primary" (click)="nextStep()">Next</button>
-          </mat-action-row>
-        </mat-expansion-panel>
-        
-        <!-- Symptoms  section -->
-        <mat-expansion-panel 
-          [expanded]="step === 2" 
-          (opened)="setStep(2)" 
-          (closed)="resetCommentActive(2)"
-          hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Symptoms</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="form-row">
 
-            <!-- Chief Complaint -->
-            <div class="form-field" [class.selected]="commentActive === 'chiefComplaint'">
-              <h3>Chief Complaint
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('chiefComplaint')"
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="chiefComplaint">{{ caseInfo?.chiefComplaint || 'None' }}</span>
-            </div>
-
-            <!-- Symptoms -->
-            <div class="form-field" [class.selected]="commentActive === 'symptoms'">
-              <h3>Symptoms
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('symptoms')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="symptoms">{{ caseInfo?.symptoms || 'None' }}</span>
-            </div>
-
-            <!-- HPI -->
-            <div class="form-field" [class.selected]="commentActive === 'hpi'">
-              <h3>HPI
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('hpi')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="hpi">{{ caseInfo?.hpi || 'None' }}</span>
-            </div>
+          <!-- Symptoms -->
+          <div class="form-field" [class.selected]="commentActive === 'symptoms'">
+            <h3>Symptoms
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('symptoms')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="symptoms">{{ caseInfo?.symptoms || 'None' }}</span>
           </div>
-          <!-- Comment box -->
-          <div class="form-row" *ngIf="commentActive !== ''">
-            <mat-form-field class="form-field">
-              <mat-label>Add comment here</mat-label>
-              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
-            </mat-form-field>
-          </div>
-          <mat-action-row>
-            <button mat-button color="primary" (click)="prevStep()">Previous</button>
-            <button mat-button color="primary" (click)="nextStep()">Next</button>
-          </mat-action-row>
-        </mat-expansion-panel>
-        
-        <!-- Examination & Diagnosis section -->
-        <mat-expansion-panel 
-          [expanded]="step === 3" 
-          (opened)="setStep(3)" 
-          (closed)="resetCommentActive(3)"
-          hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Examination & Diagnosis</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="form-row">
 
-            <!-- Physical Examination -->
-            <div class="form-field" [class.selected]="commentActive === 'physicalExamination'">
-              <h3>Physical Examination
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('physicalExamination')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="physicalExamination">{{ caseInfo?.physicalExaminationNotes || 'None' }}</span>
-            </div>
+          <!-- HPI -->
+          <div class="form-field" [class.selected]="commentActive === 'hpi'">
+            <h3>HPI
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('hpi')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="hpi">{{ caseInfo?.hpi || 'None' }}</span>
+          </div>
+        </div>
+        <!-- Comment box -->
+        <div class="form-row" *ngIf="commentActive !== ''">
+          <mat-form-field class="form-field">
+            <mat-label>Add comment here</mat-label>
+            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+          </mat-form-field>
+        </div>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+      
+      <!-- Examination & Diagnosis section -->
+      <mat-expansion-panel 
+        [expanded]="step === 3" 
+        (opened)="setStep(3)" 
+        (closed)="resetCommentActive(3)"
+        hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Examination & Diagnosis</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-row">
 
-            <!-- Labs & Diagnostics -->
-            <div class="form-field" [class.selected]="commentActive === 'labDiagnostics'">
-              <h3>Labs & Diagnostics
-                <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('labDiagnostics')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
-                </button>
-              </h3>
-              <span class="body-1" id="labDiagnostics">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
-            </div>
+          <!-- Physical Examination -->
+          <div class="form-field" [class.selected]="commentActive === 'physicalExamination'">
+            <h3>Physical Examination
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('physicalExamination')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="physicalExamination">{{ caseInfo?.physicalExaminationNotes || 'None' }}</span>
           </div>
-          <!-- Comment box -->
-          <div class="comment-box-container" *ngIf="commentActive !== ''">
-            <mat-form-field class="form-field">
-              <mat-label>Add comment here</mat-label>
-              <textarea matInput type="text" id="{{ commentActive }}"></textarea>
-            </mat-form-field>
-            <div class="button-container">
-              <button mat-raised-button color="primary">Save</button>
-            </div>
+
+          <!-- Labs & Diagnostics -->
+          <div class="form-field" [class.selected]="commentActive === 'labDiagnostics'">
+            <h3>Labs & Diagnostics
+              <button
+              mat-button 
+              matTooltip="Add comment"
+              (click)="toggleComment('labDiagnostics')"      
+              color="primary">
+                <mat-icon>comment</mat-icon>
+              </button>
+            </h3>
+            <span class="body-1" id="labDiagnostics">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
           </div>
-          <mat-action-row>
-            <button mat-button color="primary" (click)="prevStep()">Previous</button>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </form>
+        </div>
+        <!-- Comment box -->
+        <div class="comment-box-container" *ngIf="commentActive !== ''">
+          <mat-form-field class="form-field">
+            <mat-label>Add comment here</mat-label>
+            <textarea matInput type="text" id="{{ commentActive }}"></textarea>
+          </mat-form-field>
+          <div class="button-container">
+            <button mat-raised-button color="primary">Save</button>
+          </div>
+        </div>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="prevStep()">Previous</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+      </form>
+    </mat-accordion>
   </mat-card-content>
   <mat-card-actions class="button-row">
     <button mat-raised-button type="button" color="warn" (click)="onClose()">Close</button>

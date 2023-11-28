@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Assignment, CaseInfo } from 'src/app/models';
+import { Assignment, CaseInfo, ReviewComment } from 'src/app/models';
 
 @Component({
   selector: 'app-reviewer-form-view',
@@ -14,15 +14,15 @@ export class ReviewerFormViewComponent {
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
 
   caseInfo: CaseInfo | undefined;
-  reviewerInfo: any = {}; // for storing reviewer comments
+  reviewerComments: ReviewComment[] = []; // for storing reviewer comments
   reviewed: boolean = false; // for marking case as complete after form submission
   commentActive: string = ''; // for toggling comment section
-
+  
   // Form values
   caseFormValues: any = {};
   reviewerFormValues: any = {};
 
-  caseInfoForm = this.formBuilder.group({
+  reviewerInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
     patientAge: '',
@@ -31,14 +31,9 @@ export class ReviewerFormViewComponent {
     chiefComplaint: '',
     symptoms: '',
     hpi: '',
-    physicalExaminationNotes: '',
-    labDiagnosticsNotes: '',
+    physicalExamination: '',
+    labDiagnostics: '',
     additionalNotes: '',
-  });
-
-  reviewerInfoForm = this.formBuilder.group({
-    demographicComments: '',
-    historyComments: '',
   });
 
   constructor(
@@ -52,19 +47,12 @@ export class ReviewerFormViewComponent {
   }
 
   private initForm(): void {
-    this.caseInfo = this.caseAssignment.info;
-    // Populate the formValues object with the caseInfo properties
-    if (this.caseInfo) {
-      this.caseFormValues = this.caseInfo;
-    }
-    this.caseInfoForm.setValue(this.caseFormValues);
-
-    this.reviewerInfo = this.caseAssignment.review;
-    // Populate the formValues object with the reviewerInfo properties
-    if (this.reviewerInfo) {
-      this.caseFormValues = this.reviewerInfo;
-    }
-    this.reviewerInfoForm.setValue(this.reviewerFormValues);
+    // this.reviewerInfo = this.caseAssignment.review;
+    // // Populate the formValues object with the reviewerInfo properties
+    // if (this.reviewerInfo) {
+    //   this.caseFormValues = this.reviewerInfo;
+    // }
+    // this.reviewerInfoForm.setValue(this.reviewerFormValues);
   }
 
   onClose(): void {
@@ -74,7 +62,10 @@ export class ReviewerFormViewComponent {
 
   saveDraft(): void {}
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    this.reviewed = true;
+    this.formSubmitted.emit();
+  }
 
   // For expanding/collapsing the form sections
   step = 0;
@@ -106,8 +97,8 @@ export class ReviewerFormViewComponent {
     }
   }
 
-  postComment(comment: string, id: string) {
-    // Placeholder - handle posting comments logic later
-    console.log(comment, id);
+  postComment(fieldId: string, commentText: string) {
+    this.reviewerComments.push({ fieldId, commentText });
+    console.log(this.reviewerComments);
   }
 }
