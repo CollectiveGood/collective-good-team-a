@@ -11,48 +11,28 @@ const prisma = new PrismaClient();
 const user = { username: "adam@gmail.com", password: "test" };
 const admin = { username: "admin@gmail.com", password: "admin" };
 
-let cookies: any;
+let adminCookies: any;
+let userCookies: any;
 // Should run prisma migrate reset --force before running this test
 beforeAll(async () => {
-  cookies = await getCookies(admin);
+  adminCookies = await getCookies(admin);
+  userCookies = await getCookies(user);
 });
 
-describe("getCases", () => {
-  describe("Tests getting case", () => {
-    it("get /getCases", async () => {
-      const body = {
-        isResolved: undefined as boolean | undefined,
-        hasAssignments: false,
-        start: 0,
-        take: 10,
-        desc: true,
-      };
+describe("getAssignments", () => {
+  describe("Tests getting assignments", () => {
+    it("get /assignedCases", async () => {
+
       const response = await request(app)
-        .post("/getCases")
-        .send(body)
-        .set("Cookie", cookies);
+        .post("/assignedCases")
+        .set("Cookie", userCookies);
       expect(response.status).toBe(200);
-      expect(response.body).toHaveLength(1);
-
-      body.hasAssignments = true;
-      body.isResolved = false;
-      const response2 = await request(app)
-        .post("/getCases")
-        .send(body)
-        .set("Cookie", cookies);
-      expect(response2.body).toHaveLength(2);
-
-      body.isResolved = true;
-      const response3 = await request(app)
-        .post("/getCases")
-        .send(body)
-        .set("Cookie", cookies);
-      expect(response3.body).toHaveLength(1);
+      expect(response.body).toHaveLength(2);
     }, 10000);
   });
 });
 
-describe("Test Case full cycle", () => {
+describe("Test assignment full cycle", () => {
   let hash = "";
 
   describe("initializes test data", () => {
@@ -60,10 +40,26 @@ describe("Test Case full cycle", () => {
       const response = await request(app)
         .post("/addCase")
         .attach("file", "./files/a.pdf")
-        .set("Cookie", cookies);
+        .set("Cookie", adminCookies);
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("fileName");
       hash = response.body["fileName"];
+    });
+  });
+
+  describe("assigns a case", () => {
+    it("POST /assignCase", async () => {
+      const body = {
+        user: "adam@gmail.com",
+        reviewer: "admin@gmail.com",
+        hash: hash,
+      }
+      const response = await request(app)
+        .post("/assignCase")
+        .send(body)
+        .set("Cookie", adminCookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("id");
     });
   });
 
@@ -72,7 +68,7 @@ describe("Test Case full cycle", () => {
       const response = await request(app)
         .post("/deleteCase")
         .send({ hash: hash })
-        .set("Cookie", cookies);
+        .set("Cookie", adminCookies);
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("fileName");
