@@ -29,6 +29,7 @@ import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/cas
 import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
 import { ReviewerFormViewComponent } from './component/case-form/reviewer-form-view/reviewer-form-view.component';
+import { CaseViewComponent } from './component/case-view/case-view.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -79,7 +80,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AdminAssignmentViewComponent,
     CaseAssignmentDialogComponent,
     HelpComponent,
-    ReviewerFormViewComponent
+    ReviewerFormViewComponent,
+    CaseViewComponent
   ],
   imports: [
     BrowserModule,

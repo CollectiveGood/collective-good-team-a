@@ -82,7 +82,7 @@ export interface GetAssignmentsRequest {
     start: number;
     take: number;
     desc: boolean;
-    hash: string;
+    hash?: string; // optional
 }
 
 /* Request body for retrieving cases */

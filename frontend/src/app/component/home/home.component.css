@@ -6,28 +6,31 @@ body, div, p {
 
 .header-container {
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Create three equal-width columns using CSS Grid */
 .card-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
-    gap: 15px; /* Optional gap between columns */
-    justify-content: start; /* Align columns to the top */
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    justify-content: start;
 }
 
 mat-card {
-    width: 100%; /* Adjust card width as needed */
+    width: 100%;
     text-align: center;
     background-color: whitesmoke;
 }
 
 mat-card-content {
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
-    width: 100%; /* Set the width to 100% to fill the mat-card width */
-    display: flex; /* Use flex display for centering content */
-    justify-content: center; /* Center content horizontally */
+    padding: 0; 
+    margin: 0; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
 }
 
 /* Style the line break (hr) as needed */
@@ -51,5 +54,5 @@ mat-card-content {
 
 .custom-button {
     width: 100%;
-    margin-bottom: 10px; /* Add margin at the bottom of each button */
+    margin-bottom: 10px;
 }

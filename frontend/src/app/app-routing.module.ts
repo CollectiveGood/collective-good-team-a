@@ -10,6 +10,7 @@ import { HelpComponent } from './component/help/help.component';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/login/login.component';
 import { SignupComponent } from './component/signup/signup.component';
+import { CaseViewComponent } from './component/case-view/case-view.component';
 import { adminGuard } from './service/auth/admin.guard';
 import { authGuard } from './service/auth/auth.guard';
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'case/:hash', component: CaseFormComponent, canActivate: [authGuard] },
   { path: 'review/:hash', component: CaseFormComponent, canActivate: [authGuard] },
   { path: 'help', component: HelpComponent, canActivate: [authGuard] },
+  { path: 'cases/completed', component: CaseViewComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home component
 
   // Handle unknown paths
