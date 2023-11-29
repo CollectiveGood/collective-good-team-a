@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Assignment, CaseInfo, ReviewComment } from 'src/app/models';
+import { Assignment, CaseInfo } from 'src/app/models';
+import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
 
 @Component({
   selector: 'app-reviewer-form-view',
@@ -15,13 +16,10 @@ export class ReviewerFormViewComponent {
 
   caseInfo: CaseInfo | undefined;
   reviewerComments: Map<string, string> = new Map();
-  reviewed: boolean = false; // for marking case as complete after form submission
   commentActive: string = ''; // for toggling comment section
-  
-  // Form values
-  reviewerFormValues: any = {};
+  initialFormValues: any = {}; // for checking if changes have been made
+  step: number = 0; // for expanding/collapsing the form sections
 
-  // For adding comments
   reviewerInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
@@ -48,37 +46,64 @@ export class ReviewerFormViewComponent {
 
   private initForm(): void {
     this.caseInfo = this.caseAssignment.info;
-  }
+  
+    const formValues: any = {};
+    if (this.caseInfo && this.caseAssignment.review) { 
+      formValues.patientName = this.caseAssignment.review?.patientName || '';
+      formValues.patientGender = this.caseAssignment.review?.patientGender || '';
+      formValues.patientAge = this.caseAssignment.review?.patientAge || '';
+      formValues.medicalHistory = this.caseAssignment.review?.medicalHistory || '';
+      formValues.familyHistory = this.caseAssignment.review?.familyHistory || '';
+      formValues.chiefComplaint = this.caseAssignment.review?.chiefComplaint || '';
+      formValues.symptoms = this.caseAssignment.review?.symptoms || '';
+      formValues.hpi = this.caseAssignment.review?.hpi || '';
+      formValues.physicalExamination = this.caseAssignment.review?.physicalExamination || '';
+      formValues.labDiagnostics = this.caseAssignment.review?.labDiagnostics || '';
+      formValues.additionalNotes = this.caseAssignment.review?.additionalNotes || '';
+      this.initialFormValues = {...formValues};
+    }
 
+    this.reviewerInfoForm.setValue(formValues);
+  }
+  
   onClose(): void {
-    // Placeholder - handle saving comments changes logic later
-    this.router.navigate(['/home']);
+    if (this.hasFormChanges()) {
+      const dialogRef = this.dialog.open(SaveChangesDialogComponent, {
+        width: '300px',
+      });
+
+      dialogRef.afterClosed().subscribe(saveChanges => {
+        if (saveChanges === undefined) {
+          return;
+        } else if (saveChanges === true){
+          this.saveDraft();
+        } else {
+          this.router.navigate(['/home']);
+        }
+      });
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 
-  saveDraft(): void {}
+  private hasFormChanges() {
+    return JSON.stringify(this.reviewerInfoForm.value) !== JSON.stringify(this.initialFormValues);
+  }
 
-  onSubmit(): void {
-    this.reviewed = true;
+  saveDraft(): void {
     const dataToSubmit = {
       comments: Array.from(this.reviewerComments.entries()),
-      resolved: this.reviewed,
+      resolved: undefined,
     }
     this.formSubmitted.emit(dataToSubmit);
   }
 
-  // For expanding/collapsing the form sections
-  step = 0;
-
-  setStep(index: number) {
-    this.step = index;
-  }
-
-  nextStep() {
-    this.step++;
-  }
-
-  prevStep() {
-    this.step--;
+  onSubmit(): void {
+    const dataToSubmit = {
+      comments: Array.from(this.reviewerComments.entries()),
+      resolved: true,
+    }
+    this.formSubmitted.emit(dataToSubmit);
   }
 
   /* Comment handling logic */
@@ -108,6 +133,18 @@ export class ReviewerFormViewComponent {
   postComment(fieldId: string, commentText: string) {
     // Set or overwrite the comment if it already exists
     this.reviewerComments.set(fieldId, commentText);
-    console.log(this.reviewerComments);
+  }
+
+  // For expanding/collapsing the form sections
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 }

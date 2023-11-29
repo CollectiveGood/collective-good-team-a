@@ -114,9 +114,15 @@ export class CaseFormComponent {
     this.assignmentService.submitReview(reviewAssignmentRequest).subscribe({
       next: (response: Assignment) => {
         console.log(response);
-        this.snackBar.open('Case review submitted successfully!', 'Close', {
-          duration: 3000,
-        });
+        if (!data.resolved) {
+          this.snackBar.open('Case review saved successfully!', 'Close', {
+            duration: 3000,
+          });
+        } else {
+          this.snackBar.open('Case review submitted successfully!', 'Close', {
+            duration: 3000,
+          });
+        }
         this.router.navigate(['/home']);
       },
       error: (e: HttpErrorResponse) => {

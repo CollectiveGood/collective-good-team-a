@@ -20,7 +20,7 @@
           <div class="form-field" [class.selected]="commentActive === 'patientName'">
             <h3>Patient Name
               <button 
-              mat-button 
+              mat-button
               matTooltip="Add comment"  
               (click)="toggleComment('patientName')"      
               color="primary">
@@ -33,12 +33,12 @@
           <!-- Patient Gender -->
           <div class="form-field" [class.selected]="commentActive === 'patientGender'">
             <h3>Patient Gender
-              <button 
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('patientGender')"     
-              color="primary">
-                <mat-icon>comment</mat-icon>
+              <button
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('patientGender')"     
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="patientGender">{{ caseInfo?.patientGender || 'None' }}</span>
@@ -48,11 +48,11 @@
           <div class="form-field" [class.selected]="commentActive === 'patientAge'">
             <h3>Patient Age
               <button 
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('patientAge')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('patientAge')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="patientAge">{{ caseInfo?.patientAge || 'None' }}</span>
@@ -62,7 +62,12 @@
         <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
+            <textarea 
+              matInput 
+              type="text" 
+              id="{{ commentActive }}" 
+              formControlName="{{ commentActive }}">
+            </textarea>
           </mat-form-field>
           <div class="button-container">
             <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
@@ -88,11 +93,11 @@
           <div class="form-field" [class.selected]="commentActive === 'medicalHistory'">
             <h3>Past Medical History
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('medicalHistory')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('medicalHistory')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="medicalHistory">{{ caseInfo?.medicalHistory || 'None' }}</span>
@@ -102,11 +107,11 @@
           <div class="form-field" [class.selected]="commentActive === 'familyHistory'">
             <h3>Family History
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('familyHistory')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('familyHistory')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="familyHistory">{{ caseInfo?.familyHistory || 'None' }}</span>
@@ -116,7 +121,12 @@
         <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
+            <textarea 
+              matInput
+              type="text"
+              id="{{ commentActive }}"
+              formControlName="{{ commentActive }}">
+            </textarea>
           </mat-form-field>
           <div class="button-container">
             <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
@@ -143,11 +153,11 @@
           <div class="form-field" [class.selected]="commentActive === 'chiefComplaint'">
             <h3>Chief Complaint
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('chiefComplaint')"
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('chiefComplaint')"
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="chiefComplaint">{{ caseInfo?.chiefComplaint || 'None' }}</span>
@@ -157,11 +167,11 @@
           <div class="form-field" [class.selected]="commentActive === 'symptoms'">
             <h3>Symptoms
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('symptoms')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('symptoms')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="symptoms">{{ caseInfo?.symptoms || 'None' }}</span>
@@ -171,11 +181,11 @@
           <div class="form-field" [class.selected]="commentActive === 'hpi'">
             <h3>HPI
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('hpi')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('hpi')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="hpi">{{ caseInfo?.hpi || 'None' }}</span>
@@ -185,10 +195,20 @@
         <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
+            <textarea 
+              matInput
+              type="text"
+              id="{{ commentActive }}"
+              formControlName="{{ commentActive }}">
+            </textarea>
           </mat-form-field>
           <div class="button-container">
-            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">
+              Save
+            </button>
           </div>
         </div>
         <mat-action-row>
@@ -212,11 +232,11 @@
           <div class="form-field" [class.selected]="commentActive === 'physicalExamination'">
             <h3>Physical Examination
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('physicalExamination')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('physicalExamination')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="physicalExamination">{{ caseInfo?.physicalExaminationNotes || 'None' }}</span>
@@ -226,11 +246,11 @@
           <div class="form-field" [class.selected]="commentActive === 'labDiagnostics'">
             <h3>Labs & Diagnostics
               <button
-              mat-button 
-              matTooltip="Add comment"
-              (click)="toggleComment('labDiagnostics')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+                mat-button 
+                matTooltip="Add comment"
+                (click)="toggleComment('labDiagnostics')"      
+                color="primary">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="labDiagnostics">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
@@ -240,10 +260,20 @@
         <div class="comment-box-container" *ngIf="commentActive !== ''">
           <mat-form-field class="form-field">
             <mat-label>Add comment here</mat-label>
-            <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
+            <textarea 
+              matInput
+              type="text"
+              id="{{ commentActive }}"
+              formControlName="{{ commentActive }}">
+            </textarea>
           </mat-form-field>
           <div class="button-container">
-            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">
+              Save
+            </button>
           </div>
         </div>
         <mat-action-row>
@@ -265,11 +295,11 @@
             <div class="form-field" [class.selected]="commentActive === 'additionalNotes'">
               <h3>Additional Notes
                 <button
-                mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('additionalNotes')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
+                  mat-button 
+                  matTooltip="Add comment"
+                  (click)="toggleComment('additionalNotes')"      
+                  color="primary">
+                    <mat-icon>comment</mat-icon>
                 </button>
               </h3>
               <span class="body-1" id="addtionalNotes">{{ caseInfo?.additionalNotes || 'None' }}</span>
@@ -279,10 +309,20 @@
           <div class="comment-box-container" *ngIf="commentActive !== ''">
             <mat-form-field class="form-field">
               <mat-label>Add comment here</mat-label>
-              <textarea matInput type="text" id="{{ commentActive }}" formControlName="{{ commentActive }}"></textarea>
+              <textarea 
+                matInput
+                type="text"
+                id="{{ commentActive }}"
+                formControlName="{{ commentActive }}">
+              </textarea>
             </mat-form-field>
             <div class="button-container">
-              <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+              <button 
+                mat-raised-button
+                color="primary"
+                (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">
+                Save
+              </button>
             </div>
           </div>
           <mat-action-row>
