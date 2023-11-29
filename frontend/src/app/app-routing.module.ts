@@ -27,7 +27,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
   { path: 'case/:hash', component: CaseFormComponent, canActivate: [authGuard] },
-  { path: 'review/:hash', component: CaseFormComponent, canActivate: [authGuard] },
+  { path: 'case/:hash/review', component: CaseFormComponent, canActivate: [authGuard] },
+  { path: 'case/:hash/complete', component: CaseFormComponent, canActivate: [authGuard] },
   { path: 'help', component: HelpComponent, canActivate: [authGuard] },
   { path: 'cases/completed', component: CaseViewComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home component

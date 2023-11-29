@@ -1,0 +1,72 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-subtitle>This case has been completed and reviewed. View the submission here.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <h2>Demographic Information</h2>
+        <div class="form-row">
+            <div class="form-field">
+                <h3>Patient Name</h3>
+                <span class="body-1">{{ caseInfo?.patientName || 'None' }}</span>
+            </div>
+            <div class="form-field">
+                <h3>Patient Gender</h3>
+                <span class="body-1">{{ caseInfo?.patientGender || 'None' }}</span>
+            </div>
+            <div class="form-field">
+                <h3>Patient Age</h3>
+                <span class="body-1">{{ caseInfo?.patientAge || 'None' }}</span>
+            </div>  
+        </div>
+        <mat-divider></mat-divider>
+        <h2>History</h2>
+        <div class="form-row">
+            <div class="form-field">
+                <h3>Past Medical History</h3>
+                <span class="body-1">{{ caseInfo?.medicalHistory || 'None' }}</span>
+            </div>
+            <div class="form-field">
+                <h3>Family History</h3>
+                <span class="body-1">{{ caseInfo?.familyHistory || 'None' }}</span>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <h2>Symptoms</h2>
+        <div class="form-row">
+            <div class="form-field">
+                <h3>Chief Complaint</h3>
+                <span class="body-1">{{ caseInfo?.chiefComplaint || 'None' }}</span>
+            </div>
+            <div class="form-field">
+                <h3>Symptoms</h3>
+                <span class="body-1">{{ caseInfo?.symptoms || 'None' }}</span>
+            </div>
+            <div class="form-field">
+                <h3>History of Present Illness</h3>
+                <span class="body-1">{{ caseInfo?.hpi || 'None' }}</span>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <h2>Examination & Diagnosis</h2>
+        <div class="form-row">
+            <div class="form-field">
+                <h3>Physical Examination</h3>
+                <span class="body-1">{{ caseInfo?.physicalExaminationNotes || 'None' }}</span>
+            </div>
+            <div class="form-field">
+                <h3>Labs & Diagnostics</h3>
+                <span class="body-1">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <h2>Additional Notes</h2>
+        <span class="body-1">{{ caseInfo?.additionalNotes || 'None' }}</span>
+        <mat-divider></mat-divider>
+        <h2>Reviewer Comments</h2>
+        <div class="form-row">
+            <div class="form-field" *ngFor="let comment of caseAssignment.review">
+                <h2>{{ comment }}</h2>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

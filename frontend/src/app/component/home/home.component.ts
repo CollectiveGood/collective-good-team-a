@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`/case/${caseHash}`]);
   }
   
-  reviewClick(caseHash: string) {
-    this.router.navigate([`/review/${caseHash}`]);
+  caseReviewClick(caseHash: string) {
+    this.router.navigate([`/case/${caseHash}/review`]);
   }
 }

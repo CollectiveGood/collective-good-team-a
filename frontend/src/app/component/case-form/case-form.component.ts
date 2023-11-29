@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { VIEW_MODE } from 'src/app/constants';
 import { Assignment, ReviewAssignmentRequest, UpdateAssignmentRequest } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseService } from 'src/app/service/case/case.service';
@@ -15,7 +16,7 @@ export class CaseFormComponent {
   caseHash: string = '';
   caseBlob!: Blob;
   caseAssignment: Assignment | null = null;
-  isReviewMode: boolean = false;
+  viewMode!: VIEW_MODE;
   
   constructor(
     private route: ActivatedRoute, 
@@ -29,9 +30,14 @@ export class CaseFormComponent {
   }
 
   ngOnInit(): void {
-    // Check whether to render review mode
-    if (this.router.url.split('/')[1] === "review") { this.isReviewMode = true} 
-    else { this.isReviewMode = false }
+    // Select the view mode based on the URL
+    if (this.router.url.split('/')[3] === "review") { 
+      this.viewMode = VIEW_MODE.REVIEW;
+    } else if (this.router.url.split('/')[3] === "complete") { 
+      this.viewMode = VIEW_MODE.COMPLETE; 
+    } else {
+      this.viewMode = VIEW_MODE.NEW;
+    }
     // Use caseHash to fetch and render the PDF for the selected case
     this.caseService.getCaseAsPDF(this.caseHash).subscribe({
       next: (response: Blob) => {
@@ -54,7 +60,9 @@ export class CaseFormComponent {
   /* Get the case information for the selected case */
   private getCaseInfo(): void {
     // Check whether to render review mode
-    const handler = this.isReviewMode ? this.assignmentService.getReview(this.caseHash) : this.assignmentService.getAssignment(this.caseHash);
+    const handler = 
+      this.viewMode === VIEW_MODE.REVIEW ? 
+      this.assignmentService.getReviewAssignment(this.caseHash) : this.assignmentService.getAssignment(this.caseHash);
     handler.subscribe({
       next: (response: Assignment) => {
         this.caseAssignment = response;

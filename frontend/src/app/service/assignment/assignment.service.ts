@@ -37,7 +37,7 @@ export class AssignmentService {
     });
   }
 
-  /* Get case assignment for the current user 
+  /* Get specific case assignment for the current user 
   *  @param caseId: the ID of the case
   */
   getAssignment(caseId: string): Observable<Assignment> {
@@ -46,10 +46,10 @@ export class AssignmentService {
     });
   }
 
-  /* Get the reviewed version of a case assignment
+  /* Get specific review assignment for the current user
   *  @param caseId: the ID of the case
   */
-  getReview(caseId: string): Observable<Assignment> {
+  getReviewAssignment(caseId: string): Observable<Assignment> {
     return this.http.get<Assignment>(`${environment.apiUrl}/getReview/${caseId}`, {
       withCredentials: true,
     });

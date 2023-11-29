@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Assignment, GetAssignmentsRequest } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 
@@ -26,7 +27,8 @@ export class CaseViewComponent implements OnInit, AfterViewInit {
   searchText: string = '';
 
   constructor(
-    private assignmentService: AssignmentService
+    private assignmentService: AssignmentService,
+    private router: Router
   ) {}
   
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class CaseViewComponent implements OnInit, AfterViewInit {
   }
 
   loadCaseList(): void {
-    // Load list of cases in the database
+    // Load list of completed and reviewed cases
     this.loading = true;
     const request: GetAssignmentsRequest = {
       includeReviewed: true,
@@ -74,7 +76,6 @@ export class CaseViewComponent implements OnInit, AfterViewInit {
   }
 
   onCaseClick(assignment: Assignment): void {
-    // Open case in new tab
-    window.open(`/case/${assignment.hash}`, '_blank');
+    this.router.navigate([`/case/${assignment.hash}/complete`]);
   }
 }
