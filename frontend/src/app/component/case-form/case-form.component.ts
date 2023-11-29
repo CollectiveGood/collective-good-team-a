@@ -17,6 +17,8 @@ export class CaseFormComponent {
   caseBlob!: Blob;
   caseAssignment: Assignment | null = null;
   viewMode!: VIEW_MODE;
+  userId!: number;
+  reviewerId!: number;
   
   constructor(
     private route: ActivatedRoute, 
@@ -35,6 +37,8 @@ export class CaseFormComponent {
       this.viewMode = VIEW_MODE.REVIEW;
     } else if (this.router.url.split('/')[3] === "complete") { 
       this.viewMode = VIEW_MODE.COMPLETE; 
+      this.userId = parseInt(this.router.url.split('/')[4]);
+      this.reviewerId = parseInt(this.router.url.split('/')[5]);
     } else {
       this.viewMode = VIEW_MODE.NEW;
     }
@@ -61,8 +65,12 @@ export class CaseFormComponent {
   private getCaseInfo(): void {
     // Check whether to render review mode
     const handler = 
-      this.viewMode === VIEW_MODE.REVIEW ? 
-      this.assignmentService.getReviewAssignment(this.caseHash) : this.assignmentService.getAssignment(this.caseHash);
+
+      this.viewMode === VIEW_MODE.REVIEW ?
+      this.assignmentService.getReviewAssignment(this.caseHash) :
+      this.viewMode === VIEW_MODE.COMPLETE ? 
+      this.assignmentService.getSpecificCase(this.caseHash, this.userId, this.reviewerId) :
+      this.assignmentService.getAssignment(this.caseHash);
     handler.subscribe({
       next: (response: Assignment) => {
         this.caseAssignment = response;

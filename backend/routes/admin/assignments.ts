@@ -83,4 +83,25 @@ router.post("/getAssignments", adminAuthStrategy, <RequestHandler>(
     return res.status(200).json(assignments satisfies SuccessType);
   }
 ));
-module.exports = router;
+
+router.get("/getUniqueCase/:caseId/:userId/:reviewerId", adminAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type SuccessType =
+      paths["/getUniqueCase/{caseId}/{userId}/{reviewerId}"]["get"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/getUniqueCase/{caseId}/{userId}/{reviewerId}"]["get"]["responses"]["500"]["content"]["application/json"];
+
+    const userId = parseInt(req.params.userId);
+    const reviewerId = parseInt(req.params.reviewerId);
+    const caseId = req.params.caseId;
+
+    const assignment = await prisma.assignment.findFirst({
+        where: { hash: caseId, userId: userId, reviewerId: reviewerId },
+      })
+    if (assignment === null) {
+      return res.status(500).json({ response: "Assignment not found" } satisfies FailureType);
+    }
+
+    return res.status(200).json(assignment satisfies SuccessType);
+  }
+));module.exports = router;

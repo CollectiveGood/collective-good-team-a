@@ -346,6 +346,60 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /getUniqueCase/{caseId}/{userId}/{reviewerId}:
+    get:
+      summary: gets an assignment from the caseId
+      parameters:
+        - in: hash of the url
+          name: caseId
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+        - in: hash of the url
+          name: test
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getFinal/{caseId}:
+    get:
+      summary: gets an assignment from the caseId
+      parameters:
+        - in: hash of the url
+          name: caseId
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /updateAssignment:
     post:
       summary: Updates the information attached to an assignment

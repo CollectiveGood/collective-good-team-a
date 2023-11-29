@@ -116,6 +116,7 @@ export async function getAssignment(hash: string, userId: number) {
       hash_userId: { hash: hash, userId: userId },
     },
   });
+  console.log(c);
   const assignment = {...c!, info: JSON.parse(c!.info), review: JSON.parse(c!.review)};
 
   return assignment;

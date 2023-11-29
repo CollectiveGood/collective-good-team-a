@@ -55,6 +55,15 @@ export class AssignmentService {
     });
   }
 
+  /* Get submissions for a specific case
+  *  @param caseId: the ID of the case
+  */
+  getSpecificCase(caseId: string, userId: number, reviewerId: number): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment.apiUrl}/getUniqueCase/${caseId}/${userId}/${reviewerId}`, {
+      withCredentials: true,
+    });
+  }
+
   /* Get all cases assigned to the current user */
   getAllAssignedCases(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${environment.apiUrl}/assignedCases`, {

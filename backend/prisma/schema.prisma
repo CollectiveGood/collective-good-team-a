@@ -20,6 +20,8 @@ model User {
   cases             Case[]
   Assignments       Assignment[] @relation(name: "user")
   ReviewAssignments Assignment[] @relation(name: "reviewer")
+  Final             Final[]      @relation(name: "user")
+  FinalReviewer     Final[]      @relation(name: "reviewer")
 }
 
 enum Role {
@@ -67,6 +69,8 @@ model Assignment {
 
 model Final {
   id          Int      @id @default(autoincrement())
+  user        User     @relation(name: "user", fields: [userId], references: [id])
+  reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
   info        String
   review      String
   completed   Boolean  @default(false)
