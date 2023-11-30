@@ -129,7 +129,6 @@ export async function getAssignmentByID(id: number) {
       id: id,
     },
   });
-  console.log(c);
   const assignment = {...c!, info: JSON.parse(c!.info), review: JSON.parse(c!.review)};
 
   return assignment;

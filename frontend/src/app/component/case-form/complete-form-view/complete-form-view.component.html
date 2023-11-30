@@ -67,6 +67,9 @@
             <div class="form-field" *ngFor="let comment of caseAssignment.review">
                 <h2>{{ comment }}</h2>
             </div>
+            <div class="form-field" *ngFor="let comment of reviewComments">
+                <p>{{ comment }}</p>
+            </div>
         </div>
     </mat-card-content>
 </mat-card>

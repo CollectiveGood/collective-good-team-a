@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Assignment, CaseInfo } from 'src/app/models';
 import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmReviewDialogComponent } from '../../dialog/confirm-review-dialog/confirm-review-dialog.component';
 
 @Component({
   selector: 'app-reviewer-form-view',
@@ -16,6 +18,7 @@ export class ReviewerFormViewComponent {
 
   caseInfo: CaseInfo | undefined;
   reviewerComments: Map<string, string> = new Map();
+  reviewed: boolean = false; // for marking case as reviewed after form submission
   commentActive: string = ''; // for toggling comment section
   initialFormValues: any = {}; // for checking if changes have been made
   step: number = 0; // for expanding/collapsing the form sections
@@ -37,7 +40,8 @@ export class ReviewerFormViewComponent {
   constructor(
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -91,19 +95,28 @@ export class ReviewerFormViewComponent {
   }
 
   saveDraft(): void {
-    const dataToSubmit = {
-      comments: Array.from(this.reviewerComments.entries()),
-      resolved: undefined,
-    }
-    this.formSubmitted.emit(dataToSubmit);
+    this.onSubmit(false);
   }
 
-  onSubmit(): void {
-    const dataToSubmit = {
+  submitReview(): void {
+    // Confirm submission
+    const dialogRef = this.dialog.open(ConfirmReviewDialogComponent,
+      { width: '300px' }
+      );
+
+    dialogRef.afterClosed().subscribe(submit => {
+      if (submit) {
+        this.onSubmit(true);
+      }
+    });
+  }
+
+  onSubmit(reviewed: boolean): void {
+    const  submitData = {
       comments: Array.from(this.reviewerComments.entries()),
-      resolved: true,
+      resolved: reviewed,
     }
-    this.formSubmitted.emit(dataToSubmit);
+    this.formSubmitted.emit(submitData);
   }
 
   /* Comment handling logic */
@@ -133,6 +146,9 @@ export class ReviewerFormViewComponent {
   postComment(fieldId: string, commentText: string) {
     // Set or overwrite the comment if it already exists
     this.reviewerComments.set(fieldId, commentText);
+    this.snackBar.open('Comment saved successfully!', 'Close', {
+      duration: 3000,
+    });
   }
 
   // For expanding/collapsing the form sections

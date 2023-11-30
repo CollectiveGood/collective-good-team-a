@@ -16,6 +16,7 @@ export class CompleteFormViewComponent {
   @Input() caseAssignment!: Assignment;
 
   caseInfo: CaseInfo | undefined;
+  reviewComments: [string, string][] = [];
 
   constructor(
     private router: Router,
@@ -25,6 +26,10 @@ export class CompleteFormViewComponent {
   ngOnInit() {
     if (this.caseAssignment && this.caseAssignment.info) {
       this.caseInfo = this.caseAssignment.info;
+      this.reviewComments = Object.entries(this.caseAssignment.review);
+
+      console.log(this.caseAssignment);
+
     } else {
       this.router.navigate(['/cases/completed']);
       this.snackBar.open('Case not found', 'Close', {
