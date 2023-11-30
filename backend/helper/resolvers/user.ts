@@ -73,3 +73,12 @@ export async function getIdFromEmail(email: string) {
   });
   return user?.id;
 }
+
+export async function makeAdmin(id: number) {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: { role: "ADMIN" }
+  })
+  return user;
+}
+

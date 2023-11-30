@@ -257,6 +257,32 @@ export interface paths {
       };
     };
   };
+  "/makeAdmin": {
+    /** assigns the case (hash) to the user (user) */
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            userId: string;
+          };
+        };
+      };
+      responses: {
+        /** @description successfully assigned a case */
+        200: {
+          content: {
+            "application/json": components["schemas"]["User"];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
   "/assignedCases": {
     /** gets all the assigned cases to the logged in user */
     get: {

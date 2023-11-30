@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { adminAuthStrategy } from "../../helper/authStrategy";
-import { getUsers } from "../../helper/resolvers/user";
+import { getUsers, makeAdmin } from "../../helper/resolvers/user";
 import { paths } from "../../openapi/api";
 
 var express = require("express");
@@ -32,5 +32,18 @@ router.get("/adminDetails", adminAuthStrategy, <RequestHandler>(
     res.status(200).send(req.user as SuccessType);
   }
 ));
+
+router.post("/makeadmin", adminAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/makeAdmin"]["post"]["requestBody"]["content"]["application/json"];
+    type SuccessType =
+      paths["/makeAdmin"]["post"]["responses"]["200"]["content"]["application/json"];
+    const input = req.body as InputType
+    const user = await makeAdmin(parseInt(input.userId))
+
+    res.status(200).json(user satisfies SuccessType);
+  }
+))
 
 module.exports = router;

@@ -264,6 +264,35 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
 
+  /makeAdmin:
+      post:
+        summary: assigns the case (hash) to the user (user)
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                required:
+                  - userId
+        responses:
+          "200":
+            description: successfully assigned a case
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/User"
+          "500":
+            description: an error was encountered
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Response"
+
+
   /assignedCases:
     get:
       summary: gets all the assigned cases to the logged in user
