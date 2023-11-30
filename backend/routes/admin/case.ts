@@ -74,7 +74,7 @@ router.post("/getCases", adminAuthStrategy, <RequestHandler>(
     type SuccessType =
       paths["/getCases"]["post"]["responses"]["200"]["content"]["application/json"];
     type FailureType =
-      paths["/getCases"]["post"]["responses"]["500"]["content"]["application/json"];
+      paths["/getCases"]["post" ]["responses"]["500"]["content"]["application/json"];
 
     const input = req.body as InputType;
     const cases = await getCases(

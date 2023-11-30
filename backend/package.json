@@ -10,9 +10,9 @@
     "generate-types": "openapi-typescript openapi/spec.yml --output openapi/api.ts",
     "onboard": "npx prisma generate dev && npm run generate-types",
     "start": "npx ts-node index.ts",
-    "migrateToDev": "dotenv -e tests/.env.test -- npx prisma migrate dev --name init --preview-feature",
+    "migrateToDev": "dotenv -e .env.test -- npx prisma migrate dev --name init --preview-feature",
     "jest": "npx jest",
-    "resetDevDB": "dotenv -e tests/.env.test  -- npx prisma migrate reset --force --skip-generate",
+    "resetDevDB": "dotenv -e .env.test  -- npx prisma migrate reset --force --skip-generate",
     "test": "npm run migrateToDev && npm run resetDevDB && npm run jest"
   },
   "author": "",
