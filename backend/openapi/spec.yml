@@ -323,6 +323,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /assignment/{id}:
+    get:
+      summary: gets an assignment from its unique ID
+      parameters:
+        - in: unique assignment ID
+          name: id
+          schema:
+            type: number
+            required: true
+            description: id of the assignment we want to retrieve
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "404":
+          description: assignment not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /getReview/{caseId}:
     get:
       summary: gets an assignment from the caseId

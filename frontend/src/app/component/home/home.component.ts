@@ -93,33 +93,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private getCompletedCases(): void {
-    // Retrieve list of completed cases
-    this.loading = true;
-    this.assignmentService.getCompletedCases().subscribe({
-      next: (response) => {
-        if (response.length === 0) { // if none completed, set to null
-          return;
-        }
-        this.completedCases = response;
-        console.log(response);
-      },
-      error: (e) => {
-        console.log(e);
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
-  }
-
   //Sojin
   // Handle button click
-  caseClick(caseHash: string) {
-    this.router.navigate([`/case/${caseHash}`]);
-  }
-  
-  caseReviewClick(caseHash: string) {
-    this.router.navigate([`/case/${caseHash}/review`]);
+  caseClick(id: number, viewMode: string) {
+    this.router.navigate([`/case/${id}/${viewMode}`]);
   }
 }

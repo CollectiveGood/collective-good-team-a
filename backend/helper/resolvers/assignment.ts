@@ -122,6 +122,19 @@ export async function getAssignment(hash: string, userId: number) {
   return assignment;
 }
 
+export async function getAssignmentByID(id: number) {
+  const c = await prisma.assignment.findUnique({
+    include: { case: { select: { caseName: true } } },
+    where: {
+      id: id,
+    },
+  });
+  console.log(c);
+  const assignment = {...c!, info: JSON.parse(c!.info), review: JSON.parse(c!.review)};
+
+  return assignment;
+}
+
 export async function getReview(hash: string, reviewerId: number) {
   const c = await prisma.assignment.findUnique({
     include: { case: { select: { caseName: true } } },

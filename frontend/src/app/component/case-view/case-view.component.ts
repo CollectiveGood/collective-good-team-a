@@ -76,6 +76,6 @@ export class CaseViewComponent implements OnInit, AfterViewInit {
   }
 
   onCaseClick(assignment: Assignment): void {
-    this.router.navigate([`/case/${assignment.hash}/complete`]);
+    this.router.navigate([`/case/${assignment.id}/complete`]);
   }
 }
