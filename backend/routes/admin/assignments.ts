@@ -3,6 +3,7 @@ import { RequestHandler } from "express";
 import { adminAuthStrategy } from "../../helper/authStrategy";
 import {
   assignCase,
+  getAssignmentByID,
   getAssignmentsAdmin,
 } from "../../helper/resolvers/assignment";
 import { getIdFromEmail } from "../../helper/resolvers/user";
@@ -105,3 +106,23 @@ router.get("/getUniqueCase/:caseId/:userId/:reviewerId", adminAuthStrategy, <Req
     return res.status(200).json(assignment satisfies SuccessType);
   }
 ));module.exports = router;
+
+/* Get an assignment by its unique ID */
+router.get("/assignment/:id", adminAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type SuccessType =
+      paths["/assignment/{id}"]["get"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/assignment/{id}"]["get"]["responses"]["404"]["content"]["application/json"];
+
+    const id = Number(req.params.id); // Convert id to a number
+
+    let assignment = await getAssignmentByID(id);
+    if (assignment === null) {
+      return res
+        .status(404)
+        .json({ response: "Assignment not found" } satisfies FailureType);
+    }
+    return res.status(200).json(assignment satisfies SuccessType);
+  }
+));

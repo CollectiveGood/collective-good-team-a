@@ -4,11 +4,10 @@ import { localAuthStrategy } from "../../helper/authStrategy";
 import {
   getAssignedCases,
   getAssignment,
-  getAssignmentByID,
   getReview,
   getReviewerCases,
   resolveAssignment,
-  updateAssignment,
+  updateAssignment
 } from "../../helper/resolvers/assignment";
 import { saveToDB } from "../../helper/resolvers/final";
 import { paths } from "../../openapi/api";
@@ -70,25 +69,6 @@ router.get("/getAssignment/:caseId", localAuthStrategy, <RequestHandler>(
   }
 ));
 
-/* Get an assignment by its unique ID */
-router.get("/assignment/:id", localAuthStrategy, <RequestHandler>(
-  async function (req, res, next) {
-    type SuccessType =
-      paths["/assignment/{id}"]["get"]["responses"]["200"]["content"]["application/json"];
-    type FailureType =
-      paths["/assignment/{id}"]["get"]["responses"]["404"]["content"]["application/json"];
-
-    const id = Number(req.params.id); // Convert id to a number
-
-    let assignment = await getAssignmentByID(id);
-    if (assignment === null) {
-      return res
-        .status(404)
-        .json({ response: "Assignment not found" } satisfies FailureType);
-    }
-    return res.status(200).json(assignment satisfies SuccessType);
-  }
-));
 
 router.get("/getReview/:caseId", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
