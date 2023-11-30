@@ -7,3 +7,16 @@ export enum VIEW_MODE {
     REVIEW = 'review', 
     COMPLETE = 'complete' 
 };
+export const FIELD_NAMES_MAP: Map<string, string> = new Map([
+    ["patientName", "Patient Name"],
+    ["patientGender", "Patient Gender"],
+    ["patientAge", "Patient Age"],
+    ["medicalHistory", "Medical History"],
+    ["familyHistory", "Family History"],
+    ["chiefComplaint", "Chief Complaint"],
+    ["symptoms", "Symptoms"],
+    ["hpi", "HPI"],
+    ["physicalExamination", "Physical Examination"],
+    ["labDiagnostics", "Lab Diagnostics"],
+    ["additionalNotes", "Additional Notes"],
+]);

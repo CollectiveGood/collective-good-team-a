@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Assignment, CaseInfo } from 'src/app/models';
+import { FIELD_NAMES_MAP } from 'src/app/constants';
 
 @Component({
   selector: 'app-complete-form-view',
@@ -36,5 +37,14 @@ export class CompleteFormViewComponent {
         duration: 3000,
       });
     }
+  }
+
+  onClose(): void {
+    this.router.navigate(['/cases/completed']);
+  }
+
+  formatFieldName(fieldName: string): string {
+    // Use the map to get the formatted field name
+    return FIELD_NAMES_MAP.get(fieldName) || fieldName;
   }
 }

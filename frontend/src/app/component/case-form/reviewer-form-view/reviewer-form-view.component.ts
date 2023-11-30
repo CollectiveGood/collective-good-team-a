@@ -112,6 +112,7 @@ export class ReviewerFormViewComponent {
   }
 
   onSubmit(reviewed: boolean): void {
+    console.log(this.reviewerComments);
     const  submitData = {
       comments: Array.from(this.reviewerComments.entries()),
       resolved: reviewed,
