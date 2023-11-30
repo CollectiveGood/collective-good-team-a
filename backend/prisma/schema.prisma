@@ -49,7 +49,7 @@ model Assignment {
   id          Int      @id @default(autoincrement())
   user        User     @relation(name: "user", fields: [userId], references: [id])
   reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
-  case        Case     @relation(fields: [hash], references: [fileName])
+  case        Case     @relation(fields: [hash], references: [fileName], onDelete: Cascade)
   info        String   @default("{}") 
   review      String   @default("{}")
   completed   Boolean  @default(false)

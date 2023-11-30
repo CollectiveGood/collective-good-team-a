@@ -42,6 +42,7 @@ app.use("/", require("./routes/user/assignments"));
 app.use("/", require("./routes/admin/case"));
 app.use("/", require("./routes/admin/assignments"));
 app.use("/", require("./routes/admin/users"));
+app.use("/", require("./routes/admin/final"));
 
 const PORT = process.env.PORT || 3000;
 // Start the server

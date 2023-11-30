@@ -24,7 +24,7 @@ describe("getAssignments", () => {
     it("get /assignedCases", async () => {
 
       const response = await request(app)
-        .post("/assignedCases")
+        .get("/assignedCases")
         .set("Cookie", userCookies);
       expect(response.status).toBe(200);
       expect(response.body).toHaveLength(2);
@@ -52,7 +52,7 @@ describe("Test assignment full cycle", () => {
       const body = {
         user: "adam@gmail.com",
         reviewer: "admin@gmail.com",
-        hash: hash,
+        case: hash,
       }
       const response = await request(app)
         .post("/assignCase")
@@ -61,6 +61,50 @@ describe("Test assignment full cycle", () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("id");
     });
+  });
+
+  describe("complete an assignment", () => {
+    it("POST /updateAssignment", async () => {
+      const body = {
+        json: { "test": "test" },
+        caseId: hash,
+        completed: true,
+      }
+      const response = await request(app)
+        .post("/updateAssignment")
+        .send(body)
+        .set("Cookie", userCookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("completed");
+      expect(response.body["completed"]).toBe(true);
+    });
+  })
+
+  describe("resolves an assignment", () => {
+    it("POST /resolveAssignment", async () => {
+      const body = {
+        json: { "test": "test" },
+        caseId: hash,
+        resolved: true,
+      }
+      const response = await request(app)
+        .post("/resolveAssignment")
+        .send(body)
+        .set("Cookie", adminCookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("reviewed");
+      expect(response.body["reviewed"]).toBe("ACCEPTED");
+    });
+  })
+
+  describe("ensures assignment is saved to final", () => {
+    it("GET /getFinal", async () => {
+      const response = await request(app)
+        .get(`/getFinal/${hash}`)
+        .set("Cookie", adminCookies);
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveLength(1);
+    })
   });
 
   describe("deletes a case", () => {
