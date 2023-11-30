@@ -29,6 +29,8 @@ import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/cas
 import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
 import { ReviewerFormViewComponent } from './component/case-form/reviewer-form-view/reviewer-form-view.component';
+import { CaseViewComponent } from './component/case-view/case-view.component';
+import { CompleteFormViewComponent } from './component/case-form/complete-form-view/complete-form-view.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -51,6 +53,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     AdminAssignmentViewComponent,
     CaseAssignmentDialogComponent,
     HelpComponent,
-    ReviewerFormViewComponent
+    ReviewerFormViewComponent,
+    CaseViewComponent,
+    CompleteFormViewComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +109,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatRadioModule,
     MatSidenavModule,
     MatListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

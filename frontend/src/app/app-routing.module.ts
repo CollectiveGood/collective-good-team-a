@@ -6,6 +6,7 @@ import { AdminCaseViewComponent } from './component/admin/admin-case-view/admin-
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 import { AdminUserViewComponent } from './component/admin/admin-user-view/admin-user-view.component';
 import { CaseFormComponent } from './component/case-form/case-form.component';
+import { CaseViewComponent } from './component/case-view/case-view.component';
 import { HelpComponent } from './component/help/help.component';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/login/login.component';
@@ -25,9 +26,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
-  { path: 'case/:hash', component: CaseFormComponent, canActivate: [authGuard] },
-  { path: 'review/:hash', component: CaseFormComponent, canActivate: [authGuard] },
+  { path: 'case/:id/:viewMode', component: CaseFormComponent, canActivate: [authGuard] },
   { path: 'help', component: HelpComponent, canActivate: [authGuard] },
+  { path: 'cases/completed', component: CaseViewComponent, canActivate: [authGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home component
 
   // Handle unknown paths

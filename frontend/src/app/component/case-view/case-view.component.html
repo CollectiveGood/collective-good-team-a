@@ -1,0 +1,37 @@
+<app-toolbar></app-toolbar>
+<div class="header-container">
+    <h1>Case Archive</h1>
+    <mat-form-field>
+        <mat-label>Search Cases</mat-label>
+        <input matInput type="text" [(ngModel)]="searchText" (input)="applyFilter()" />
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Case Name Column -->
+        <ng-container matColumnDef="caseName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let caseAssignment"> 
+            <button 
+                mat-button
+                matTooltip="View Case"
+                (click)="onCaseClick(caseAssignment)"
+            >{{ caseAssignment.case.caseName }}</button>
+          </td>
+        </ng-container>
+      
+        <!-- Date Completed Column -->
+        <ng-container matColumnDef="completedAt">
+          <th mat-header-cell *matHeaderCellDef> Completed Date </th>
+          <td mat-cell *matCellDef="let caseAssignment">
+            {{ datePipe.transform(caseAssignment.lastUpdated, 'medium') }}
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      
+    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons aria-label="Select page of cases"></mat-paginator>
+</div>

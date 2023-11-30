@@ -21,7 +21,7 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = sort;
   }
 
-  datePipe = new DatePipe('en-US');
+  datePipe: DatePipe = new DatePipe('en-US');
   displayedColumns: string[] = ['caseName', 'createdAt', 'actions'];
   dataSource = new MatTableDataSource<Case>();
   loading: boolean = false;

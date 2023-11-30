@@ -314,6 +314,25 @@ export interface paths {
       };
     };
   };
+  "/assignment/{id}": {
+    /** gets an assignment from its unique ID */
+    get: {
+      responses: {
+        /** @description returns the assignment details */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description assignment not found */
+        404: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
   "/getReview/{caseId}": {
     /** gets an assignment from the caseId */
     get: {
@@ -322,6 +341,44 @@ export interface paths {
         200: {
           content: {
             "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description the server encountered an error */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/getUniqueCase/{caseId}/{userId}/{reviewerId}": {
+    /** gets an assignment from the caseId */
+    get: {
+      responses: {
+        /** @description returns the assignment details */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description the server encountered an error */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
+  "/getFinal/{caseId}": {
+    /** gets an assignment from the caseId */
+    get: {
+      responses: {
+        /** @description returns the assignment details */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"][];
           };
         };
         /** @description the server encountered an error */

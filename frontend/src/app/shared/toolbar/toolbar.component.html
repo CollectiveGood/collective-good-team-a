@@ -2,11 +2,11 @@
   <mat-toolbar-row>
     <a routerLink="/" class="logo-link">CollectiveGood</a>
     <span class="spacer"></span>
-    <a mat-button routerLink="/home">
+    <a mat-button matTooltip="View My Dashboard" routerLink="/home">
       <mat-icon>dashboard</mat-icon> Dashboard
     </a>
     <ng-container *ngIf="activeUser?.role === 'ADMIN'">
-      <button mat-button [matMenuTriggerFor]="adminMenu">Admin
+      <button mat-button matTooltip="Administrator Tasks" [matMenuTriggerFor]="adminMenu">Admin
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
         <mat-menu #adminMenu="matMenu">
@@ -27,7 +27,7 @@
           </button>
         </mat-menu>
     </ng-container>
-    <button mat-button [matMenuTriggerFor]="accountMenu">Account
+    <button mat-button matTooltip="Account Options" [matMenuTriggerFor]="accountMenu">Account
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #accountMenu="matMenu">
@@ -40,7 +40,7 @@
         Logout
       </button>
     </mat-menu>
-    <a mat-button routerLink="/help">
+    <a mat-button matTooltip="Get Help" routerLink="/help">
       <mat-icon>help</mat-icon> Help
     </a>
   </mat-toolbar-row>

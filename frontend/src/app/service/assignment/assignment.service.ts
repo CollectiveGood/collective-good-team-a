@@ -17,11 +17,11 @@ export class AssignmentService {
   /* Admin-only - retrieve all case assignments and their status */
   getAllAssignments(): Observable<Assignment[]> {
     const request = {
-      "includeReviewed": true,
-      "includeNotCompleted": true,
-      "start": 0,
-      "take": 1000, // MAX set to 1000 for now
-      "desc": false
+      includeReviewed: true,
+      includeNotCompleted: true,
+      start: 0,
+      take: 1000, // MAX set to 1000 for now
+      desc: false
     };
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
       withCredentials: true,
@@ -37,20 +37,29 @@ export class AssignmentService {
     });
   }
 
-  /* Get case assignment for the current user 
+  /* Get assignment by case ID
   *  @param caseId: the ID of the case
   */
-  getAssignment(caseId: string): Observable<Assignment> {
+  getAssignmentByCaseId(caseId: string): Observable<Assignment> {
     return this.http.get<Assignment>(`${environment.apiUrl}/getAssignment/${caseId}`, {
       withCredentials: true,
     });
   }
 
-  /* Get the reviewed version of a case assignment
+  /* Get specific review assignment for the current user
   *  @param caseId: the ID of the case
   */
-  getReview(caseId: string): Observable<Assignment> {
+  getReviewAssignment(caseId: string): Observable<Assignment> {
     return this.http.get<Assignment>(`${environment.apiUrl}/getReview/${caseId}`, {
+      withCredentials: true,
+    });
+  }
+
+  /* Get specific assignment by its unique id
+  *  @param id: the assignment id
+  */
+  getAssignment(id: number): Observable<Assignment> {
+    return this.http.get<Assignment>(`${environment.apiUrl}/assignment/${id}`, {
       withCredentials: true,
     });
   }
@@ -129,9 +138,9 @@ export class AssignmentService {
   */
   assignCase(userEmail: string, reviewerEmail: string, caseId: string): Observable<HttpResponse<Assignment>> {
     const request = {
-      "user": userEmail,
-      "reviewer": reviewerEmail,
-      "case": caseId,
+      user: userEmail,
+      reviewer: reviewerEmail,
+      case: caseId,
     };
 
     return this.http.post<Assignment>(`${environment.apiUrl}/assignCase`, request, {

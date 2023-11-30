@@ -17,3 +17,13 @@ export async function saveToDB(resolverId: number, hash: string) {
     })
     return final;
 }
+
+export async function getAllResolvedByCase(hash: string) {
+    const final = await prisma.final.findMany({
+        include: {user: {select: {name: true}}},
+        where: {
+            hash: hash,
+        },
+    })
+    return final;
+}

@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Assignment, CaseInfo } from 'src/app/models';
+import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
 
 @Component({
   selector: 'app-reviewer-form-view',
@@ -14,12 +15,12 @@ export class ReviewerFormViewComponent {
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
 
   caseInfo: CaseInfo | undefined;
-  reviewerInfo: any = {}; // for storing reviewer comments
-  reviewed: boolean = false; // for marking case as complete after form submission
-  caseFormValues: any = {};
-  reviewerFormValues: any = {};
+  reviewerComments: Map<string, string> = new Map();
+  commentActive: string = ''; // for toggling comment section
+  initialFormValues: any = {}; // for checking if changes have been made
+  step: number = 0; // for expanding/collapsing the form sections
 
-  caseInfoForm = this.formBuilder.group({
+  reviewerInfoForm = this.formBuilder.group({
     patientName: '',
     patientGender: '',
     patientAge: '',
@@ -28,14 +29,9 @@ export class ReviewerFormViewComponent {
     chiefComplaint: '',
     symptoms: '',
     hpi: '',
-    physicalExaminationNotes: '',
-    labDiagnosticsNotes: '',
+    physicalExamination: '',
+    labDiagnostics: '',
     additionalNotes: '',
-  });
-
-  reviewerInfoForm = this.formBuilder.group({
-    demographicComments: '',
-    historyComments: '',
   });
 
   constructor(
@@ -50,32 +46,96 @@ export class ReviewerFormViewComponent {
 
   private initForm(): void {
     this.caseInfo = this.caseAssignment.info;
-    // Populate the formValues object with the caseInfo properties
-    if (this.caseInfo) {
-      this.caseFormValues = this.caseInfo;
+  
+    const formValues: any = {};
+    if (this.caseInfo && this.caseAssignment.review) { 
+      formValues.patientName = this.caseAssignment.review?.patientName || '';
+      formValues.patientGender = this.caseAssignment.review?.patientGender || '';
+      formValues.patientAge = this.caseAssignment.review?.patientAge || '';
+      formValues.medicalHistory = this.caseAssignment.review?.medicalHistory || '';
+      formValues.familyHistory = this.caseAssignment.review?.familyHistory || '';
+      formValues.chiefComplaint = this.caseAssignment.review?.chiefComplaint || '';
+      formValues.symptoms = this.caseAssignment.review?.symptoms || '';
+      formValues.hpi = this.caseAssignment.review?.hpi || '';
+      formValues.physicalExamination = this.caseAssignment.review?.physicalExamination || '';
+      formValues.labDiagnostics = this.caseAssignment.review?.labDiagnostics || '';
+      formValues.additionalNotes = this.caseAssignment.review?.additionalNotes || '';
+      this.initialFormValues = {...formValues};
     }
-    this.caseInfoForm.setValue(this.caseFormValues);
 
-    this.reviewerInfo = this.caseAssignment.review;
-    // Populate the formValues object with the reviewerInfo properties
-    if (this.reviewerInfo) {
-      this.caseFormValues = this.reviewerInfo;
-    }
-    this.reviewerInfoForm.setValue(this.reviewerFormValues);
+    this.reviewerInfoForm.setValue(formValues);
   }
-
+  
   onClose(): void {
-    // Placeholder - handle saving comments changes logic later
-    this.router.navigate(['/home']);
+    if (this.hasFormChanges()) {
+      const dialogRef = this.dialog.open(SaveChangesDialogComponent, {
+        width: '300px',
+      });
+
+      dialogRef.afterClosed().subscribe(saveChanges => {
+        if (saveChanges === undefined) {
+          return;
+        } else if (saveChanges === true){
+          this.saveDraft();
+        } else {
+          this.router.navigate(['/home']);
+        }
+      });
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 
-  saveDraft(): void {}
+  private hasFormChanges() {
+    return JSON.stringify(this.reviewerInfoForm.value) !== JSON.stringify(this.initialFormValues);
+  }
 
-  onSubmit(): void {}
+  saveDraft(): void {
+    const dataToSubmit = {
+      comments: Array.from(this.reviewerComments.entries()),
+      resolved: undefined,
+    }
+    this.formSubmitted.emit(dataToSubmit);
+  }
+
+  onSubmit(): void {
+    const dataToSubmit = {
+      comments: Array.from(this.reviewerComments.entries()),
+      resolved: true,
+    }
+    this.formSubmitted.emit(dataToSubmit);
+  }
+
+  /* Comment handling logic */
+
+  toggleComment(field: string) {
+    const isOpeningNewComment = this.commentActive !== field;
+  
+    if (isOpeningNewComment) {
+      // Close the current comment box if it's open
+      this.commentActive = '';
+      setTimeout(() => {
+        this.commentActive = field;
+      });
+    } else {
+      // Close the current comment box
+      this.commentActive = '';
+    }
+  }
+
+  resetCommentActive(panelIndex: number) {
+    // Reset the commentActive variable when a panel is closed
+    if (this.step !== panelIndex) {
+      this.commentActive = '';
+    }
+  }
+
+  postComment(fieldId: string, commentText: string) {
+    // Set or overwrite the comment if it already exists
+    this.reviewerComments.set(fieldId, commentText);
+  }
 
   // For expanding/collapsing the form sections
-  step = 0;
-
   setStep(index: number) {
     this.step = index;
   }
