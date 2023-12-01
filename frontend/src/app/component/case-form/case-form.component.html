@@ -3,9 +3,9 @@
 <div class="parent-container">
   <div class="child-container">
     <app-pdf-viewer
-      *ngIf="caseBlob" 
-      [pdfData]="caseBlob" 
-      [title]="this.caseAssignment?.case?.caseName">
+      *ngIf="caseBlob"
+      [pdfData]="caseBlob"
+      [title]="this.caseAssignment.case.caseName">
     </app-pdf-viewer>
     <p *ngIf="!caseBlob">Loading PDF...</p>
   </div>
@@ -22,18 +22,18 @@
     <!-- Review Mode -->
     <ng-container *ngIf="viewMode === 'review'">
       <app-reviewer-form-view
-      *ngIf="caseAssignment"
-      [caseAssignment]="caseAssignment"
-      (formSubmitted)="submitCaseReview($event)">
-    </app-reviewer-form-view>
+        *ngIf="caseAssignment"
+        [caseAssignment]="caseAssignment"
+        (formSubmitted)="submitCaseReview($event)">
+      </app-reviewer-form-view>
     </ng-container>
 
     <!-- Completed Mode -->
     <ng-container *ngIf="viewMode === 'complete'">
       <app-complete-form-view
-      *ngIf="caseAssignment"
-      [caseAssignment]="caseAssignment">
-    </app-complete-form-view>
+        *ngIf="caseAssignment"
+        [caseAssignment]="caseAssignment">
+      </app-complete-form-view>
     </ng-container>
   </div>
 </div>

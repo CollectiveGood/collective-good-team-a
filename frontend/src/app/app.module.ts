@@ -54,6 +54,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConfirmReviewDialogComponent } from './component/dialog/confirm-review-dialog/confirm-review-dialog.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     HelpComponent,
     ReviewerFormViewComponent,
     CaseViewComponent,
-    CompleteFormViewComponent
+    CompleteFormViewComponent,
+    ConfirmReviewDialogComponent
   ],
   imports: [
     BrowserModule,

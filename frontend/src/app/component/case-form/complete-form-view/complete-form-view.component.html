@@ -63,10 +63,14 @@
         <span class="body-1">{{ caseInfo?.additionalNotes || 'None' }}</span>
         <mat-divider></mat-divider>
         <h2>Reviewer Comments</h2>
-        <div class="form-row">
-            <div class="form-field" *ngFor="let comment of caseAssignment.review">
-                <h2>{{ comment }}</h2>
+        <div class="form-row" *ngFor="let comment of  reviewComments">
+            <div class="form-field">
+                <h3>{{ formatFieldName(comment[0]) }}</h3>
+                <span class="body-1">{{ comment[1] }}</span>
             </div>
         </div>
     </mat-card-content>
+    <mat-card-actions class="button-row">
+        <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+    </mat-card-actions>
 </mat-card>

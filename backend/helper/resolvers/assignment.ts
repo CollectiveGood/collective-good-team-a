@@ -129,10 +129,20 @@ export async function getAssignmentByID(id: number) {
       id: id,
     },
   });
-  console.log(c);
   const assignment = {...c!, info: JSON.parse(c!.info), review: JSON.parse(c!.review)};
 
   return assignment;
+}
+
+export async function getCompletedAssignments() {
+  const assignments = await prisma.assignment.findMany({
+    where: {
+      completed: true,
+      reviewed: "ACCEPTED",
+    }
+  });
+
+  return assignments;
 }
 
 export async function getReview(hash: string, reviewerId: number) {

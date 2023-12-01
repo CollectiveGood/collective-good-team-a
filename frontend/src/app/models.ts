@@ -71,7 +71,7 @@ export interface UpdateAssignmentRequest {
 export interface ReviewAssignmentRequest {
     caseId: string;
     userId: number;
-    resolved: boolean;
+    resolved: boolean | undefined;
     json: any;
 }
 

@@ -359,6 +359,25 @@ export interface paths {
       };
     };
   };
+  "/assignments/completed": {
+    /** gets all the completed assignments */
+    get: {
+      responses: {
+        /** @description all the completed assignments */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"][];
+          };
+        };
+        /** @description an error was encountered */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
   "/getReview/{caseId}": {
     /** gets an assignment from the caseId */
     get: {
