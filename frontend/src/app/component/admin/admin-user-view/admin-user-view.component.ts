@@ -5,8 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Role, User } from 'src/app/models';
 import { UserService } from 'src/app/service/user/user.service';
-import { ConfirmUserRoleUpdateComponent } from '../../dialog/confirm-user-role-update/confirm-user-role-update.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-admin-user-view',
@@ -70,8 +70,13 @@ export class AdminUserViewComponent implements OnInit, AfterViewInit {
 
   updateUserRole(userId: number, currentRole: Role): void {
     // Confirm action
-    const dialogRef = this.dialog.open(ConfirmUserRoleUpdateComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '300px',
+      data: {
+        title: 'Confirm User Role Update',
+        content: `Are you sure you want to change the user role for '${this.dataSource.data.find(user => user.id === userId)?.name}' from ${currentRole} to ${currentRole === Role.USER ? Role.ADMIN : Role.USER}?`,
+        confirmText: 'Confirm',
+      }
     });
 
     dialogRef.afterClosed().subscribe(update => {

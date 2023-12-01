@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Assignment, CaseInfo } from 'src/app/models';
 import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmReviewDialogComponent } from '../../dialog/confirm-review-dialog/confirm-review-dialog.component';
+import { ConfirmationDialogComponent } from '../../dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-reviewer-form-view',
@@ -105,9 +105,14 @@ export class ReviewerFormViewComponent {
 
   submitReview(): void {
     // Confirm submission
-    const dialogRef = this.dialog.open(ConfirmReviewDialogComponent,
-      { width: '300px' }
-      );
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, { 
+      width: '300px' ,
+      data: {
+        title: 'Confirm Case Review',
+        content: 'Are you sure you want to submit this review? This action cannot be undone.',
+        confirmText: 'Submit',
+      }
+    });
 
     dialogRef.afterClosed().subscribe(submit => {
       if (submit) {

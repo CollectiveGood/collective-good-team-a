@@ -21,16 +21,14 @@ import { AdminAssignmentViewComponent } from './component/admin/admin-assignment
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 import { PasswordChangeDialogComponent } from './component/dialog/password-change-dialog/password-change-dialog.component';
 import { PasswordConfirmationDialogComponent } from './component/dialog/password-confirmation-dialog/password-confirmation-dialog.component';
-import { ConfirmLogoutDialogComponent } from './component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
 import { FileUploadDialogComponent } from './component/dialog/file-upload-dialog/file-upload-dialog.component';
 import { SaveChangesDialogComponent } from './component/dialog/save-changes-dialog/save-changes-dialog.component';
-import { ConfirmSubmitDialogComponent } from './component/dialog/confirm-submit-dialog/confirm-submit-dialog.component';
 import { CaseViewDialogComponent } from './component/dialog/case-view-dialog/case-view-dialog.component';
-import { ConfirmCaseDeleteDialogComponent } from './component/dialog/confirm-case-delete-dialog/confirm-case-delete-dialog.component';
 import { CaseAssignmentDialogComponent } from './component/dialog/case-assignment-dialog/case-assignment-dialog.component';
 import { ReviewerFormViewComponent } from './component/case-form/reviewer-form-view/reviewer-form-view.component';
 import { CaseViewComponent } from './component/case-view/case-view.component';
 import { CompleteFormViewComponent } from './component/case-form/complete-form-view/complete-form-view.component';
+import { ConfirmationDialogComponent } from './component/dialog/confirmation-dialog/confirmation-dialog.component';
 
 // UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -54,8 +52,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ConfirmReviewDialogComponent } from './component/dialog/confirm-review-dialog/confirm-review-dialog.component';
-import { ConfirmUserRoleUpdateComponent } from './component/dialog/confirm-user-role-update/confirm-user-role-update.component';
 
 @NgModule({
   declarations: [
@@ -70,24 +66,20 @@ import { ConfirmUserRoleUpdateComponent } from './component/dialog/confirm-user-
     CaseFormComponent,
     FormViewComponent,
     PasswordChangeDialogComponent,
-    ConfirmLogoutDialogComponent,
     AdminCaseViewComponent,
     AdminUserViewComponent,
     AdminAssignmentViewComponent,
     AdminHomeComponent,
     FileUploadDialogComponent,
     SaveChangesDialogComponent,
-    ConfirmSubmitDialogComponent,
     CaseViewDialogComponent,
-    ConfirmCaseDeleteDialogComponent,
     AdminAssignmentViewComponent,
     CaseAssignmentDialogComponent,
     HelpComponent,
     ReviewerFormViewComponent,
     CaseViewComponent,
     CompleteFormViewComponent,
-    ConfirmReviewDialogComponent,
-    ConfirmUserRoleUpdateComponent
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

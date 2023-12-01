@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmLogoutDialogComponent } from 'src/app/component/dialog/confirm-logout-dialog/confirm-logout-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/component/dialog/confirmation-dialog/confirmation-dialog.component';
 import { User } from 'src/app/models';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { UserService } from 'src/app/service/user/user.service';
@@ -27,8 +27,13 @@ export class ToolbarComponent implements OnInit {
   }
 
   onClickLogout() {
-    const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '300px',
+      data: {
+        title: 'Confirm Log Out',
+        content: 'Are you sure you want to log out?',
+        confirmText: 'Log Out'
+      }
     });
 
     dialogRef.afterClosed().subscribe(confirmLogOut => {

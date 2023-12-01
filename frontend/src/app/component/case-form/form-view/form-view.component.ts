@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Assignment, CaseInfo } from 'src/app/models';
 import { SaveChangesDialogComponent } from '../../dialog/save-changes-dialog/save-changes-dialog.component';
 import { Router } from '@angular/router';
-import { ConfirmSubmitDialogComponent } from '../../dialog/confirm-submit-dialog/confirm-submit-dialog.component';
+import { ConfirmationDialogComponent } from '../../dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-form-view',
@@ -77,8 +77,13 @@ export class FormViewComponent {
 
   submitForReview() {
     // Confirm submit
-    const dialogRef = this.dialog.open(ConfirmSubmitDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '300px',
+      data: {
+        title: 'Confirm Case Submission',
+        content: 'Are you sure you want to submit this case for review? This action cannot be undone.',
+        confirmText: 'Submit',
+      }
     });
 
     dialogRef.afterClosed().subscribe(submit => {
