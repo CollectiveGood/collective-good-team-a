@@ -17,7 +17,7 @@ export class ReviewerFormViewComponent {
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
 
   caseInfo: CaseInfo | undefined;
-  reviewerComments: Map<string, string> = new Map();
+  reviewerComments!: Map<string, string>;
   reviewed: boolean = false; // for marking case as reviewed after form submission
   commentActive: string = ''; // for toggling comment section
   initialFormValues: any = {}; // for checking if changes have been made
@@ -42,9 +42,10 @@ export class ReviewerFormViewComponent {
     private dialog: MatDialog,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.reviewerComments = new Map<string, string>(Object.entries(this.caseAssignment?.review ?? {}));
     this.initForm();
   }
 
@@ -90,11 +91,15 @@ export class ReviewerFormViewComponent {
     }
   }
 
-  private hasFormChanges() {
-    return JSON.stringify(this.reviewerInfoForm.value) !== JSON.stringify(this.initialFormValues);
-  }
-
   saveDraft(): void {
+    // Save comments for changed fields
+    Object.keys(this.initialFormValues).forEach(fieldId => {
+      if (this.hasFormFieldChanges(fieldId)) {
+        const commentText = this.reviewerInfoForm.get(fieldId)?.value || '';
+        this.postComment(fieldId, commentText);
+      }
+    });
+  
     this.onSubmit(false);
   }
 
@@ -122,7 +127,7 @@ export class ReviewerFormViewComponent {
 
   /* Comment handling logic */
 
-  toggleComment(field: string) {
+  toggleComment(field: string): void {
     const isOpeningNewComment = this.commentActive !== field;
   
     if (isOpeningNewComment) {
@@ -137,14 +142,14 @@ export class ReviewerFormViewComponent {
     }
   }
 
-  resetCommentActive(panelIndex: number) {
+  resetCommentActive(panelIndex: number): void {
     // Reset the commentActive variable when a panel is closed
     if (this.step !== panelIndex) {
       this.commentActive = '';
     }
   }
 
-  postComment(fieldId: string, commentText: string) {
+  postComment(fieldId: string, commentText: string): void {
     // Set or overwrite the comment if it already exists
     this.reviewerComments.set(fieldId, commentText);
     this.snackBar.open('Comment saved successfully!', 'Close', {
@@ -152,16 +157,33 @@ export class ReviewerFormViewComponent {
     });
   }
 
-  // For expanding/collapsing the form sections
-  setStep(index: number) {
+  /* For expanding/collapsing the form sections */
+  
+  setStep(index: number): void {
     this.step = index;
   }
 
-  nextStep() {
+  nextStep(): void {
     this.step++;
   }
 
-  prevStep() {
+  prevStep(): void {
     this.step--;
+  }
+
+  /* For checking if changes have been made */
+
+  private hasFormChanges(): boolean {
+    // Check if any field has changes
+    return JSON.stringify(this.reviewerInfoForm.value) !== JSON.stringify(this.initialFormValues);
+  }
+
+  hasFormFieldChanges(fieldId: string): boolean {
+    // Check if a specific field has changes
+    return this.reviewerInfoForm.get(fieldId)?.value !== this.initialFormValues[fieldId];
+  }
+
+  hasSubmittedComment(field: string): boolean {
+    return this.reviewerComments.has(field) && this.reviewerComments.get(field)?.trim() !== '';
   }
 }

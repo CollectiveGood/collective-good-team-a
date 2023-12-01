@@ -19,12 +19,12 @@
           <!-- Patient Name -->
           <div class="form-field" [class.selected]="commentActive === 'patientName'">
             <h3>Patient Name
-              <button 
-              mat-button
-              matTooltip="Add comment"  
-              (click)="toggleComment('patientName')"      
-              color="primary">
-                <mat-icon>comment</mat-icon>
+              <button
+                mat-button 
+                [matTooltip]="hasSubmittedComment('patientName') ? 'Edit comment' : 'Add comment'"  
+                (click)="toggleComment('patientName')"      
+                [color]="hasSubmittedComment('patientName') ? 'accent' : 'primary'">
+                  <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="patientName">{{ caseInfo?.patientName || 'None' }}</span>
@@ -35,9 +35,9 @@
             <h3>Patient Gender
               <button
                 mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('patientGender')"     
-                color="primary">
+                [matTooltip]="hasSubmittedComment('patientGender') ? 'Edit comment' : 'Add comment'"  
+                (click)="toggleComment('patientGender')"      
+                [color]="hasSubmittedComment('patientGender') ? 'accent' : 'primary'">
                   <mat-icon>comment</mat-icon>
               </button>
             </h3>
@@ -47,11 +47,11 @@
           <!-- Patient Age -->
           <div class="form-field" [class.selected]="commentActive === 'patientAge'">
             <h3>Patient Age
-              <button 
+              <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('patientAge') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('patientAge')"      
-                color="primary">
+                [color]="hasSubmittedComment('patientAge') ? 'accent' : 'primary'">
                   <mat-icon>comment</mat-icon>
               </button>
             </h3>
@@ -70,7 +70,13 @@
             </textarea>
           </mat-form-field>
           <div class="button-container">
-            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')"
+              [disabled]="!hasFormFieldChanges(commentActive)">
+              Save
+            </button>
           </div>
         </div>
         <mat-action-row>
@@ -94,9 +100,9 @@
             <h3>Past Medical History
               <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('medicalHistory') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('medicalHistory')"      
-                color="primary">
+                [color]="hasSubmittedComment('medicalHistory') ? 'accent' : 'primary'">
                   <mat-icon>comment</mat-icon>
               </button>
             </h3>
@@ -108,9 +114,9 @@
             <h3>Family History
               <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('familyHistory') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('familyHistory')"      
-                color="primary">
+                [color]="hasSubmittedComment('familyHistory') ? 'accent' : 'primary'">
                   <mat-icon>comment</mat-icon>
               </button>
             </h3>
@@ -129,7 +135,13 @@
             </textarea>
           </mat-form-field>
           <div class="button-container">
-            <button mat-raised-button color="primary" (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">Save</button>
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')"
+              [disabled]="!hasFormFieldChanges(commentActive)">
+              Save
+          </button>
           </div>
         </div>
         <mat-action-row>
@@ -154,10 +166,10 @@
             <h3>Chief Complaint
               <button
                 mat-button 
-                matTooltip="Add comment"
-                (click)="toggleComment('chiefComplaint')"
-                color="primary">
-                  <mat-icon>comment</mat-icon>
+                [matTooltip]="hasSubmittedComment('chiefComplaint') ? 'Edit comment' : 'Add comment'"  
+                (click)="toggleComment('chiefComplaint')"      
+                [color]="hasSubmittedComment('chiefComplaint') ? 'accent' : 'primary'">
+                <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="chiefComplaint">{{ caseInfo?.chiefComplaint || 'None' }}</span>
@@ -168,10 +180,10 @@
             <h3>Symptoms
               <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('symptoms') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('symptoms')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
+                [color]="hasSubmittedComment('symptoms') ? 'accent' : 'primary'">
+                <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="symptoms">{{ caseInfo?.symptoms || 'None' }}</span>
@@ -182,10 +194,10 @@
             <h3>HPI
               <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('hpi') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('hpi')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
+                [color]="hasSubmittedComment('hpi') ? 'accent' : 'primary'">
+                <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="hpi">{{ caseInfo?.hpi || 'None' }}</span>
@@ -203,10 +215,11 @@
             </textarea>
           </mat-form-field>
           <div class="button-container">
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')"
+              [disabled]="!hasFormFieldChanges(commentActive)">
               Save
             </button>
           </div>
@@ -233,10 +246,10 @@
             <h3>Physical Examination
               <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('physicalExamination') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('physicalExamination')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
+                [color]="hasSubmittedComment('physicalExamination') ? 'accent' : 'primary'">
+                <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="physicalExamination">{{ caseInfo?.physicalExaminationNotes || 'None' }}</span>
@@ -247,10 +260,10 @@
             <h3>Labs & Diagnostics
               <button
                 mat-button 
-                matTooltip="Add comment"
+                [matTooltip]="hasSubmittedComment('labDiagnostics') ? 'Edit comment' : 'Add comment'"  
                 (click)="toggleComment('labDiagnostics')"      
-                color="primary">
-                  <mat-icon>comment</mat-icon>
+                [color]="hasSubmittedComment('labDiagnostics') ? 'accent' : 'primary'">
+                <mat-icon>comment</mat-icon>
               </button>
             </h3>
             <span class="body-1" id="labDiagnostics">{{ caseInfo?.labDiagnosticsNotes || 'None' }}</span>
@@ -271,7 +284,8 @@
             <button 
               mat-raised-button 
               color="primary" 
-              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">
+              (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')"
+              [disabled]="!hasFormFieldChanges(commentActive)">
               Save
             </button>
           </div>
@@ -296,11 +310,11 @@
               <h3>Additional Notes
                 <button
                   mat-button 
-                  matTooltip="Add comment"
+                  [matTooltip]="hasSubmittedComment('additionalNotes') ? 'Edit comment' : 'Add comment'"  
                   (click)="toggleComment('additionalNotes')"      
-                  color="primary">
-                    <mat-icon>comment</mat-icon>
-                </button>
+                  [color]="hasSubmittedComment('additionalNotes') ? 'accent' : 'primary'">
+                  <mat-icon>comment</mat-icon>
+              </button>
               </h3>
               <span class="body-1" id="addtionalNotes">{{ caseInfo?.additionalNotes || 'None' }}</span>
             </div>
@@ -318,9 +332,10 @@
             </mat-form-field>
             <div class="button-container">
               <button 
-                mat-raised-button
-                color="primary"
-                (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')">
+                mat-raised-button 
+                color="primary" 
+                (click)="postComment(commentActive, this.reviewerInfoForm.get(commentActive)?.value || '')"
+                [disabled]="!hasFormFieldChanges(commentActive)">
                 Save
               </button>
             </div>
