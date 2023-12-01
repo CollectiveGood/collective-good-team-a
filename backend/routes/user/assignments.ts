@@ -171,9 +171,9 @@ router.post("/resolveAssignment", localAuthStrategy, <RequestHandler>(
       user.id,
       input.resolved
     );
-    // if (input.resolved !== undefined) {
-    //   saveToDB(user.id, input.caseId);
-    // }
+    if (input.resolved !== undefined) {
+      saveToDB(user.id, input.caseId);
+    }
     return res.status(200).json(assignment satisfies SuccessType);
   }
 ));
