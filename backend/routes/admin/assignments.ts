@@ -104,4 +104,6 @@ router.get("/getUniqueCase/:caseId/:userId/:reviewerId", adminAuthStrategy, <Req
 
     return res.status(200).json(assignment satisfies SuccessType);
   }
-));module.exports = router;
+));
+
+module.exports = router;

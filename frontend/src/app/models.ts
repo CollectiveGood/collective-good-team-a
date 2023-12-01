@@ -13,13 +13,16 @@ export interface Case {
     createdAt: Date;
     authorId: number;
 }
+
 /* Represents a case assigned to a user */
 export interface Assignment {
     id: number;
     userId: number;
     reviewerId: number;
     hash: string; // same as fileName in Case
-    case: Case;
+    case: {
+        caseName: string;
+    };
     info: CaseInfo;
     review: any;
     reviewed: string;

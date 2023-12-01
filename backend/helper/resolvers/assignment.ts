@@ -136,6 +136,7 @@ export async function getAssignmentByID(id: number) {
 
 export async function getCompletedAssignments() {
   const assignments = await prisma.assignment.findMany({
+    include: { case: { select: { caseName: true } } },
     where: {
       completed: true,
       reviewed: "ACCEPTED",

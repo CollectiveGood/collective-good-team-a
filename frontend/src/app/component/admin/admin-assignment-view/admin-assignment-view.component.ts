@@ -50,9 +50,19 @@ export class AdminAssignmentViewComponent {
         case 'New':
           return caseNameMatches && !data.completed && data.reviewed === 'PENDING';
         case 'Completed':
-          return caseNameMatches && data.completed && data.reviewed !== 'PENDING';
+          return caseNameMatches && data.completed && data.reviewed === 'ACCEPTED';
         default:
           return false; // Unknown status, no match
+      }
+    };
+
+    // Set custom sorting for caseName field
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'caseName':
+          return item.case?.caseName.toLowerCase() || '';
+        default:
+          return (item as any)[property];
       }
     };
   }

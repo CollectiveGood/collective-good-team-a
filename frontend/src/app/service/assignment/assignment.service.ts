@@ -28,6 +28,13 @@ export class AssignmentService {
     });
   }
 
+  /* Retrieve a list of completed and reviewed assignments */
+  getAllCompletedAssignments(): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${environment.apiUrl}/assignments/completed`, {
+      withCredentials: true,
+    });
+  }
+
   /* Admin-only - retrieve case assignments using specified filter parameters
   *  @param request: the request object containing the filter parameters (see models.ts)
   */
