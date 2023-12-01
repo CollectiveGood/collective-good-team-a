@@ -1,25 +1,29 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { getCase } from "../resolvers";
+import { getCase } from "../resolvers/case";
 import { fileStorage } from "./fileStorage";
+const { randomBytes } = require("node:crypto");
+
 export class localFileStorage implements fileStorage {
   getFileID = async (hash: string) => {
     const c = await getCase(hash);
     if (c === null) {
       return undefined;
     }
-    const buffer = this.getFile(c.url);
+    const buffer = await this.getFile(c.fileName);
     return buffer;
   };
 
-  getFile = (path: string) => {
+  getFile = async (path: string) => {
     if (!existsSync(path)) {
       return undefined;
     }
     return readFileSync(path);
   };
 
-  uploadFile = (buffer: Buffer, fileName: string) => {
-    const path = "./files/" + fileName;
+  uploadFile = async (buffer: Buffer) => {
+    const id: string = randomBytes(20).toString("hex");
+
+    const path = "./files/" + id;
     if (!existsSync("./files")) {
       mkdirSync("./files");
     }

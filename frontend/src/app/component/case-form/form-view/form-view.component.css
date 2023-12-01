@@ -1,0 +1,53 @@
+.form-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-field {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.text-area {
+    flex: 1;
+    margin-right: 10px;
+}
+
+mat-card-actions button {
+    margin-right: 5px;
+}
+
+.button-row {
+    position: sticky;
+    bottom: 0;
+    right: 0;
+    justify-content: right;
+    background-color: white;
+}
+
+/* For completed view */
+.completed-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 64px); /* 64px is the height of the toolbar */
+}
+  
+.center-container {
+    text-align: center;
+}
+
+.check-icon {
+    padding-bottom: 10px;
+}
+
+button {
+    margin-bottom: 5px;
+}

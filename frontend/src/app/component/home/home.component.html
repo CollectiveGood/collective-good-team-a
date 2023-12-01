@@ -1,0 +1,70 @@
+<app-toolbar></app-toolbar>
+<!-- Sojin -->
+<div class="header-container">
+    <h1>Dashboard</h1>
+    <a mat-raised-button routerLink="/cases/completed">Case Archive</a>
+</div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<div class="card-container">
+    <mat-card>
+        <mat-card-title matTooltip="Newly assigned to you">New Cases</mat-card-title>
+        <hr class="line-break">
+        <mat-card-content>
+            <ng-container *ngIf="newAssignedCases != null; else noCases">
+                <div class="button-list">
+                    <button
+                    mat-button
+                    matTooltip="View Case"
+                    color="primary"
+                    class="custom-button"
+                    *ngFor="let caseAssignment of newAssignedCases"
+                    (click)="caseClick(caseAssignment.id, 'new')"
+                    >
+                    {{ caseAssignment.case.caseName }}
+                    </button>
+                </div>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-title matTooltip="Cases To Review">Cases To Review</mat-card-title>
+        <hr class="line-break">
+        <mat-card-content>
+            <ng-container *ngIf="casesToReview != null; else noCases">
+                <div class="button-list">
+                    <button
+                    mat-button
+                    matTooltip="Review Case"
+                    color="primary"
+                    class="custom-button"
+                    *ngFor="let caseAssignment of casesToReview"
+                    (click)="caseClick(caseAssignment.id, 'review')"
+                    >
+                    {{ caseAssignment.case.caseName }}
+                    </button>
+                </div>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-title matTooltip="Submitted and awaiting review">Submitted Cases</mat-card-title>
+        <hr class="line-break">
+        <ng-container *ngIf="submittedCases != null; else noCases">
+            <div class="button-list">
+                <button
+                mat-button
+                matTooltip="View Case"
+                color="primary"
+                class="custom-button"
+                *ngFor="let caseAssignment of submittedCases"
+                (click)="caseClick(caseAssignment.id, 'new')"
+                >
+                {{ caseAssignment.case.caseName }}
+                </button>
+            </div>
+        </ng-container>
+        <ng-template #noCases>
+            <p>None to display</p>
+        </ng-template>
+    </mat-card>
+</div>

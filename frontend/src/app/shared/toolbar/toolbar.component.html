@@ -1,13 +1,47 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <a routerLink="/" class="logo-link">CollectiveGood</a>
-      <span class="spacer"></span>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
+  <mat-toolbar-row>
+    <a routerLink="/" class="logo-link">CollectiveGood</a>
+    <span class="spacer"></span>
+    <a mat-button matTooltip="View My Dashboard" routerLink="/home">
+      <mat-icon>dashboard</mat-icon> Dashboard
+    </a>
+    <ng-container *ngIf="activeUser?.role === 'ADMIN'">
+      <button mat-button matTooltip="Administrator Tasks" [matMenuTriggerFor]="adminMenu">Admin
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Account Settings</button>
-        <button mat-menu-item routerLink="/login">Log Out</button>
-      </mat-menu>
-    </mat-toolbar-row>
+        <mat-menu #adminMenu="matMenu">
+          <!-- <button mat-menu-item color="primary" routerLink="/admin/home">
+            <mat-icon>dashboard</mat-icon>
+            Admin Dashboard
+          </button> -->
+          <button mat-menu-item color="primary" routerLink="/admin/users">
+            <mat-icon>person</mat-icon>
+            Users
+          </button>
+          <button mat-menu-item color="accent" routerLink="/admin/cases">
+            <mat-icon>assignment</mat-icon>
+            Cases
+          </button>
+          <button mat-menu-item color="primary" routerLink="/admin/assignments">Assignments
+            <mat-icon>assignment_ind</mat-icon>
+          </button>
+        </mat-menu>
+    </ng-container>
+    <button mat-button matTooltip="Account Options" [matMenuTriggerFor]="accountMenu">Account
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #accountMenu="matMenu">
+      <button mat-menu-item routerLink="/account">
+        <mat-icon>person</mat-icon>
+        Account Settings
+      </button>
+      <button mat-menu-item (click)="onClickLogout()">
+        <mat-icon>exit_to_app</mat-icon>
+        Logout
+      </button>
+    </mat-menu>
+    <a mat-button matTooltip="Get Help" routerLink="/help">
+      <mat-icon>help</mat-icon> Help
+    </a>
+  </mat-toolbar-row>
 </mat-toolbar>

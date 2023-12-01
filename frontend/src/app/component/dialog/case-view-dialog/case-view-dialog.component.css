@@ -1,0 +1,19 @@
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .dialog-header h1 {
+    margin: 0;
+  }
+  
+  .close-button {
+    color: #555;
+  }
+  
+  .close-button:hover {
+    color: #000;
+  }

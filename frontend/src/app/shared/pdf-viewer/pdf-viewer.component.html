@@ -1,0 +1,6 @@
+<mat-card>
+    <mat-card-title *ngIf="title" style="padding: 10px;">{{ title }}</mat-card-title>
+    <mat-card-content>
+        <iframe [src]="pdfDataUrl" class="pdf-iframe"></iframe>
+    </mat-card-content>
+</mat-card>

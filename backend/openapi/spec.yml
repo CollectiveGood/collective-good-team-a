@@ -1,0 +1,766 @@
+# see https://medium.com/@AlexanderObregon/building-type-safe-apis-with-typescript-and-openapi-1f78b4b94ee4
+openapi: 3.0.0
+info:
+  title: CollectiveGood Backend API
+  version: 1.0.0
+paths:
+  /details:
+    get:
+      summary: gets a users info/checks if a user is logged in
+      responses:
+        "200":
+          description: returns the user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: not logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /adminDetails:
+    get:
+      summary: checks if an admin user is logged in
+      responses:
+        "200":
+          description: returns the (admin) user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: not an admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /login:
+    post:
+      summary: Logins a user in
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        "200":
+          description: returns a login cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: failed to login
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /logout:
+    post:
+      summary: logs a user out
+      responses:
+        "200":
+          description: logs a user out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /signup:
+    post:
+      summary: Logins a user in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            $ref: "#/components/schemas/SignUpInput"
+      responses:
+        "200":
+          description: signs a user up and returns the cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "409":
+          description: user already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /updateAccount:
+    post:
+      summary: Updates account information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/SignUpInput"
+                - type: object
+                  required:
+                    - oldPassword
+                  properties:
+                    oldPassword:
+                      type: string
+      responses:
+        "200":
+          description: account successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "409":
+          description: email already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /updateUserRole:
+    post:
+      summary: Update User Role
+      description: Updates the role of a user.
+      security:
+        - adminAuthStrategy: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: number
+                role:
+                  type: string
+              required:
+                - userId
+                - role
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestType'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundType'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+  /getCase/{hash}:
+    get:
+      summary: gets a case from the url hash
+      parameters:
+        - in: hash of the url
+          name: hash
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the pdf of the hash
+          content:
+            application/pdf:
+              schema:
+                type: file
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /addCase:
+    get:
+      summary: adds a case to the database and returns the inserted value
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: successfully added a case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Case"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /deleteCase:
+    post:
+      summary: deletes a case
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hash:
+                  type: string
+              required:
+                - hash
+      responses:
+        "200":
+          description: case deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Case"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /assignCase:
+    post:
+      summary: assigns the case (hash) to the user (user)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                reviewer:
+                  type: string
+                case:
+                  type: string
+              required:
+                - user
+                - reviewer
+                - case
+      responses:
+        "200":
+          description: successfully assigned a case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "409":
+          description: assignment already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /assignedCases:
+    get:
+      summary: gets all the assigned cases to the logged in user
+      responses:
+        "200":
+          description: all the assigned cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /assignedReviewerCases:
+    get:
+      summary: gets all the assigned cases to the logged in user
+      responses:
+        "200":
+          description: all the assigned cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getAssignment/{caseId}:
+    get:
+      summary: gets an assignment from the caseId
+      parameters:
+        - in: hash of the url
+          name: caseId
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /assignment/{id}:
+    get:
+      summary: gets an assignment from its unique ID
+      parameters:
+        - in: unique assignment ID
+          name: id
+          schema:
+            type: number
+            required: true
+            description: id of the assignment we want to retrieve
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "404":
+          description: assignment not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /assignments/completed:
+    get:
+      summary: gets all the completed assignments
+      responses:
+        "200":
+          description: all the completed assignments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getReview/{caseId}:
+    get:
+      summary: gets an assignment from the caseId
+      parameters:
+        - in: hash of the url
+          name: caseId
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getUniqueCase/{caseId}/{userId}/{reviewerId}:
+    get:
+      summary: gets an assignment from the caseId
+      parameters:
+        - in: hash of the url
+          name: caseId
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+        - in: hash of the url
+          name: test
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getFinal/{caseId}:
+    get:
+      summary: gets an assignment from the caseId
+      parameters:
+        - in: hash of the url
+          name: caseId
+          schema:
+            type: string
+            required: true
+            description: hash of the url we want to retrieve the pdf of
+      responses:
+        "200":
+          description: returns the assignment details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: the server encountered an error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /updateAssignment:
+    post:
+      summary: Updates the information attached to an assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                json:
+                  $ref: "#/components/schemas/AnyValue"
+                caseId:
+                  type: string
+                completed:
+                  type: boolean
+              required:
+                - json
+                - caseId
+      responses:
+        "200":
+          description: successfully updated the information of the case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /resolveAssignment:
+    post:
+      summary: Accepts an assignment if resolved, rejects an assignment if not resolved
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                caseId:
+                  type: string
+                userId:
+                  type: number
+                resolved:
+                  type: boolean
+                json:
+                  $ref: "#/components/schemas/AnyValue"
+              required:
+                - caseId
+                - userId
+                - json
+
+      responses:
+        "200":
+          description: successfully resolved the assignment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getAssignments:
+    post:
+      summary: Gets all the cases assigned by this user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                includeNotCompleted:
+                  type: boolean
+                includeReviewed:
+                  type: boolean
+                start:
+                  type: number
+                take:
+                  type: number
+                desc:
+                  type: boolean
+                hash:
+                  type: string
+              required:
+                - includeReviewed
+                - includeNotCompleted
+                - start
+                - take
+                - desc
+      responses:
+        "200":
+          description: successfully got the cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getUsers:
+    post:
+      summary: Gets a list of users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                includeAdmins:
+                  type: boolean
+                email:
+                  type: string
+                start:
+                  type: number
+                take:
+                  type: number
+                desc:
+                  type: boolean
+              required:
+                - includeAdmins
+                - start
+                - take
+                - desc
+      responses:
+        "200":
+          description: successfully got the users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /getCases:
+    post:
+      summary: Gets a list of cases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isResolved:
+                  type: boolean
+                hasAssignments:
+                  type: boolean
+                start:
+                  type: number
+                take:
+                  type: number
+                desc:
+                  type: boolean
+              required:
+                - start
+                - take
+                - desc
+      responses:
+        "200":
+          description: successfully got the users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Case"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+components:
+  schemas:
+    AnyValue: {}
+    Response:
+      type: object
+      properties:
+        response:
+          type: string
+      required:
+        - response
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+      required:
+        - id
+        - email
+        - password
+        - name
+        - role
+    Case:
+      type: object
+      properties:
+        fileName:
+          type: string
+        caseName:
+          type: string
+        authorId:
+          type: number
+      required:
+        - fileName
+        - caseName
+        - authorId
+
+    Assignment:
+      type: object
+      properties:
+        info:
+          $ref: "#/components/schemas/AnyValue"
+        userId:
+          type: number
+        hash:
+          type: string
+        case:
+          type: object
+          properties:
+            caseName:
+              type: string
+          required:
+            - caseName
+        reviewed:
+          type: string
+          enum: [PENDING, ACCEPTED, REJECTED]
+        completed:
+          type: boolean
+      required:
+        - info
+        - userId
+        - hash
+        - resolved
+        - completed
+    SignUpInput:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+      required:
+        - email
+        - password
+        - name

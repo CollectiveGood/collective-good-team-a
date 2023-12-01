@@ -16,9 +16,12 @@ model User {
   password String
   name     String
 
-  role        Role          @default(USER)
-  cases       Case[]
-  Information Information[]
+  role              Role         @default(USER)
+  cases             Case[]
+  Assignments       Assignment[] @relation(name: "user")
+  ReviewAssignments Assignment[] @relation(name: "reviewer")
+  Final             Final[]      @relation(name: "user")
+  FinalReviewer     Final[]      @relation(name: "reviewer")
 }
 
 enum Role {
@@ -26,22 +29,58 @@ enum Role {
   ADMIN
 }
 
-model Case {
-  URLhash     String        @id
-  altText     String
-  url         String
-  uploader    User          @relation(fields: [authorId], references: [id])
-  authorId    Int
-  Information Information[]
+enum Accepted {
+  ACCEPTED
+  REJECTED
+  PENDING
 }
 
-model Information {
-  user User @relation(fields: [userId], references: [id])
-  case Case @relation(fields: [hash], references: [URLhash])
-  info Json
+model Case {
+  fileName  String   @id
+  caseName  String
+  createdAt DateTime @default(now())
+
+  uploader   User         @relation(fields: [authorId], references: [id])
+  authorId   Int
+  Assignment Assignment[]
+}
+
+model Assignment {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(name: "user", fields: [userId], references: [id])
+  reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
+  case        Case     @relation(fields: [hash], references: [fileName], onDelete: Cascade)
+  info        String   @default("{}") 
+  review      String   @default("{}")
+  completed   Boolean  @default(false)
+  reviewed    Accepted @default(PENDING)
+  lastUpdated DateTime @updatedAt
+
+  userId     Int
+  reviewerId Int
+  hash       String
+
+  @@unique([hash, userId]) // Never want to assign someone the same case twice
+  @@unique([hash, reviewerId]) // Never want anyone to review the same case twice
+  @@index(userId)
+  @@index(reviewerId)
+  @@index(hash)
+}
+
+model Final {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(name: "user", fields: [userId], references: [id])
+  reviewer    User     @relation(name: "reviewer", fields: [reviewerId], references: [id])
+  info        String
+  review      String
+  completed   Boolean  @default(false)
+  reviewed    Accepted @default(PENDING)
+  lastUpdated DateTime @updatedAt
 
   userId Int
+  reviewerId Int
   hash   String
 
-  @@id([userId, hash])
+  @@index(userId)
+  @@index(hash)
 }

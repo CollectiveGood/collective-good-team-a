@@ -6,9 +6,9 @@ export interface fileStorage {
   /*
     Returns the buffer of the file from the path
   */
-  getFile: (path: string) => Buffer | undefined;
+  getFile: (path: string) => Promise<Buffer | undefined>;
   /*
     Returns the location of the file (path in this case)
    */
-  uploadFile: (buffer: Buffer, filename: string) => string;
+  uploadFile: (buffer: Buffer) => Promise<string>;
 }

@@ -1,5 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import { Strategy as LocalStrategy } from "passport-local";
+import { getHash } from "./resolvers/misc";
 const passport = require("passport");
 const prisma = new PrismaClient();
 
@@ -10,7 +11,10 @@ passport.use(
   "local",
   new LocalStrategy(async function verify(email, password, done) {
     const user = await prisma.user.findFirst({ where: { email: email } });
-    if (user?.password === password) {
+    if (user === null) {
+      return done(null, undefined);
+    }
+    if (user.password === getHash(password + email)) {
       return done(null, user);
     }
     return done(null, false);
@@ -50,10 +54,10 @@ export function localAuthStrategy(req: any, res: any, next: any) {
 export function adminAuthStrategy(req: any, res: any, next: any) {
   const user = req.user as User;
   if (!req.isAuthenticated()) {
-    res.redirect("/unAuthorized");
+    return res.redirect("/unAuthorized");
   }
   if (user.role !== "ADMIN") {
-    res.redirect("/Forbidden");
+    return res.redirect("/Forbidden");
   }
   next();
 }

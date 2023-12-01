@@ -9,10 +9,10 @@ const cookieParser = require("cookie-parser");
 // Loads values from .env
 require("dotenv").config();
 
-const app: Express = express();
+export const app: Express = express();
 
 // Middleware initialization
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:4200" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
@@ -36,11 +36,19 @@ app.use(passport.authenticate("session"));
 
 app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/user"));
-app.use("/", require("./routes/case"));
 app.use("/", require("./routes/errors"));
+app.use("/", require("./routes/user/case"));
+app.use("/", require("./routes/user/assignments"));
+app.use("/", require("./routes/admin/case"));
+app.use("/", require("./routes/admin/assignments"));
+app.use("/", require("./routes/admin/users"));
+app.use("/", require("./routes/admin/final"));
 
 const PORT = process.env.PORT || 3000;
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
