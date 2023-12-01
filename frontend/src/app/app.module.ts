@@ -55,6 +55,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConfirmReviewDialogComponent } from './component/dialog/confirm-review-dialog/confirm-review-dialog.component';
+import { ConfirmUserRoleUpdateComponent } from './component/dialog/confirm-user-role-update/confirm-user-role-update.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { ConfirmReviewDialogComponent } from './component/dialog/confirm-review-
     ReviewerFormViewComponent,
     CaseViewComponent,
     CompleteFormViewComponent,
-    ConfirmReviewDialogComponent
+    ConfirmReviewDialogComponent,
+    ConfirmUserRoleUpdateComponent
   ],
   imports: [
     BrowserModule,

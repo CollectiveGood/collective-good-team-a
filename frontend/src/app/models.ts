@@ -3,7 +3,12 @@ export interface User {
     name: string;
     email: string;
     password: string;
-    role: string;
+    role: Role;
+}
+
+export enum Role {
+    USER = 'USER',
+    ADMIN = 'ADMIN'
 }
 
 /* Represents a case in the database */

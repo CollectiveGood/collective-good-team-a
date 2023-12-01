@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import { getHash } from "./misc";
 
 const prisma = new PrismaClient();
@@ -74,11 +74,18 @@ export async function getIdFromEmail(email: string) {
   return user?.id;
 }
 
-export async function makeAdmin(id: number) {
+export async function updateUserRole(id: number, roleString: string) {
+  const normalizedRole = roleString.toUpperCase() as Role;
+
+  // Check if the normalizedRole is a valid enum value
+  if (!(normalizedRole in Role)) {
+    throw new Error(`Invalid role: ${roleString}`);
+  }
+
   const user = await prisma.user.update({
     where: { id: id },
-    data: { role: "ADMIN" }
-  })
+    data: { role: normalizedRole }
+  });
+
   return user;
 }
-

@@ -147,6 +147,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /updateUserRole:
+    post:
+      summary: Update User Role
+      description: Updates the role of a user.
+      security:
+        - adminAuthStrategy: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: number
+                role:
+                  type: string
+              required:
+                - userId
+                - role
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestType'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundType'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
   /getCase/{hash}:
     get:
       summary: gets a case from the url hash
@@ -263,35 +313,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
-
-  /makeAdmin:
-      post:
-        summary: assigns the case (hash) to the user (user)
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  userId:
-                    type: string
-                required:
-                  - userId
-        responses:
-          "200":
-            description: successfully assigned a case
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/User"
-          "500":
-            description: an error was encountered
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Response"
-
 
   /assignedCases:
     get:

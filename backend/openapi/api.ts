@@ -151,6 +151,51 @@ export interface paths {
       };
     };
   };
+  "/updateUserRole": {
+    /**
+     * Update User Role
+     * @description Updates the role of a user.
+     */
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            userId: number;
+            role: string;
+          };
+        };
+      };
+      responses: {
+        /** @description Successful operation */
+        200: {
+          content: {
+            "application/json": components["schemas"]["User"];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          content: {
+            "application/json": components["schemas"]["BadRequestType"];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          content: {
+            "application/json": components["schemas"]["NotFoundType"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          content: {
+            "application/json": {
+              error?: string;
+              message?: string;
+            };
+          };
+        };
+      };
+    };
+  };
   "/getCase/{hash}": {
     /** gets a case from the url hash */
     get: {
@@ -246,32 +291,6 @@ export interface paths {
         409: {
           content: {
             "application/json": components["schemas"]["Response"];
-          };
-        };
-        /** @description an error was encountered */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Response"];
-          };
-        };
-      };
-    };
-  };
-  "/makeAdmin": {
-    /** assigns the case (hash) to the user (user) */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": {
-            userId: string;
-          };
-        };
-      };
-      responses: {
-        /** @description successfully assigned a case */
-        200: {
-          content: {
-            "application/json": components["schemas"]["User"];
           };
         };
         /** @description an error was encountered */

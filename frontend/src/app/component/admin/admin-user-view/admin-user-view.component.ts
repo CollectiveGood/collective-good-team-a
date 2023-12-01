@@ -1,9 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'src/app/models';
+import { Role, User } from 'src/app/models';
 import { UserService } from 'src/app/service/user/user.service';
+import { ConfirmUserRoleUpdateComponent } from '../../dialog/confirm-user-role-update/confirm-user-role-update.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-user-view',
@@ -22,7 +25,9 @@ export class AdminUserViewComponent implements OnInit, AfterViewInit {
   searchText: string = '';
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -61,5 +66,33 @@ export class AdminUserViewComponent implements OnInit, AfterViewInit {
 
   applyFilter(): void {
     this.dataSource.filter = this.searchText.trim().toLowerCase();
+  }
+
+  updateUserRole(userId: number, currentRole: Role): void {
+    // Confirm action
+    const dialogRef = this.dialog.open(ConfirmUserRoleUpdateComponent, {
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe(update => {
+      if (update) {
+        const newRole = currentRole === Role.USER ? Role.ADMIN : Role.USER;
+
+        this.userService.updateUserRole(userId, newRole).subscribe({
+          next: (response) => {
+            this.snackBar.open(`Successfully changed user role for '${response.name}' from ${currentRole} to ${newRole}`, 'Close', {
+              duration: 3000}
+            );
+            this.loadUserList();
+          },
+          error: (e) => {
+            console.error(e);
+            this.snackBar.open(`An error occurred updating user role`, 'Close', {
+              duration: 3000}
+            );
+          }
+        })
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetUsersRequest, User } from 'src/app/models';
+import { GetUsersRequest, Role, User } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -34,6 +34,15 @@ export class UserService {
     return this.http.post<User[]>(`${environment.apiUrl}/getUsers`, request, { withCredentials: true });
   }
   
+  /* Admin-only - Update user role 
+  *  @param userId: the user ID of the user to update
+  *  @param role: the new role of the user
+  */
+  updateUserRole(userId: number, role: Role): Observable<User> {
+    const body = { userId, role };
+    return this.http.post<User>(`${environment.apiUrl}/updateUserRole`, body, { withCredentials: true });
+  }
+
   /* Update user information */
   updateProfile(name: string, email: string, oldPassword: string, password: string): Observable<User> {
     const body = { name, email, oldPassword, password };
