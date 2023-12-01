@@ -5,6 +5,7 @@ import {
   getAssignedCases,
   getAssignment,
   getAssignmentByID,
+  getCompletedAssignments,
   getReview,
   getReviewerCases,
   resolveAssignment,
@@ -50,6 +51,7 @@ router.get("/assignedReviewerCases", localAuthStrategy, <RequestHandler>(
   }
 ));
 
+
 router.get("/getAssignment/:caseId", localAuthStrategy, <RequestHandler>(
   async function (req, res, next) {
     type SuccessType =
@@ -67,6 +69,20 @@ router.get("/getAssignment/:caseId", localAuthStrategy, <RequestHandler>(
         .json({ response: "Assignment not found" } satisfies FailureType);
     }
     return res.status(200).json(assignment satisfies SuccessType);
+  }
+));
+
+router.get("/assignments/completed", localAuthStrategy, <RequestHandler>(
+  // Used for retrieving all completed assignments for case archive
+  async function (req, res, next) {
+    type SuccessType =
+      paths["/assignments/completed"]["get"]["responses"]["200"]["content"]["application/json"];
+    type FailureType =
+      paths["/assignments/completed"]["get"]["responses"]["500"]["content"]["application/json"];
+
+    let assignments = await getCompletedAssignments();
+
+    return res.status(200).json(assignments satisfies SuccessType);
   }
 ));
 

@@ -134,6 +134,17 @@ export async function getAssignmentByID(id: number) {
   return assignment;
 }
 
+export async function getCompletedAssignments() {
+  const assignments = await prisma.assignment.findMany({
+    where: {
+      completed: true,
+      reviewed: "ACCEPTED",
+    }
+  });
+
+  return assignments;
+}
+
 export async function getReview(hash: string, reviewerId: number) {
   const c = await prisma.assignment.findUnique({
     include: { case: { select: { caseName: true } } },

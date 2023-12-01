@@ -346,6 +346,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /assignments/completed:
+    get:
+      summary: gets all the completed assignments
+      responses:
+        "200":
+          description: all the completed assignments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+        "500":
+          description: an error was encountered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /getReview/{caseId}:
     get:
       summary: gets an assignment from the caseId
