@@ -1,0 +1,33 @@
+config:
+  target: "http://localhost:3000"
+  processor: './artillery.js'
+  phases:
+    - duration: 30
+      arrivalRate: 10
+    - duration: 10
+      arrivalRate: 30
+    - duration: 30
+      arrivalRate: 10
+
+scenarios:
+  - name: common route
+    weight: 1
+    flow:
+      - function: "generateRandomData" 
+      - post:
+          url: "/signup"
+          json:
+            email: "{{email}}"
+            password: "{{password}}"
+            name: ${{name}}"
+      - post:
+          url: "/login"
+          json:
+            username: "{{email}}"
+            password: "{{password}}"
+      - get:
+          url: "/details"
+          headers:
+            Authorization: "Bearer {{token}}"
+      - get:
+          url: "/getCase/c4f8dc10d51825dc9bd4b693489ce157fe0d7d2a"

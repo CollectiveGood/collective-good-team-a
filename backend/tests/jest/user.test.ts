@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import request from "supertest";
-import { app } from "../index";
+import { app } from "../../index";
 import { getCookies } from "./helper";
 
 process.env.DATABASE_URL =

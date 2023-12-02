@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../index";
+import { app } from "../../index";
 
 
 export const getCookies = async (user: { username: string; password: string }) => {
@@ -10,4 +10,6 @@ export const getCookies = async (user: { username: string; password: string }) =
     const cookies = response.headers["set-cookie"];
     return cookies;
   };
+  
+
   
