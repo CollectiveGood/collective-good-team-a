@@ -13,11 +13,37 @@ export async function addCase(id: number, path: string, caseName: string) {
   return c;
 }
 
+// export async function deleteCase(hash: string) {
+//   const c = await prisma.case.delete({
+//     where: { fileName: hash },
+//   });
+//   return c;
+// }
+
 export async function deleteCase(hash: string) {
-  const c = await prisma.case.delete({
-    where: { fileName: hash },
+  return prisma.$transaction(async (prisma) => {
+    // Find the case to be deleted
+    const caseToDelete = await prisma.case.findUnique({
+      where: { fileName: hash },
+      include: { Assignment: true },
+    });
+
+    if (!caseToDelete) {
+      return null;
+    }
+
+    // Delete related assignments
+    await prisma.assignment.deleteMany({
+      where: { hash: caseToDelete.fileName },
+    });
+
+    // Delete the case itself
+    const deletedCase = await prisma.case.delete({
+      where: { fileName: hash },
+    });
+
+    return deletedCase;
   });
-  return c;
 }
 
 export async function getCase(hash: string) {

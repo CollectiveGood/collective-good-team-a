@@ -183,3 +183,19 @@ export async function getReviewerCases(reviewer: number) {
   });
   return assignments;
 }
+
+export async function deleteAssignment(id: number) {
+  const existingAssignment = await prisma.assignment.findUnique({
+    where: { id: id },
+  });
+
+  if (!existingAssignment) {
+    return null;
+  }
+
+  const deletedAssignment = await prisma.assignment.delete({
+    where: { id: id },
+  });
+
+  return deletedAssignment;
+}

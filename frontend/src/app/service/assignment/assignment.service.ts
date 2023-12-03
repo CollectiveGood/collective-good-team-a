@@ -188,19 +188,12 @@ export class AssignmentService {
     });
   }
 
-  /* Mark a case assignment as resolved
-  *  @param caseId: the ID of the case
-  *  @param userId: the ID of the user
-  * @param resolved: whether the case is resolved or not
-  * */
-  resolveCase(caseId: string, userId: number, resolved: boolean): Observable<Assignment> {
-    const formData = new FormData();
-    formData.append('caseId', caseId);
-    formData.append('userId', userId.toString());
-    formData.append('resolved', resolved.toString());
-
-    return this.http.post<Assignment>(`${environment.apiUrl}/resolveCase`, formData, {
+  /* Admin-only - delete a case assignment 
+  *  @param id: the id of the assignment to delete
+  */
+  deleteAssignment(id: number): Observable<Assignment> {
+    return this.http.post<Assignment>(`${environment.apiUrl}/deleteAssignment`, { id: id }, {
       withCredentials: true,
-    })
+    });
   }
 }

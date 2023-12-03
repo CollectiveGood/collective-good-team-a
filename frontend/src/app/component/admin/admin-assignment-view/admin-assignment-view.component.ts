@@ -8,6 +8,7 @@ import { Assignment } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseAssignmentDialogComponent } from '../../dialog/case-assignment-dialog/case-assignment-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-assignment-view',
@@ -105,6 +106,18 @@ export class AdminAssignmentViewComponent {
       if (result) {
         this.snackBar.open('Case assignment created successfully!', 'Close', { duration: 3000 });
         this.loadAssignmentList();
+      }
+    });
+  }
+
+  deleteCaseAssignment(assignment: Assignment): void {
+    this.assignmentService.deleteAssignment(assignment.id).subscribe({
+      next: (response: Assignment) => {
+        this.snackBar.open('Case assignment deleted successfully!', 'Close', { duration: 3000 });
+        this.loadAssignmentList();
+      },
+      error: (e: HttpErrorResponse) => {
+        console.error(e);
       }
     });
   }

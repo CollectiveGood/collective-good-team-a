@@ -559,6 +559,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /deleteAssignment:
+    post:
+      summary: deletes an assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+              required:
+                - id
+      responses:
+        "200":
+          description: assignment deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "404":
+          description: assignment not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: Server failed to finish the function
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
   /getAssignments:
     post:
       summary: Gets all the cases assigned by this user
