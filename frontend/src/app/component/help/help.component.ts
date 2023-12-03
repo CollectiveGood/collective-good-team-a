@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-help',
@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class HelpComponent {
 
+  constructor(private el: ElementRef) { }
+
+  scrollTo(elementId: string): void {
+    const element = this.el.nativeElement.querySelector(`#${elementId}`);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

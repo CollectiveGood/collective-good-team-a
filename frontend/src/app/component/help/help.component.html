@@ -1,23 +1,117 @@
 <!-- help.component.html -->
 <app-toolbar></app-toolbar>
 <mat-sidenav-container autosize>
-    <mat-sidenav #sidenav mode="side" opened="true">
+    <mat-sidenav #sidenav opened="true" mode="side">
         <mat-nav-list>
-            <a mat-list-item href="#getting-started">Getting Started</a>
-            <a mat-list-item href="#features">Features</a>
-            <a mat-list-item href="#faq">FAQ</a>
+            <a mat-list-item (click)="scrollTo('about')">About</a>
+            <a mat-list-item (click)="scrollTo('features')">Features</a>
+            <a mat-list-item (click)="scrollTo('issues')">Known Issues</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
         <div class="content">
-            <h1 id="getting-started">Getting Started</h1>
-            <p>...</p>
+            <section>
+                <h1 id="about">About CollectiveGood Data Collection</h1>
+                <p>
+                    CollectiveGood aims to gather, verify, and group medical cases to help professionals enhance and get second opinions on diagnoses.
 
-            <h1 id="features">Features</h1>
-            <p>...</p>
+                    This application seeks to use the collective intelligence of medical professionals from different backgrounds, from surgeons to nurses, 
+                    to provide training and second opinions when creating diagnoses. It has been shown that this collective intelligence is often as 
+                    accurate as diagnoses from higher-ranking physicians.
 
-            <h1 id="faq">FAQ</h1>
-            <p>...</p>
+                    To achieve the idea of collective intelligence, this application allows users to field information about uploaded medical cases as well as review
+                    and comment on cases submitted by other users before being put into a collective database of all completed cases. This allows for a
+                    collaborative effort to ensure that all cases are accurate and complete.
+
+                </p>
+            </section>
+
+            <!-- Features -->
+            <section>
+                <h1 id="features">Features</h1>
+                <p>Below is a detailed overview of how to use core features of this application.</p>
+                <section>
+                    <h2 id="dashboard">Dashboard</h2>
+                    <p>The <a routerLink="/home">Dashboard</a> is the landing page upon logging in and is used to 
+                        display a quick view of what tasks have been assigned to you.
+                    </p>
+                    <ul>
+                        <li>New Cases: These are cases that have been newly assigned to you to look over and review.
+                            Clicking on the title of the case will take you to a page where you can view the raw case
+                            data and fill out the necessary fields to complete the case.
+                        </li>
+                        <li>
+                            Cases To Review: These are cases that have been assigned to you to review. Clicking on the
+                            title of the case will take you to a page where you can view the raw case data as well as the
+                            original submission.
+                        </li>
+                        <li>
+                            Submitted Cases: These are cases that you have submitted for review, but have not been reviewed yet.
+                            Once the case has been reviewed, it will show up in the Case Archive.
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 id="case-info-submit">Case Information Submission Page</h2>
+                    <p>
+                        Clicking on a case from the "New Cases" dashboard column will direct you this page, where you can view 
+                        the raw case data and fill out the necessary fields to complete the case. Once you have filled out the
+                        form, you have the option to either submit the case for review or save the case as a draft. If you save
+                        as a draft, you can come back to the case at a later time to finish filling out the form. Once you have
+                        submitted the case for review, your submission will show up in your reviewer's dashboard and you can no 
+                        longer make edits to it. You will then be redirected back to the dashboard, where your submission will
+                        move to the "Submitted Cases" dashboard column.
+                    </p>
+                </section>
+                <section>
+                    <h2 id="case-info-review">Case Information Review Page</h2>
+                    <p>
+                        Clicking on a case from the "Cases To Review" dashboard column will direct you this page, where you can view 
+                        the raw case data as well as the form submission. 
+                    </p>
+                    <h3>Completing a Case Review</h3>
+                    <p>The case review page organizes the form fields into categories, with the first one displaying by default.
+                        Clicking on a category will expand that section and display the form fields within that category.
+                    </p>
+                    <ul>
+                        <li>
+                            Comments: To add or edit a comment, click the comment icon (<mat-icon>comment</mat-icon>) next to the form field.
+                            This will open a text box where you can type your comment. Once you have finished typing your comment, click
+                            the "Save" button under the form field to post your comment. Fields that already have comments on them will have
+                            a pink comment button and fields without existing comments will have a blue comment button.
+                        </li>
+                    </ul>
+                    <p>
+                        Once you have added comments to review the case, you have the option to either submit the review or save the 
+                        review as a draft. If you save as a draft, you can come back to the review at a later time to finish adding
+                        comments. After completing the review, you will no longer be able to add comments and the case is considered
+                        complete. It will be removed from both the original submitter's and the reviewer's dashboard and will show up in
+                        the Case Archive.
+                    </p>
+                </section>
+                <section>
+                    <h2 id="case-archive">Case Archive</h2>
+                    <p>Accessible from the dashboard, the <a routerLink="/cases/completed">Case Archive</a> is used to view all 
+                        cases that have been completed and reviewed. Clicking on the title of the case will take you to a page 
+                        where you can view the raw case data as well as the original submission. Any comments left by the reviewer 
+                        will be listed at the bottom of the page under "Reviewer Comments".
+                    </p>
+                </section>
+                <section>
+                    <h2 id="account">Account Page</h2>
+                    <p>
+                        The <a routerLink="/account">Account</a> page is used to view and edit your account information. This page
+                        currently allows you to update your name, email and password.
+                </section>
+            </section>
+            <section>
+                <h1 id="issues">Known Issues</h1>
+                <p>
+                    Some pages in the application, especially the case submission and review pages, may render incorrectly
+                    upon initial load. If this occurs, simply refresh the page using the refresh button in your browser or
+                    the F5 key. The page should render correctly after refreshing.
+                </p>
+            </section>
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
