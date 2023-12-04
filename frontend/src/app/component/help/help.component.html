@@ -5,11 +5,13 @@
         <mat-nav-list>
             <a mat-list-item (click)="scrollTo('about')">About</a>
             <a mat-list-item (click)="scrollTo('features')">Features</a>
+            <a mat-list-item (click)="scrollTo('admin')">Administration</a>
             <a mat-list-item (click)="scrollTo('issues')">Known Issues</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
         <div class="content">
+            <!-- About -->
             <section>
                 <h1 id="about">About CollectiveGood Data Collection</h1>
                 <p>
@@ -22,31 +24,30 @@
                     To achieve the idea of collective intelligence, this application allows users to field information about uploaded medical cases as well as review
                     and comment on cases submitted by other users before being put into a collective database of all completed cases. This allows for a
                     collaborative effort to ensure that all cases are accurate and complete.
-
                 </p>
             </section>
-
+            <mat-divider></mat-divider>
             <!-- Features -->
             <section>
                 <h1 id="features">Features</h1>
-                <p>Below is a detailed overview of how to use core features of this application.</p>
+                <p>Below is a detailed overview of how to use the core features of this application.</p>
                 <section>
                     <h2 id="dashboard">Dashboard</h2>
                     <p>The <a routerLink="/home">Dashboard</a> is the landing page upon logging in and is used to 
                         display a quick view of what tasks have been assigned to you.
                     </p>
                     <ul>
-                        <li>New Cases: These are cases that have been newly assigned to you to look over and review.
+                        <li>New Cases - These are cases that have been newly assigned to you to look over and review.
                             Clicking on the title of the case will take you to a page where you can view the raw case
                             data and fill out the necessary fields to complete the case.
                         </li>
                         <li>
-                            Cases To Review: These are cases that have been assigned to you to review. Clicking on the
+                            Cases To Review - These are cases that have been assigned to you to review. Clicking on the
                             title of the case will take you to a page where you can view the raw case data as well as the
                             original submission.
                         </li>
                         <li>
-                            Submitted Cases: These are cases that you have submitted for review, but have not been reviewed yet.
+                            Submitted Cases - These are cases that you have submitted for review, but have not been reviewed yet.
                             Once the case has been reviewed, it will show up in the Case Archive.
                         </li>
                     </ul>
@@ -75,7 +76,7 @@
                     </p>
                     <ul>
                         <li>
-                            Comments: To add or edit a comment, click the comment icon (<mat-icon>comment</mat-icon>) next to the form field.
+                            Comments - To add or edit a comment, click the comment icon (<mat-icon>comment</mat-icon>) next to the form field.
                             This will open a text box where you can type your comment. Once you have finished typing your comment, click
                             the "Save" button under the form field to post your comment. Fields that already have comments on them will have
                             a pink comment button and fields without existing comments will have a blue comment button.
@@ -98,12 +99,95 @@
                     </p>
                 </section>
                 <section>
-                    <h2 id="account">Account Page</h2>
+                    <h2 id="account">Account Settings</h2>
                     <p>
-                        The <a routerLink="/account">Account</a> page is used to view and edit your account information. This page
-                        currently allows you to update your name, email and password.
+                        The <a routerLink="/account">Account Settings</a> page is used to view and edit your account information. This page
+                        currently allows you to update your name, email and password. This page is accessible via the "Account" dropdown
+                        menu in the navigation bar.
                 </section>
             </section>
+            <mat-divider></mat-divider>
+            <!-- Administration -->
+            <section>
+                <h1 id="admin">Administration</h1>
+                <p>
+                    In addition to all of the features listed above, administrators have access to a number of additional tools.
+                    The following features are only accessible to users with the "Admin" role and are listed under the "Admin" 
+                    dropdown menu in the navigation bar.
+                </p>
+                <section>
+                    <h2 id="admin-users">User View</h2>
+                    <p>
+                        This page displays a list of all users currently registered in the CollectiveGood database. Users can be sorted
+                        by username, email and role by clicking on the column headers. Administrators can also search for a specific user
+                        by their username or email.
+                    </p>
+                    <ul>
+                        <li>
+                            User Roles - The application currently only supports two user roles: "User" and "Admin". Users with the "User"
+                            role have standard access to the core features listed above, while those with the "Admin" role have additional 
+                            access to administrator features.
+                        </li>
+                        <li>
+                            Change User Role - Clicking on the user's role under the "Role" column will toggle between "User" and "Admin"
+                            Once the user role changes, the change will be effective immediately and the user will have access to their role's 
+                            respective features.
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 id="admin-cases">Case View</h2>
+                    <p>
+                        This page displays a list of all the medical case files currently in the CollectiveGood database. Cases can be sorted by name
+                        and upload date by clicking on the column headers. Administrators can also search for a specific case by its title.
+                    </p>
+                    <ul>
+                        <li>
+                            Upload a Case - Clicking on the "Upload Case" button will open a dialog box where you can select one file
+                            or multiple files to upload. This application currently only supports files in the PDF format. Other file 
+                            types will not render properly when being viewed. The displayed case name will be set to the file name, so it is 
+                            recommended to name the file something descriptive of the case.
+                        </li>
+                        <li>
+                            Delete Case - Administrators can delete a case from the database by clicking on its respective "Delete" button in
+                            the table entry. Note that deleting a case is a permanent action and will also remove any assignments associated with
+                            that case, including active assignments as well as ones in the Case Archive.
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 id="admin-assignments">Assignment View</h2>
+                    <p>
+                        This page displays a list of all the assignments currently in the CollectiveGood database. Assignments can be sorted by
+                        the case name and date last updated by clicking on the column headers. Administrators can also search for a specific
+                        assignment by its case name. There currently is no way to view the assignee of a particular case, but this
+                        will hopefully be added in a future release.
+                    </p>
+                    <p>
+                        The filter dropdown menu allows administrators to find assignments based on additional parameters. Select between
+                        "All", "New", "Awaiting Review" and "Completed" to filter the assignments by their current status. The "New" filter
+                        will display all assignments that have been assigned to a user and is awaiting an initial submission. The "Awaiting Review"
+                        filter will display all assignments that have been submitted by the assignee and are awaiting a review. The "Completed" filter
+                        will display all assignments that have been both completed and reviewed (like the Case Archive).
+                    </p>
+                    <ul>
+                        <li>
+                            Assign a Case - Clicking the "+ New" button next to the search bar will open the case assignment dialog. Select the case
+                            name, assignee and reviewer from the dropdown menus to assign a case. Note that the assignee and reviewer must be different
+                            users. Once the case has been assigned, the assignee will see the case in their "New Cases" dashboard column for them to field
+                            the submission. After the assignee completes their part, the selected reviewer will see the case in their "Cases To Review"
+                            dashboard column.
+                        </li>
+                        <li>
+                            Delete Assignment - Administrators can delete an assignment from the database by clicking on its respective "Delete" button in
+                            the table entry. Note that deleting an assignment is a permanent action and will also remove any active submissions and reviews 
+                            associated with it as well as remove it from the Case Archive.
+                        </li>
+                    </ul>
+                </section>
+            </section>
+            <mat-divider></mat-divider>
+            <!-- Known Issues -->
             <section>
                 <h1 id="issues">Known Issues</h1>
                 <p>

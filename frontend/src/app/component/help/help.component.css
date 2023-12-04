@@ -1,6 +1,6 @@
 /* help.component.css */
 mat-sidenav-container {
-    height: 100%;
+    height: calc(100vh - 64px);
 }
 
 mat-sidenav {
@@ -12,6 +12,10 @@ mat-sidenav {
 }
 
 body {
+    font-size: 18px;
+  }
+
+  h3 {
     font-size: 18px;
   }
   
