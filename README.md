@@ -30,7 +30,7 @@ This application uses the Supabase platform for PostgreSQL relational database. 
 ### Google Cloud Services
 
 Google Cloud Services stores the case data files. Follow the instructions below to set it up for development use.
-1. Create Google Cloud account at [cloud.google.com](cloud.google.com).
+1. Create Google Cloud account at [cloud.google.com](https://cloud.google.com).
 2. Make a Google Cloud Storage Bucket
 3. In the Google Cloud Console:
    - Once you create a service account, go to the IAM dashboard and edit Service Account to have the role "Storage Object User" and save.
