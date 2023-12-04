@@ -93,7 +93,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  //Sojin
   // Handle button click
   caseClick(id: number, viewMode: string) {
     this.router.navigate([`/case/${id}/${viewMode}`]);

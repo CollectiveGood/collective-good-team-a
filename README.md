@@ -20,12 +20,12 @@ clone https://github.com/CollectiveGood/collective-good-team-a`
 
 ### Backend Setup
 
-Open a terminal in the `backend` directory and
-run `npm install` to install necessary dependencies
-create a file called `.env` and insert `DATABASE_URL="{database_url}"`, to a postgres database
-create a file called `.key` and insert the provided JSON key
-run `npm run onboard` to generate the prismaClient and types
-run `npm start`. This will load the backend server and the terminal should say something like "Server is running on port 3000". Navigate to Postman to view the endpoints.
+1. Open a terminal in the `backend` directory and
+2. Run `npm install` to install necessary dependencies
+3. Create a file called `.env` and insert `DATABASE_URL="{database_url}"`, to a postgres database
+4. Create a file called `.key` and insert the provided JSON key
+5. Run `npm run onboard` to generate the Prisma client and types
+6. Run `npm start`. This will load the backend server and the terminal should say something like "Server is running on port 3000". Navigate to Postman to view the endpoints.
 
 ### Frontend Setup
 
