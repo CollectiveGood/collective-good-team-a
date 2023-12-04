@@ -33,8 +33,9 @@ Google Cloud Services stores the case data files. Follow the instructions below 
 1. Create Google Cloud account at [cloud.google.com](https://cloud.google.com).
 2. Make a Google Cloud Storage Bucket
 3. In the Google Cloud Console:
-   - Once you create a service account, go to the IAM dashboard and edit Service Account to have the role "Storage Object User" and save.
-   - For key creation, go back to the Service Accounts tab on the sidebar, click on email, navigate to the Key tab, hit “Add Key”, create a new key with type JSON. A .json file should download. Copy the contents of this .json file to the `.key` file. 4. Run `npx prisma migrate dev` followed by `npx prisma db seed` and `npm start`
+      - Once you create a service account, go to the IAM dashboard and edit Service Account to have the role "Storage Object User" and save.
+   - For key creation, go back to the Service Accounts tab on the sidebar, click on email, navigate to the Key tab, hit “Add Key”, create a new key with type JSON. A .json file should download. Copy the contents of this .json file to the `.key` file.
+4. Run `npx prisma migrate dev` followed by `npx prisma db seed` and `npm start`
 
 ### Backend Setup
 
