@@ -4,10 +4,12 @@
 
 // Imports the Google Cloud client library
 import { Storage } from "@google-cloud/storage";
+import { writeFileSync } from "fs";
 import { getCase } from "../resolvers/case";
 import { fileStorage } from "./fileStorage";
 const { randomBytes } = require("node:crypto");
 
+writeFileSync(".key", atob(process.env.GOOGLE_KEY!)) 
 const storage = new Storage({
   projectId: "150959018727",
   keyFilename: ".key",

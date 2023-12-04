@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { readFileSync } from "fs";
 
 const express = require("express");
 const cors = require("cors");
@@ -11,9 +12,13 @@ require("dotenv").config();
 
 export const app: Express = express();
 
+const privateKey = readFileSync('sslcert/server.key');
+const certificate = readFileSync('sslcert/server.crt');
+const credentials = {key: privateKey, cert: certificate};
+
 // Middleware initialization
-app.options("*", cors({ credentials: true, origin: "http://localhost:4200" }));
-app.use(cors({ credentials: true, origin: "http://localhost:4200" }));
+console.log("allowing: ", process.env.FRONTEND_URL);
+app.use(cors({ credentials: true, origin: ["http://localhost:4200", process.env.FRONTEND_URL]}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
@@ -22,7 +27,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 24 * 1000 },
+    cookie: { maxAge: 60 * 60 * 24 * 1000, secure: true, sameSite: "none" },
     store: new pgSession({
       createTableIfMissing: true,
       conString: process.env.DATABASE_URL,
@@ -33,6 +38,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.authenticate("session"));
+
 // Middleware initialization done
 
 app.use("/", require("./routes/auth"));
@@ -45,11 +51,15 @@ app.use("/", require("./routes/admin/assignments"));
 app.use("/", require("./routes/admin/users"));
 app.use("/", require("./routes/admin/final"));
 
-const PORT = process.env.PORT || 3000;
-// Start the server
-
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+  var http = require('http');
+  var https = require('https');
+
+  const httpServer = http.createServer(app);
+  const httpsServer = https.createServer(credentials, app);
+
+  httpServer.listen(3000, () => {`server is running on port ${3000}`});
+  httpsServer.listen(8443);
+  console.log("Finished Initializing!")
 }
+

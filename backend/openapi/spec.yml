@@ -179,13 +179,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BadRequestType'
+                $ref: "#/components/schemas/Response"
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundType'
+                $ref: "#/components/schemas/Response"
         '500':
           description: Internal Server Error
           content:

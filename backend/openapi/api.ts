@@ -175,13 +175,13 @@ export interface paths {
         /** @description Bad Request */
         400: {
           content: {
-            "application/json": components["schemas"]["BadRequestType"];
+            "application/json": components["schemas"]["Response"];
           };
         };
         /** @description Not Found */
         404: {
           content: {
-            "application/json": components["schemas"]["NotFoundType"];
+            "application/json": components["schemas"]["Response"];
           };
         };
         /** @description Internal Server Error */

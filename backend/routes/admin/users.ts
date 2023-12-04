@@ -51,8 +51,7 @@ router.post(
 
       if (!input.userId || !input.role) {
         const badRequestResponse: BadRequestType = {
-          error: "Bad Request",
-          message: "Missing or invalid userId or role in the request body",
+          response: "Missing or invalid userId or role in the request body",
         };
         return res.status(400).json(badRequestResponse);
       }
@@ -62,8 +61,7 @@ router.post(
       if (!user) {
         // User not found
         const notFoundResponse: NotFoundType = {
-          error: "Not Found",
-          message: "User not found",
+          response: "User not found",
         };
         return res.status(404).json(notFoundResponse);
       }
