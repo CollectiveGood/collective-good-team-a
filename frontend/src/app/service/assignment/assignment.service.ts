@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AssignmentService {
+  
   /* This service handles all HTTP requests related to creating, retrieving, and updating cases that are assigned to users. */
 
   constructor(
@@ -40,15 +41,6 @@ export class AssignmentService {
   */
   getAssignments(request: GetAssignmentsRequest): Observable<Assignment[]> {
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
-      withCredentials: true,
-    });
-  }
-
-  /* Get assignment by case ID
-  *  @param caseId: the ID of the case
-  */
-  getAssignmentByCaseId(caseId: string): Observable<Assignment> {
-    return this.http.get<Assignment>(`${environment.apiUrl}/getAssignment/${caseId}`, {
       withCredentials: true,
     });
   }
@@ -131,11 +123,6 @@ export class AssignmentService {
         });
       }
     ));
-  }
-
-  needsReview(assignment: Assignment): boolean {
-    /* Assignment must be submitted, pending review */
-    return assignment.completed && assignment.reviewed === 'PENDING'
   }
 
   /* Admin-only - assign a case to a user

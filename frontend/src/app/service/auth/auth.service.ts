@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
+  /* This service handles all authentication-related requests to the backend. */
+  
   constructor(private http: HttpClient) {}
   
   login(username: string, password: string): Observable<HttpResponse<any>> {

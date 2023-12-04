@@ -6,7 +6,6 @@ import { PasswordChangeDialogComponent } from '../dialog/password-change-dialog/
 import { UserService } from 'src/app/service/user/user.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',

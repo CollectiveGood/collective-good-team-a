@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
+  /* This service handles all requests related to viewing and updating user information. */
+
   constructor(private http: HttpClient) { }
 
   /* Get details about the user that is logged in */

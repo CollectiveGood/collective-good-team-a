@@ -82,8 +82,9 @@ export class AdminAssignmentViewComponent {
         }
         this.dataSource.data = response;
       },
-      error: (e) => {
+      error: (e: HttpErrorResponse) => {
         console.error(e);
+        this.snackBar.open(`Failed to retrieve case assignments ${e.message}.`, 'Close', { duration: 3000 });
         this.loading = false;
       },
       complete: () => {
