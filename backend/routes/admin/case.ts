@@ -63,6 +63,12 @@ router.post("/deleteCase", adminAuthStrategy, <RequestHandler>(
       paths["/deleteCase"]["post"]["responses"]["500"]["content"]["application/json"];
     const input = req.body as InputType;
     const c = await deleteCase(input.hash);
+
+    if (!c) {
+      const errorResponse = { response: "This file does not exist!" };
+      return res.status(500).json(errorResponse satisfies FailureType);
+    }
+    
     return res.status(200).json(c satisfies SuccessType);
   }
 ));

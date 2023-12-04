@@ -12,6 +12,7 @@ require("dotenv").config();
 export const app: Express = express();
 
 // Middleware initialization
+app.options("*", cors({ credentials: true, origin: "http://localhost:4200" }));
 app.use(cors({ credentials: true, origin: "http://localhost:4200" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

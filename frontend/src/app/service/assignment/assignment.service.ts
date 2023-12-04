@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AssignmentService {
+  
   /* This service handles all HTTP requests related to creating, retrieving, and updating cases that are assigned to users. */
 
   constructor(
@@ -40,15 +41,6 @@ export class AssignmentService {
   */
   getAssignments(request: GetAssignmentsRequest): Observable<Assignment[]> {
     return this.http.post<Assignment[]>(`${environment.apiUrl}/getAssignments`, request, {
-      withCredentials: true,
-    });
-  }
-
-  /* Get assignment by case ID
-  *  @param caseId: the ID of the case
-  */
-  getAssignmentByCaseId(caseId: string): Observable<Assignment> {
-    return this.http.get<Assignment>(`${environment.apiUrl}/getAssignment/${caseId}`, {
       withCredentials: true,
     });
   }
@@ -133,11 +125,6 @@ export class AssignmentService {
     ));
   }
 
-  needsReview(assignment: Assignment): boolean {
-    /* Assignment must be submitted, pending review */
-    return assignment.completed && assignment.reviewed === 'PENDING'
-  }
-
   /* Admin-only - assign a case to a user
   *  @param user: the user to assign the case to
   *  @param reviewer: the reviewer to assign the case to
@@ -188,19 +175,12 @@ export class AssignmentService {
     });
   }
 
-  /* Mark a case assignment as resolved
-  *  @param caseId: the ID of the case
-  *  @param userId: the ID of the user
-  * @param resolved: whether the case is resolved or not
-  * */
-  resolveCase(caseId: string, userId: number, resolved: boolean): Observable<Assignment> {
-    const formData = new FormData();
-    formData.append('caseId', caseId);
-    formData.append('userId', userId.toString());
-    formData.append('resolved', resolved.toString());
-
-    return this.http.post<Assignment>(`${environment.apiUrl}/resolveCase`, formData, {
+  /* Admin-only - delete a case assignment 
+  *  @param id: the id of the assignment to delete
+  */
+  deleteAssignment(id: number): Observable<Assignment> {
+    return this.http.post<Assignment>(`${environment.apiUrl}/deleteAssignment`, { id: id }, {
       withCredentials: true,
-    })
+    });
   }
 }

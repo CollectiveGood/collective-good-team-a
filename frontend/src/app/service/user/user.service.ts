@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
+  /* This service handles all requests related to viewing and updating user information. */
+
   constructor(private http: HttpClient) { }
 
   /* Get details about the user that is logged in */
@@ -43,7 +45,13 @@ export class UserService {
     return this.http.post<User>(`${environment.apiUrl}/updateUserRole`, body, { withCredentials: true });
   }
 
-  /* Update user information */
+  /* Update user information
+  *  @param name: the new name of the user
+  *  @param email: the new email of the user
+  * @param oldPassword: the old password of the user
+  * @param password: the new password of the user
+  * @returns the updated user
+  * */
   updateProfile(name: string, email: string, oldPassword: string, password: string): Observable<User> {
     const body = { name, email, oldPassword, password };
     return this.http.post<User>(`${environment.apiUrl}/updateAccount`, body, { withCredentials: true });

@@ -511,6 +511,38 @@ export interface paths {
       };
     };
   };
+  "/deleteAssignment": {
+    /** deletes an assignment */
+    post: {
+      requestBody: {
+        content: {
+          "application/json": {
+            id: number;
+          };
+        };
+      };
+      responses: {
+        /** @description assignment deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Assignment"];
+          };
+        };
+        /** @description assignment not found */
+        404: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+        /** @description Server failed to finish the function */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Response"];
+          };
+        };
+      };
+    };
+  };
   "/getAssignments": {
     /** Gets all the cases assigned by this user */
     post: {

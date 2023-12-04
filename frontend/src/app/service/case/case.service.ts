@@ -8,6 +8,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class CaseService {
+
+  /* This service handles all HTTP requests related to creating, retrieving, and deleting case files */
+  
   constructor(private http: HttpClient) {}
 
   /* Admin-only - retrieve all cases in the database */

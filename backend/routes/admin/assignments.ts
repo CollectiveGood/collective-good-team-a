@@ -4,6 +4,7 @@ import { adminAuthStrategy } from "../../helper/authStrategy";
 import {
   assignCase,
   getAssignmentsAdmin,
+  deleteAssignment
 } from "../../helper/resolvers/assignment";
 import { getIdFromEmail } from "../../helper/resolvers/user";
 import { paths } from "../../openapi/api";
@@ -103,6 +104,26 @@ router.get("/getUniqueCase/:caseId/:userId/:reviewerId", adminAuthStrategy, <Req
     }
 
     return res.status(200).json(assignment satisfies SuccessType);
+  }
+));
+
+router.post("/deleteAssignment", adminAuthStrategy, <RequestHandler>(
+  async function (req, res, next) {
+    type InputType =
+      paths["/deleteAssignment"]["post"]["requestBody"]["content"]["application/json"];
+    type SuccessType =
+      paths["/deleteAssignment"]["post"]["responses"]["200"]["content"]["application/json"];
+    type NotFoundType = 
+      paths["/deleteAssignment"]["post"]["responses"]["404"]["content"]["application/json"];
+    type FailureType =
+      paths["/deleteAssignment"]["post"]["responses"]["500"]["content"]["application/json"];
+    const input = req.body as InputType;
+    const c = await deleteAssignment(input.id);
+    if (!c) {
+      return res.status(404).json({ response: "Assignment not found" } satisfies NotFoundType);
+    }
+
+    return res.status(200).json(c satisfies SuccessType);
   }
 ));
 
