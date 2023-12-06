@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { CaseViewDialogComponent } from '../../dialog/case-view-dialog/case-view-dialog.component';
 import { ConfirmationDialogComponent } from '../../dialog/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-case-view',
@@ -29,7 +30,8 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
   
   constructor(
     private caseService: CaseService, 
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngAfterViewInit() {
@@ -96,7 +98,7 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
       width: '400px',
       data: {
         title: 'Confirm Case Deletion',
-        content: `Are you sure you want to delete the case '${clickedCase.caseName}'? This will also remove any assignments associated with it.`,
+        content: `Are you sure you want to delete the case "${clickedCase.caseName}"? This will also remove any assignments associated with it.`,
         confirmText: 'Confirm Delete',
         confirmColor: 'warn'
       }
@@ -110,6 +112,7 @@ export class AdminCaseViewComponent implements OnInit, AfterViewInit {
           },
           error: (e) => {
             console.error(e);
+            this.snackBar.open(`Error deleting case "${clickedCase.caseName}"`, 'Close', { duration: 3000 });
           },
           complete: () => {
             this.loadCaseList();

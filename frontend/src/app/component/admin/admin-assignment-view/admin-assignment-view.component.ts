@@ -8,7 +8,7 @@ import { Assignment } from 'src/app/models';
 import { AssignmentService } from 'src/app/service/assignment/assignment.service';
 import { CaseAssignmentDialogComponent } from '../../dialog/case-assignment-dialog/case-assignment-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ConfirmationDialogComponent } from '../../dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-admin-assignment-view',
@@ -111,14 +111,31 @@ export class AdminAssignmentViewComponent {
     });
   }
 
-  deleteCaseAssignment(assignment: Assignment): void {
-    this.assignmentService.deleteAssignment(assignment.id).subscribe({
-      next: (response: Assignment) => {
-        this.snackBar.open('Case assignment deleted successfully!', 'Close', { duration: 3000 });
-        this.loadAssignmentList();
-      },
-      error: (e: HttpErrorResponse) => {
-        console.error(e);
+  onDeleteClick(assignment: Assignment): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm Assignment Deletion',
+        content: `Are you sure you want to delete assignment for "${assignment.case.caseName}"?`,
+        confirmText: 'Confirm Delete',
+        confirmColor: 'warn'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.assignmentService.deleteAssignment(assignment.id).subscribe({
+          next: (response) => {
+            console.log(response);
+          },
+          error: (e) => {
+            console.error(e);
+            this.snackBar.open(`Error deleting assignment for "${assignment.case.caseName}"`, 'Close', { duration: 3000 });
+          },
+          complete: () => {
+            this.loadAssignmentList();
+          }
+        });
       }
     });
   }
