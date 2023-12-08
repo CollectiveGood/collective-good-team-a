@@ -79,7 +79,7 @@ export class AdminAssignmentViewComponent {
     this.assignmentService.getAllAssignments().subscribe({
       next: (response) => {
         if (response.length === 0) { // if no assignments, return
-          return;
+          this.dataSource.data = [];
         }
         this.dataSource.data = response;
       },
@@ -129,9 +129,9 @@ export class AdminAssignmentViewComponent {
           next: (response) => {
             console.log(response);
           },
-          error: (e) => {
+          error: (e: HttpErrorResponse) => {
             console.error(e);
-            this.snackBar.open(`Error deleting assignment for "${assignment.case.caseName}"`, 'Close', { duration: 3000 });
+            this.snackBar.open(`Error deleting assignment for "${assignment.case.caseName}: ${e.status} ${e.statusText}`, 'Close', { duration: 3000 });
           },
           complete: () => {
             this.loadAssignmentList();
