@@ -3,6 +3,7 @@
 Home repository for CollectiveGood web app, which seeks to use collective intelligence of medical professionals to provide training and second opinions for creating diagnoses.
 
 ## Team Members
+All of the code in this repository was written by the four team members below and this project is not a continuation from past developers.
 
 - Adam Doyle
 - Trey Burgess
@@ -50,3 +51,6 @@ Once the database configuration is set up, you can host the backend server local
 2. Run `npm install` to install necessary dependencies
 3. Run `ng serve` to load the Angular application in a dev server
 4. Navigate to `http://localhost:4200` to interact with the frontend. More information can be found [here](/frontend/README.md).
+
+## Additional Documentation
+The backend uses a collection of API endpoints to interact with the database. Requirements for these API endpoints are documented per the OpenAPI specification and is accessible [here](/backend/openapi).
